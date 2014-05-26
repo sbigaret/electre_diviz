@@ -1,0 +1,12 @@
+<xmcda:XMCDA xmlns:xmcda="http://www.decision-deck.org/2009/XMCDA-2.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <projectReference>
+    <title>Launching a new digital camera model - alternatives.</title>
+  </projectReference>
+  <alternatives>
+    <alternative id="a01" name="camera model a" />
+    <alternative id="a02" name="camera model b" />
+    <alternative id="a03" name="camera model c" />
+    <alternative id="a04" name="camera model d" />
+  </alternatives>
+</xmcda:XMCDA>
