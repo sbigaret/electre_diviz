@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
-  <program provider="" name="ElectreTriCConcordance" displayName="ElectreTriCConcordance" version="0.1.0" />
+  <program provider="PUT" name="ElectreTriCConcordance" displayName="ElectreTriCConcordance" version="0.1.0" />
   <documentation>
     <description>
       Computes concordance matrix as in Electre Tri-C method.
@@ -34,8 +34,7 @@
       <documentation>
         <description>
         The criteria to consider, possibly with preference, indifference and
-        veto thresholds (denoted as &quot;pref&quot;, &quot;ind&quot; and
-        &quot;veto&quot;). Each criterion must have a preference direction
+        veto thresholds. Each criterion must have a preference direction
         specified (min or max).
         </description>
       </documentation>

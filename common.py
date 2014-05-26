@@ -240,8 +240,8 @@ def get_concordance(alternatives, categories_profiles, performances,
             return y - x
 
     def _get_partial_concordance(x, y, criterion):
-        p = thresholds[criterion].get('pref')
-        q = thresholds[criterion].get('ind')
+        p = thresholds[criterion].get('preference')
+        q = thresholds[criterion].get('indifference')
         if _omega(x, y) < -p:
             return 0
         elif _omega(x, y) >= -q:

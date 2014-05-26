@@ -69,11 +69,11 @@ def get_credibility(performances, criteria, thresholds, pref_directions):
             if ((pref_directions[c] == 'max' and diff > 0) or
                 (pref_directions[c] == 'min' and diff < 0)):
                 diff = abs(diff)
-                if diff >= thresholds[c]['pref']:  #     diff >= p
+                if diff >= thresholds[c]['preference']:     #     diff >= p
                     np += 1
-                elif diff > thresholds[c]['ind']:  # q > diff < p
+                elif diff > thresholds[c]['indifference']:  # q > diff < p
                     nq += 1
-                else:                              #     diff <= q
+                else:                                       #     diff <= q
                     ni += 1
             elif diff == 0:
                 no += 1

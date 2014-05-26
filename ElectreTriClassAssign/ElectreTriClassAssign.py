@@ -88,12 +88,12 @@ def assign_class(alternatives, categories_profiles, credibility, cut_threshold):
         c_pa = credibility[profile][alternative]
         if order == 'conjuctive':  # i.e. 'pessimistic'
             if c_ap >= cut_threshold and c_pa < cut_threshold:
-                return 'pref'  # aPb
+                return 'preference'  # aPb
             elif c_ap >= cut_threshold and c_pa >= cut_threshold:
-                return 'ind'  # indifference
+                return 'indifference'
         elif order == 'disjunctive':  # i.e. 'optimistic'
             if c_ap < cut_threshold and c_pa >= cut_threshold:
-                return 'pref'  # bPa
+                return 'preference'  # bPa
 
     profiles = []
     _get_profiles_ordering(None, profiles)
@@ -105,14 +105,14 @@ def assign_class(alternatives, categories_profiles, credibility, cut_threshold):
         order = 'conjuctive'  # (from 'best', i.e. b_n)
         for p in list(enumerate(profiles))[::-1]:
             relation = _get_relation(alternative, p[1])
-            if relation == 'ind' or relation == 'pref':
+            if relation == 'indifference' or relation == 'preference':
                 conjuctive = p[0] + 1
             else:
                 conjuctive = 0
         order = 'disjunctive'  # (from 'worst', i.e. b_1)
         for p in enumerate(profiles):
             relation = _get_relation(alternative, p[1])
-            if relation == 'pref':
+            if relation == 'preference':
                 disjunctive = p[0]
             else:
                 disjunctive = len(profiles)

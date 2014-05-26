@@ -84,7 +84,7 @@ def get_discordances(alternatives, categories_profiles, criteria, thresholds,
                     d_dict_ap.update({criterion: 0.0})
                     d_dict_pa.update({criterion: 0.0})
                     continue
-                p_threshold = thresholds[criterion]['pref']
+                p_threshold = thresholds[criterion]['preference']
                 v_threshold = thresholds[criterion]['veto']
                 a_perf = performances[a][criterion]
                 p_perf = profiles_performance_table[p][criterion]

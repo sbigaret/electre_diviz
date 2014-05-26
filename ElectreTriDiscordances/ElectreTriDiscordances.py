@@ -65,7 +65,7 @@ def get_discordances(alternatives, categories_profiles, criteria, thresholds,
             return y - x
 
     def _get_partial_discordances(x, y, criterion):
-        p = thresholds[criterion].get('pref')
+        p = thresholds[criterion].get('preference')
         v = thresholds[criterion].get('veto')
         if not v:
             return 0

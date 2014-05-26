@@ -9,14 +9,14 @@
                 </quantitative>
             </scale>
             <thresholds>
-                <threshold mcdaConcept="ind">
+                <threshold mcdaConcept="indifference">
                     <constant>
-                        <real>0.0</real>
+                        <real>2.0</real>
                     </constant>
                 </threshold>
-                <threshold mcdaConcept="pref">
+                <threshold mcdaConcept="preference">
                     <constant>
-                        <real>0.0</real>
+                        <real>10.0</real>
                     </constant>
                 </threshold>
                 <threshold mcdaConcept="veto">
@@ -35,12 +35,12 @@
                 </quantitative>
             </scale>
             <thresholds>
-                <threshold mcdaConcept="ind">
+                <threshold mcdaConcept="indifference">
                     <constant>
                         <real>0.0</real>
                     </constant>
                 </threshold>
-                <threshold mcdaConcept="pref">
+                <threshold mcdaConcept="preference">
                     <constant>
                         <real>1.9</real>
                     </constant>
@@ -61,12 +61,12 @@
                 </quantitative>
             </scale>
             <thresholds>
-                <threshold mcdaConcept="ind">
+                <threshold mcdaConcept="indifference">
                     <constant>
                         <real>0.0</real>
                     </constant>
                 </threshold>
-                <threshold mcdaConcept="pref">
+                <threshold mcdaConcept="preference">
                     <constant>
                         <real>1.9</real>
                     </constant>
@@ -87,12 +87,12 @@
                 </quantitative>
             </scale>
             <thresholds>
-                <threshold mcdaConcept="ind">
+                <threshold mcdaConcept="indifference">
                     <constant>
                         <real>0.0</real>
                     </constant>
                 </threshold>
-                <threshold mcdaConcept="pref">
+                <threshold mcdaConcept="preference">
                     <constant>
                         <real>1.9</real>
                     </constant>
@@ -113,12 +113,12 @@
                 </quantitative>
             </scale>
             <thresholds>
-                <threshold mcdaConcept="ind">
+                <threshold mcdaConcept="indifference">
                     <constant>
                         <real>0.0</real>
                     </constant>
                 </threshold>
-                <threshold mcdaConcept="pref">
+                <threshold mcdaConcept="preference">
                     <constant>
                         <real>2.0</real>
                     </constant>
