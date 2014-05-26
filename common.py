@@ -29,8 +29,11 @@ def get_dirs(args):
     return input_dir, output_dir
 
 
-def comparisons_to_xmcda(comparisons, partials=False, mcdaConcept=""):
-    xmcda = etree.Element('alternativesComparisons', mcdaConcept=mcdaConcept)
+def comparisons_to_xmcda(comparisons, partials=False, mcdaConcept=None):
+    if not mcdaConcept:
+        xmcda = etree.Element('alternativesComparisons')
+    else:
+        xmcda = etree.Element('alternativesComparisons', mcdaConcept=mcdaConcept)
     pairs = etree.SubElement(xmcda, 'pairs')
     for alt1 in comparisons.iterkeys():
         for alt2 in comparisons[alt1]:
@@ -148,6 +151,43 @@ def getNumericValue(xmltree) :
     return val
 
 
+# Basically, this reversing/unreversing below applies only to the methods from
+# Electre TRI family, i.e. where you compare alternatives with profiles, not
+# alternatives with alternatives. In the former scenario you get comparisons
+# resembling rectangular matrices (n x m) instead of square ones (n x n). But
+# in our case, when this data is kept as dictionaries, it is more convenient to
+# always access them with alternatives as the outermost indices. Threrefore, to
+# serialize them in XMCDA format, we need to 'reverse' them, i.e. make profiles
+# the outermost indices (and similarly when deserializing - hence 'unreverse').
+#
+# And since our dicts are always in form of e.g. d[alternative][profile], which
+# is enough when we want to store the result of alternative-profile comparison,
+# we need a way to store the results of profile-alternative comparisons as well
+# - and that's exactly what all those '_ap' and '_pa' prefixes are for. So, for
+# example:
+#
+#   concordance_ap['a01']['p01'] is for c(a01, p01)
+#   concordance_pa['a01']['p01'] is for c(p01, a01)
+#
+# When we compare alternatives with alternatives (n x n matrices), such
+# separation is not necessary, since everything is kept in the same dict, e.g.:
+#
+#   concordance['a01']['a02'] is for c(a01, a02)
+#   concordance['a02']['a01'] is for c(a02, a01)
+
+def reverseAltComparisons(comparisons_ap, comparisons_pa, alternatives, categoriesProfiles):
+    comparisons_pa_reversed = OrderedDict()
+    for p in categoriesProfiles:
+        comparisons_pa_reversed.update({p: OrderedDict([(a, None) for a in alternatives])})
+    for a in comparisons_pa:
+        for p in comparisons_pa[a]:
+            comparisons_pa_reversed[p][a] = comparisons_pa[a][p]
+    comparisons_rev = OrderedDict()
+    comparisons_rev.update(comparisons_ap)
+    comparisons_rev.update(comparisons_pa_reversed)
+    return comparisons_rev
+
+
 def unreverseAltComparisons(comparisons, alternatives, categoriesProfiles):
     comparisons_ap = OrderedDict()
     comparisons_pa = OrderedDict()
@@ -162,19 +202,6 @@ def unreverseAltComparisons(comparisons, alternatives, categoriesProfiles):
                 comparisons_pa[a] = OrderedDict()
             comparisons_pa[a][p] = comparisons_pa_reversed[p][a]
     return comparisons_ap, comparisons_pa
-
-
-def reverseAltComparisons(comparisons_ap, comparisons_pa, alternatives, categoriesProfiles):
-    comparisons_pa_reversed = OrderedDict()
-    for p in categoriesProfiles:
-        comparisons_pa_reversed.update({p: OrderedDict([(a, None) for a in alternatives])})
-    for a in comparisons_pa:
-        for p in comparisons_pa[a]:
-            comparisons_pa_reversed[p][a] = comparisons_pa[a][p]
-    comparisons_rev = OrderedDict()
-    comparisons_rev.update(comparisons_ap)
-    comparisons_rev.update(comparisons_pa_reversed)
-    return comparisons_rev
 
 
 def write_xmcda(xmcda, filename):
