@@ -20,6 +20,7 @@
     </description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
+  <parameters>
 
     <input id="input1" name="alternatives" displayName="alternatives" isoptional="0">
       <documentation>
@@ -61,7 +62,7 @@
             <description>The value should be in range &lt;0, 1>.</description>
             <code>
               <![CDATA[
-                0.0 <= %1 && %1 <= 1.0
+              0.0 <= %1 && %1 <= 1.0
               ]]>
             </code>
           </constraint>
@@ -118,12 +119,12 @@
       </documentation>
       <xmcda tag="alternativesSet">
         <![CDATA[
-          <alternativesSet mcdaConcept="kernel">
-            <element>
-              <alternativeID>[...]</alternativeID>
-            </element>
-            [...]
-          </alternativesSet>
+        <alternativesSet mcdaConcept="kernel">
+          <element>
+            <alternativeID>[...]</alternativeID>
+          </element>
+          [...]
+        </alternativesSet>
         ]]>
       </xmcda>
     </output>

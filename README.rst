@@ -2,43 +2,58 @@
 electre_diviz
 =============
 
-This is a collection of modules written for MCDA suite `Diviz
-<http://diviz.org>`_. They implement following methods/routines:
+This is a collection of modules written for MCDA framework/suite `Diviz
+<http://diviz.org>`_. They implement following routines or concepts taken from
+Electre family methods:
 
-* Electre Is:     DiscordanceBinary, FindKernel, OutrankingBinary
-* Electre IV:     Credibility
-* Electre TRI-C:  ClassAssign, Concordance, Credibility, Discordances, SimplifiedClassAssign
-* Electre TRI:    ClassAssign, Concordance, Credibility, Discordances
+* (Electre Is) Binary Discordance, Binary Outranking, Find Kernel
 
-The last four of them are basically equivalent to ``ElectreTriExploitation``
-module, which is already present in Diviz as a single, "monolithic" module. The
-idea behind such split is that for some use-cases it may be convenient (or even
-necessary) to get the possibility to access those parts separately.
+* (Electre IV) Credibility
+
+* (Electre TRI-C) Concordance, Discordances, Credibility, Class Assignment,
+  Simplified Class Assignment
+
+* (Electre TRI) Concordance, Discordances, Credibility, Class Assignment
+
+* Concordance with Interactions Between Criteria.
+
+The four modules from Electre TRI method are basically equivalent to
+``ElectreTriExploitation`` module, which is already present in Diviz as a
+single, "monolithic" module. The idea behind this split is that for some
+use-cases it may be convenient (or even necessary) to get the possibility to
+access those parts separately.
 
 Please note that modules' names refer to certain methods (e.g. Electre TRI)
-only as a points of reference for their users (i.e. from where those modules
-originate) - they are *not* meant to suggest the only possible context in which
-they should operate (although you rather don't want to use e.g.  Credibility
+only as points of reference for their users (i.e. to hint where those modules
+originate from) - they are *not* meant to suggest the only possible context in
+which they should operate (although you rather don't want to use Credibility
 from Electre TRI in Electre IV context, though).
+
+More detailed descriptions of the modules can be found in their respective
+``description-wsDD.xml`` files.
 
 
 Installation
 ------------
 
 All modules from this package are written in Python 2.7.3. Apart from Python
-itself, there are certain requirements/dependencies that must be met, namely:
+itself, there are certain requirements/dependencies that must be met, i.e.:
 ``docopt (0.6.1)``, ``lxml (3.2.3)`` and ``networkx (1.8.1)``. The easiest (and
 thus recommended) way to install them is by using ``virtualenv`` and ``pip``
-(both being de facto standard in Python's community). Let's assume that
-``electre_diviz.tgz`` got extracted to ``~/electre_diviz`` - after that, we
-need to create a virtualenv (let's say we will name it just ``env``)::
+(both being de facto standard in Python's community).
+
+Let's assume that the contents of this repo has been cloned to
+``electre_diviz`` directory - after that, we need to create a virtualenv (named
+``env``)::
 
     $ virtualenv env
     $ source env/bin/activate
-    (env)$ pip install -r ~/electre_diviz/requirements
+    (env)$ cd electre_diviz
+    (env)$ pip install -r ./requirements
 
-"``(env)$``" means that we have activated our newly created virtualenv - further
-instructions assume that this step is completed successfully.
+``(env)$`` in the command prompt means that we have activated our newly created
+virtualenv - further instructions assume that this step is completed
+successfully.
 
 Another component that is required is `PyXMCDA
 <https://gitorious.org/decision-deck/pyxmcda>`_ library, which is included
@@ -52,7 +67,7 @@ Usage
 Having installed all the requirements and activated the virtualenv, we can test
 if everything works as expected, e.g.::
 
-    (env)$ cd ~/electre_diviz/ElectreIsFindKernel
+    (env)$ cd electre_diviz/ElectreIsFindKernel
     (env)$ mkdir test
     (env)$ ./ElectreIsFindKernel -i ./in -o ./test
     (env)$ diff -s ./out ./test
@@ -69,5 +84,5 @@ module, which can be displayed by using ``--help`` or ``-h`` switch, e.g.::
 License
 -------
 
-This software is provided under MIT License. For details, please refer to the
-file ``LICENSE`` located in the main directory.
+This software is provided under the MIT License. For details, please refer to
+the file ``LICENSE`` located in the main directory.

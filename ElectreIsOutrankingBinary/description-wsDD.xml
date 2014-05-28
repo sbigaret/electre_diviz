@@ -10,6 +10,7 @@
     </description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
+  <parameters>
 
     <input id="input1" name="alternatives" displayName="alternatives" isoptional="0">
       <documentation>

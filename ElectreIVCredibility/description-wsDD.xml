@@ -15,6 +15,7 @@
     </description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
+  <parameters>
 
     <input id="input1" name="alternatives" displayName="alternatives" isoptional="0">
       <documentation>
@@ -26,9 +27,9 @@
     <input id="input2" name="criteria" displayName="criteria" isoptional="0">
       <documentation>
         <description>
-        The criteria to consider, possibly with preference, indifference and
-        veto thresholds. Each criterion must have a preference direction
-        specified (min or max).
+          The criteria to consider, possibly with preference, indifference and
+          veto thresholds. Each criterion must have a preference direction
+          specified (min or max).
         </description>
       </documentation>
       <xmcda tag="criteria"/>
