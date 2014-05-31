@@ -41,9 +41,11 @@
       <xmcda tag="alternativesComparisons"/>
     </input>
 
-    <input id="input3" name="cut_threshold" displayName="cut_threshold" isoptional="0">
+    <input id="input3" name="method_parameters" displayName="method_parameters" isoptional="0">
       <documentation>
-        <description>Cut threshold for graph construction.</description>
+        <description>
+          A set of parameters (with sensible defaults) to tune up the module's operation.
+        </description>
       </documentation>
       <xmcda tag="methodParameters">
         <![CDATA[
@@ -53,11 +55,19 @@
               <real>%1</real>
             </value>
           </parameter>
+          <parameter name="eliminate_cycles_method">
+            <value>
+              <label>%2</label>
+            </value>
+          </parameter>
         </methodParameters>
         ]]>
       </xmcda>
       <gui status="preferGUI">
         <entry id="%1" type="float" displayName="cut_threshold">
+          <documentation>
+            <description>Cut threshold for graph construction.</description>
+          </documentation>
           <constraint>
             <description>The value should be in range &lt;0, 1>.</description>
             <code>
@@ -68,29 +78,10 @@
           </constraint>
           <defaultValue>1.0</defaultValue>
         </entry>
-      </gui>
-    </input>
-
-    <input id="input4" name="eliminate_cycles_method" displayName="eliminate_cycles_method" isoptional="0">
-      <documentation>
-        <description>
-          Method for cycle elimination. Please note, that for some graphs they
-          may produce different results.
-        </description>
-      </documentation>
-      <xmcda tag="methodParameters">
-        <![CDATA[
-        <methodParameters>
-          <parameter name="eliminate_cycles_method">
-            <value>
-              <label>%1</label>
-            </value>
-          </parameter>
-        </methodParameters>
-        ]]>
-      </xmcda>
-      <gui status="preferGUI">
-        <entry id="%1" type="enum" displayName="eliminate_cycles_method">
+        <entry id="%2" type="enum" displayName="eliminate_cycles_method">
+          <documentation>
+            <description>Method for cycle elimination.</description>
+          </documentation>
           <items>
             <item id="item0">
               <description>aggregate nodes</description>

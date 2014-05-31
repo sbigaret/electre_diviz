@@ -13,8 +13,8 @@ Options:
                (otherwise program will throw an error):
                    alternatives.xml
                    concordance.xml
-                   cut_threshold.xml
                    discordance_binary.xml
+                   method_parameters.xml
     -o DIR     Specify output directory.
     --version  Show version.
     -h --help  Show this screen.
@@ -63,7 +63,7 @@ def get_input_data(input_dir):
     file_names = (
         'alternatives.xml',
         'concordance.xml',
-        'cut_threshold.xml',
+        'method_parameters.xml',
         'discordance_binary.xml',
     )
     trees = get_trees(input_dir, file_names)
@@ -74,7 +74,7 @@ def get_input_data(input_dir):
     # alternatives = list(set([i.text for i in trees['concordance'].findall(".//alternativeID")]))
     concordance = px.getAlternativesComparisons(trees['concordance'], alternatives)
     discordance_binary = px.getAlternativesComparisons(trees['discordance_binary'], alternatives)
-    cut_threshold = px.getParameterByName(trees['cut_threshold'], 'cut_threshold')
+    cut_threshold = px.getParameterByName(trees['method_parameters'], 'cut_threshold')
     check_cut_threshold(cut_threshold)
 
     ret = {

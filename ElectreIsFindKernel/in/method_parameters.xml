@@ -4,6 +4,11 @@
   xsi:schemaLocation='http://www.decision-deck.org/2012/XMCDA-2.2.0 http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.0.xsd'>
 
 <methodParameters>
+  <parameter name="cut_threshold">
+    <value>
+      <real>1.0</real>
+    </value>
+  </parameter>
   <parameter name="eliminate_cycles_method">
     <value>
       <label>aggregate</label>

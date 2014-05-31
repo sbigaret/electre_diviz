@@ -22,8 +22,7 @@ Options:
     -i DIR     Specify input directory. It should contain following files
                (otherwise program will throw an error):
                    alternatives.xml
-                   cut_threshold.xml
-                   eliminate_cycles_method.xml
+                   method_parameters.xml
                    outranking.xml
     -o DIR     Specify output directory.
     --version  Show version.
@@ -234,8 +233,7 @@ def find_kernel(graph, eliminate_cycles_method):
 def get_input_data(input_dir):
     file_names = (
         'alternatives.xml',
-        'cut_threshold.xml',
-        'eliminate_cycles_method.xml',
+        'method_parameters.xml',
         'outranking.xml',
     )
     trees = get_trees(input_dir, file_names)
@@ -245,11 +243,11 @@ def get_input_data(input_dir):
     outranking = get_intersection_distillation(trees['outranking'], alternatives)
     if outranking == None:
         outranking = px.getAlternativesComparisons(trees['outranking'], alternatives)
-    eliminate_cycles_method = px.getParameterByName(trees['eliminate_cycles_method'],
+    eliminate_cycles_method = px.getParameterByName(trees['method_parameters'],
                                                     'eliminate_cycles_method')
     if eliminate_cycles_method not in ['aggregate', 'cut_weakest']:
         raise RuntimeError("Invalid/missing method for cycle elimination.")
-    cut_threshold = px.getParameterByName(trees['cut_threshold'], 'cut_threshold')
+    cut_threshold = px.getParameterByName(trees['method_parameters'], 'cut_threshold')
     check_cut_threshold(cut_threshold)
 
     ret = {

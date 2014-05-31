@@ -17,7 +17,7 @@ Options:
                    alternatives.xml
                    categoriesProfiles.xml
                    credibility.xml
-                   cut_threshold.xml
+                   method_parameters.xml
     -o DIR     Specify output directory.
     --version  Show version.
     -h --help  Show this screen.
@@ -125,7 +125,7 @@ def get_input_data(input_dir):
         'alternatives.xml',
         'categoriesProfiles.xml',
         'credibility.xml',
-        'cut_threshold.xml',
+        'method_parameters.xml',
     )
     trees = get_trees(input_dir, file_names)
 
@@ -135,7 +135,7 @@ def get_input_data(input_dir):
     categories_profiles = px.getCategoriesProfiles(trees['categoriesProfiles'], categories)
     profiles_names = [p for p in cp_tree.xpath('//categoriesProfiles//alternativeID/text()')]
     credibility = getAlternativesComparisons(trees['credibility'], alternatives, profiles_names)
-    cut_threshold = px.getParameterByName(trees['cut_threshold'], 'cut_threshold')
+    cut_threshold = px.getParameterByName(trees['method_parameters'], 'cut_threshold')
     check_cut_threshold(cut_threshold)
 
     ret = {
