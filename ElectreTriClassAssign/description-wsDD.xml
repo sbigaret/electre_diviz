@@ -3,14 +3,9 @@
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
   <program provider="PUT" name="ElectreTriClassAssign" displayName="ElectreTriClassAssign" version="0.1.0" />
   <documentation>
-    <description>
-      ElectreTriClassAssign - computes assignments (&qout;affectations&qout;)
-      according to the Electre TRI method.
+    <description>ElectreTriClassAssign - computes assignments (&quot;affectations&quot;) according to the Electre TRI method.
 
-      This module (along with ElectreTriConcordance, ElectreTriDiscordances and
-      ElectreTriCredibility) is equal to ElectreTriExploitation module split into
-      four separate parts for user's convenience.
-    </description>
+This module (along with ElectreTriConcordance, ElectreTriDiscordances and ElectreTriCredibility) is equal to ElectreTriExploitation module split into four separate parts for user's convenience.</description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>
@@ -57,7 +52,7 @@
       <gui status="preferGUI">
         <entry id="%1" type="float" displayName="cut_threshold">
           <constraint>
-            <description>The value should be in range &lt;0, 1>.</description>
+            <description>The value should be in range {0, 1}.</description>
             <code>
               <![CDATA[
                 0.0 <= %1 && %1 <= 1.0

@@ -70,7 +70,7 @@
       <gui status="preferGUI">
         <entry id="%1" type="float" displayName="cut_threshold">
           <constraint>
-            <description>The value should be in range &lt;0, 1>.</description>
+            <description>The value should be in range {0, 1}.</description>
             <code>
               <![CDATA[
                 0.0 <= %1 && %1 <= 1.0
