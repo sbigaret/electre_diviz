@@ -92,7 +92,7 @@
               <value>cut_weakest</value>
             </item>
           </items>
-          <defaultValue>aggregate</defaultValue>
+          <defaultValue>item0</defaultValue>
         </entry>
       </gui>
     </input>
