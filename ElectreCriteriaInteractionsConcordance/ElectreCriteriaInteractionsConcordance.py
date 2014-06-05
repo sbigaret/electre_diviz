@@ -17,6 +17,7 @@ Options:
                (otherwise program will throw an error):
                    alternatives.xml
                    criteria.xml
+                   interactions.xml
                    method_parameters.xml
                    performance_table.xml
                    weights.xml
@@ -105,10 +106,10 @@ def get_input_data(input_dir):
     file_names = (
         'alternatives.xml',
         'criteria.xml',
+        'interactions.xml',
         'method_parameters.xml',
         'performance_table.xml',
         'weights.xml',
-        'interactions.xml',
     )
     trees = get_trees(input_dir, file_names)
 
