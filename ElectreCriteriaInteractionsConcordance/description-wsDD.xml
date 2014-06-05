@@ -81,7 +81,7 @@
               <value>multiplication</value>
             </item>
           </items>
-          <defaultValue>multiplication</defaultValue>
+          <defaultValue>item1</defaultValue>
         </entry>
       </gui>
     </input>

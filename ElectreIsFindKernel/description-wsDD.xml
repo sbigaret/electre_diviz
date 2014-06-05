@@ -69,7 +69,7 @@
             <description>Cut threshold for graph construction.</description>
           </documentation>
           <constraint>
-            <description>The value should be in range &lt;0, 1>.</description>
+            <description>The value should be in range {0, 1}.</description>
             <code>
               <![CDATA[
               0.0 <= %1 && %1 <= 1.0
@@ -92,7 +92,7 @@
               <value>cut_weakest</value>
             </item>
           </items>
-          <defaultValue>aggregate</defaultValue>
+          <defaultValue>item0</defaultValue>
         </entry>
       </gui>
     </input>

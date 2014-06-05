@@ -3,11 +3,7 @@
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
   <program provider="PUT" name="ElectreIsOutrankingBinary" displayName="ElectreIsOutrankingBinary" version="0.1.0" />
   <documentation>
-    <description>
-      Computes outranking matrix according to the Electre Is method. It takes
-      discordances from range {0, 1} as an input, hence &quot;binary&qout; in
-      its name.
-    </description>
+    <description>Computes outranking matrix according to the Electre Is method. It takes discordances from range {0, 1} as an input, hence &quot;binary&quot; in its name.</description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>
@@ -26,7 +22,7 @@
       <xmcda tag="alternativesComparisons"/>
     </input>
 
-    <input id="input3" name="cut_threshold" displayName="cut_threshold" isoptional="0">
+    <input id="input3" name="method_parameters" displayName="method_parameters" isoptional="0">
       <documentation>
         <description>Cut threshold for outranking relation.</description>
       </documentation>
@@ -44,7 +40,7 @@
       <gui status="preferGUI">
         <entry id="%1" type="float" displayName="cut_threshold">
           <constraint>
-            <description>The value should be in range &lt;0, 1>.</description>
+            <description>The value should be in range {0, 1}.</description>
             <code>
               <![CDATA[
                 0.0 <= %1 && %1 <= 1.0

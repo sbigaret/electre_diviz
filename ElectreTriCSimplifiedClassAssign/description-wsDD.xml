@@ -53,7 +53,7 @@
       <xmcda tag="alternativesComparisons"/>
     </input>
 
-    <input id="input5" name="cut_threshold" displayName="cut_threshold" isoptional="0">
+    <input id="input5" name="method_parameters" displayName="method_parameters" isoptional="0">
       <documentation>
         <description>Cut threshold for outranking relation.</description>
       </documentation>
@@ -71,7 +71,7 @@
       <gui status="preferGUI">
         <entry id="%1" type="float" displayName="cut_threshold">
           <constraint>
-            <description>The value should be in range &lt;0, 1>.</description>
+            <description>The value should be in range {0, 1}.</description>
             <code>
               <![CDATA[
                 0.0 <= %1 && %1 <= 1.0
