@@ -276,7 +276,7 @@
         <alternativeID>b1</alternativeID>
       </terminal>
       <value>
-        <real>0.846153846154</real>
+        <real>0.867307692308</real>
       </value>
     </pair>
     <pair>
@@ -749,7 +749,7 @@
         <alternativeID>b4</alternativeID>
       </terminal>
       <value>
-        <real>0.846153846154</real>
+        <real>0.965384615385</real>
       </value>
     </pair>
     <pair>
@@ -1057,7 +1057,7 @@
         <alternativeID>b4</alternativeID>
       </terminal>
       <value>
-        <real>0.611336032389</real>
+        <real>0.707489878543</real>
       </value>
     </pair>
     <pair>
@@ -1387,7 +1387,7 @@
         <alternativeID>b2</alternativeID>
       </terminal>
       <value>
-        <real>0.615384615385</real>
+        <real>0.769230769231</real>
       </value>
     </pair>
     <pair>
@@ -1618,7 +1618,7 @@
         <alternativeID>b3</alternativeID>
       </terminal>
       <value>
-        <real>0.417004048583</real>
+        <real>0.570850202429</real>
       </value>
     </pair>
     <pair>
@@ -1673,7 +1673,7 @@
         <alternativeID>b4</alternativeID>
       </terminal>
       <value>
-        <real>0.384615384615</real>
+        <real>0.386538461538</real>
       </value>
     </pair>
     <pair>
@@ -2300,7 +2300,7 @@
         <alternativeID>a9</alternativeID>
       </terminal>
       <value>
-        <real>0.384615384615</real>
+        <real>0.405769230769</real>
       </value>
     </pair>
     <pair>
@@ -2575,7 +2575,7 @@
         <alternativeID>a34</alternativeID>
       </terminal>
       <value>
-        <real>0.153846153846</real>
+        <real>0.175</real>
       </value>
     </pair>
     <pair>
@@ -2773,7 +2773,7 @@
         <alternativeID>a12</alternativeID>
       </terminal>
       <value>
-        <real>0.538461538462</real>
+        <real>0.569230769231</real>
       </value>
     </pair>
     <pair>
@@ -3070,7 +3070,7 @@
         <alternativeID>a39</alternativeID>
       </terminal>
       <value>
-        <real>0.380566801619</real>
+        <real>0.534412955466</real>
       </value>
     </pair>
     <pair>
@@ -3147,7 +3147,7 @@
         <alternativeID>a6</alternativeID>
       </terminal>
       <value>
-        <real>0.846153846154</real>
+        <real>1.0</real>
       </value>
     </pair>
     <pair>
@@ -3235,7 +3235,7 @@
         <alternativeID>a14</alternativeID>
       </terminal>
       <value>
-        <real>0.765182186235</real>
+        <real>0.857489878543</real>
       </value>
     </pair>
     <pair>
@@ -3411,7 +3411,7 @@
         <alternativeID>a30</alternativeID>
       </terminal>
       <value>
-        <real>0.846153846154</real>
+        <real>1.0</real>
       </value>
     </pair>
     <pair>
