@@ -16,6 +16,132 @@ HEADER = ("<?xml version='1.0' encoding='UTF-8'?>\n"
 FOOTER = "</xmcda:XMCDA>"
 
 
+class Vividict(dict):
+    def __missing__(self, key):
+        value = self[key] = type(self)()
+        return value
+
+
+class InputData(object):
+    # same as: InputData = type('InputData', (object,), {})
+    pass
+
+
+def get_input_data(input_dir, filenames, params):
+
+    def _get_trees(input_dir, filenames):
+        trees = {}
+        for f, is_optional in filenames:
+            file_name = os.path.join(input_dir, f)
+            if not os.path.isfile(file_name) and not is_optional:
+                raise RuntimeError("Problem with input file: '{}'.".format(f))
+            tree = None
+            tree = px.parseValidate(file_name)
+            if tree is None:
+                raise RuntimeError("Validation error with file: '{}'.".format(f))
+            trees.update({os.path.splitext(f)[0]: tree})
+        return trees
+
+    def _create_data_object(params):
+        obj = InputData()
+        for p in params:
+            setattr(obj, p, None)
+        return obj
+
+    def _get_categories_profiles(tree, comparison_with):
+        if comparison_with == 'boundary_profiles':
+            # # categories_profiles e.g. ['pMG', 'pBM']
+            path = '//categoriesProfiles//alternativeID/text()'
+            categories_profiles = [profile for profile in tree.xpath(path)]
+            # # categories_names e.g. ['Bad', 'Medium', 'Good']
+            # categories_names = list(set(tree.xpath('//categoriesProfiles//limits//categoryID/text()')))
+            # # categories_profiles_full e.g. {'Bad': {'upper': 'pBM'}, 'Medium': {'upper': 'pMG', 'lower': 'pBM'}, 'Good': {'lower': 'pMG'}}
+            # categories_profiles_full = px.getCategoriesProfiles(tree, categories_names)  # tri class assign
+        elif comparison_with == 'central_profiles':
+            categories_profiles = get_categories_profiles_central(tree)
+        else:
+            raise RuntimeError("Wrong comparison type ('{}') specified.".format(comparison_with))
+        return categories_profiles
+
+    trees = _get_trees(input_dir, filenames)
+    d = _create_data_object(params)
+    for p in params:
+        if p == 'alternatives':
+            d.alternatives = px.getAlternativesID(trees['alternatives'])
+        elif p == 'categories_profiles':
+            comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
+            d.categories_profiles = _get_categories_profiles(trees['categoriesProfiles'],
+                                                             comparison_with)
+        elif p == 'categories_rank':
+            categories = px.getCategoriesID(trees['categories'])
+            d.categories_rank = px.getCategoriesRank(trees['categories'], categories)
+        elif p == 'comparison_with':
+            d.comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
+        elif p == 'concordance':
+            alternatives = px.getAlternativesID(trees['alternatives'])
+            comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
+            if comparison_with in ('boundary_profiles', 'central_profiles'):
+                categories_profiles = _get_categories_profiles(trees['categoriesProfiles'],
+                                                               comparison_with)
+                d.concordance = getAlternativesComparisons(trees['concordance'], alternatives,
+                                                           categories_profiles)
+            else:
+                d.concordance = px.getAlternativesComparisons(trees['concordance'], alternatives)
+        elif p == 'credibility':  # XXX dependence on method?
+            alternatives = px.getAlternativesID(trees['alternatives'])
+            comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
+            categories_profiles = _get_categories_profiles(trees['categoriesProfiles'],
+                                                           comparison_with)
+            d.credibility = getAlternativesComparisons(trees['credibility'], alternatives,
+                                                       categories_profiles)
+        elif p == 'criteria':
+            d.criteria = px.getCriteriaID(trees['criteria'])
+        elif p == 'cut_threshold':  # XXX check
+            d.cut_threshold = px.getParameterByName(trees['method_parameters'], 'cut_threshold')
+        elif p == 'discordances':  # XXX dependence on method?
+            alternatives = px.getAlternativesID(trees['alternatives'])
+            comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
+            categories_profiles = _get_categories_profiles(trees['categoriesProfiles'],
+                                                           comparison_with)
+            d.discordances = getAlternativesComparisons(trees['discordances'], alternatives,
+                                                        categories_profiles, partials=True)
+        elif p == 'discordance_binary':
+            alternatives = px.getAlternativesID(trees['alternatives'])
+            d.discordance_binary = px.getAlternativesComparisons(trees['discordance_binary'],
+                                                                 alternatives)
+        elif p == 'eliminate_cycles_method':
+            d.eliminate_cycles_method = px.getParameterByName(trees['method_parameters'],
+                                                              'eliminate_cycles_method')
+        elif p == 'interactions':  # XXX check / get_criteria_interactions should be here
+            criteria = px.getCriteriaID(trees['criteria'])
+            d.interactions = get_criteria_interactions(trees['interactions'], criteria)
+        elif p == 'outranking':
+            alternatives = px.getAlternativesID(trees['alternatives'])
+            outranking = get_intersection_distillation(trees['outranking'], alternatives)
+            if outranking == None:
+                outranking = px.getAlternativesComparisons(trees['outranking'], alternatives)
+            d.outranking = outranking
+        elif p == 'performances':
+            d.performances = px.getPerformanceTable(trees['performanceTable'], None, None)
+        elif p == 'pref_directions':
+            criteria = px.getCriteriaID(trees['criteria'])
+            d.pref_directions = px.getCriteriaPreferenceDirections(trees['criteria'], criteria)
+        elif p == 'profiles_performance_table':
+            d.profiles_performance_table = px.getPerformanceTable(trees['profilesPerformanceTable'],
+                                                                  None, None)
+        elif p == 'thresholds':
+            criteria = px.getCriteriaID(trees['criteria'])
+            d.thresholds = px.getConstantThresholds(trees['criteria'], criteria)
+        elif p == 'weights':
+            criteria = px.getCriteriaID(trees['criteria'])
+            d.weights = px.getCriterionValue(trees['weights'], criteria)
+        elif p == 'z_function':
+            d.z_function = px.getParameterByName(trees['method_parameters'], 'z_function')
+        else:
+            raise RuntimeError("Unknown parameter '{}' specified.".format(p))
+    return d
+
+
 def DivizError(Error):  # XXX not used anywhere
     pass
 
@@ -28,32 +154,44 @@ def get_dirs(args):
             raise RuntimeError("Directory '{}' doesn't exist. Aborting.".format(d))
     return input_dir, output_dir
 
-
-def comparisons_to_xmcda(comparisons, partials=False, mcdaConcept=None):
-    if not mcdaConcept:
+def comparisons_to_xmcda(comparisons, comparables, partials=False, mcda_concept=None):
+    # 'comparables' should be a tuple e.g. (('a01', 'a02', 'a03', 'a04'), ('b01', 'b02')).
+    # The order of nodes in xml file will be derived from its content.
+    if len(comparables) == 2:
+        ordering = []  # all the sorting should be done just before serialization, I think
+        for a in comparables[0]:
+            for b in comparables[1]:
+                ordering.append((a, b))
+        for b in comparables[1]:
+            for a in comparables[0]:
+                ordering.append((b, a))
+    elif len(comparables) == 1:
+        ordering = [(a, b) for a in comparables[0] for b in comparables[0]]
+    else:
+        raise RuntimeError("Too many nesting levels '({})' for this serialization function.".format(len(ordering)))
+    if not mcda_concept:
         xmcda = etree.Element('alternativesComparisons')
     else:
-        xmcda = etree.Element('alternativesComparisons', mcdaConcept=mcdaConcept)
+        xmcda = etree.Element('alternativesComparisons', mcdaConcept=mcda_concept)
     pairs = etree.SubElement(xmcda, 'pairs')
-    for alt1 in comparisons.iterkeys():
-        for alt2 in comparisons[alt1]:
-            pair = etree.SubElement(pairs, 'pair')
-            initial = etree.SubElement(pair, 'initial')
-            alt_id = etree.SubElement(initial, 'alternativeID')
-            alt_id.text = alt1
-            terminal = etree.SubElement(pair, 'terminal')
-            alt_id = etree.SubElement(terminal, 'alternativeID')
-            alt_id.text = alt2
-            if not partials:
-                value = etree.SubElement(pair, 'value')
+    for alt1, alt2 in ordering:
+        pair = etree.SubElement(pairs, 'pair')
+        initial = etree.SubElement(pair, 'initial')
+        alt_id = etree.SubElement(initial, 'alternativeID')
+        alt_id.text = alt1
+        terminal = etree.SubElement(pair, 'terminal')
+        alt_id = etree.SubElement(terminal, 'alternativeID')
+        alt_id.text = alt2
+        if not partials:
+            value = etree.SubElement(pair, 'value')
+            v = etree.SubElement(value, 'real')
+            v.text = str(comparisons[alt1][alt2])
+        else:
+            values = etree.SubElement(pair, 'values')
+            for i in comparisons[alt1][alt2].iteritems():
+                value = etree.SubElement(values, 'value', id=i[0])
                 v = etree.SubElement(value, 'real')
-                v.text = str(comparisons[alt1][alt2])
-            else:
-                values = etree.SubElement(pair, 'values')
-                for i in comparisons[alt1][alt2].iteritems():
-                    value = etree.SubElement(values, 'value', id=i[0])
-                    v = etree.SubElement(value, 'real')
-                    v.text = str(i[1])
+                v.text = str(i[1])
     return xmcda
 
 
@@ -71,20 +209,6 @@ def affectations_to_xmcda(affectations):
         categoryID = etree.SubElement(upperBound, 'categoryID')
         categoryID.text = affectation[1][1]  # 'ascending', 'optimistic', 'disjunctive'
     return xmcda
-
-
-def get_trees(input_dir, file_names):
-    trees = {}
-    for f in file_names:
-        file_name = os.path.join(input_dir, f)
-        if not os.path.isfile(file_name):
-            raise RuntimeError("Problem with input file: '{}'.".format(f))
-        tree = None
-        tree = px.parseValidate(file_name)
-        if tree is None:
-            raise RuntimeError("Validation error with file: '{}'.".format(f))
-        trees.update({os.path.splitext(f)[0]: tree})
-    return trees
 
 
 def get_categories_profiles_central(categories_profiles_tree):
@@ -151,59 +275,6 @@ def getNumericValue(xmltree) :
     return val
 
 
-# Basically, this reversing/unreversing below applies only to the methods from
-# Electre TRI family, i.e. where you compare alternatives with profiles, not
-# alternatives with alternatives. In the former scenario you get comparisons
-# resembling rectangular matrices (n x m) instead of square ones (n x n). But
-# in our case, when this data is kept as dictionaries, it is more convenient to
-# always access them with alternatives as the outermost indices. Threrefore, to
-# serialize them in XMCDA format, we need to 'reverse' them, i.e. make profiles
-# the outermost indices (and similarly when deserializing - hence 'unreverse').
-#
-# And since our dicts are always in form of e.g. d[alternative][profile], which
-# is enough when we want to store the result of alternative-profile comparison,
-# we need a way to store the results of profile-alternative comparisons as well
-# - and that's exactly what all those '_ap' and '_pa' prefixes are for. So, for
-# example:
-#
-#   concordance_ap['a01']['p01'] is for c(a01, p01)
-#   concordance_pa['a01']['p01'] is for c(p01, a01)
-#
-# When we compare alternatives with alternatives (n x n matrices), such
-# separation is not necessary, since everything is kept in the same dict, e.g.:
-#
-#   concordance['a01']['a02'] is for c(a01, a02)
-#   concordance['a02']['a01'] is for c(a02, a01)
-
-def reverseAltComparisons(comparisons_ap, comparisons_pa, alternatives, categoriesProfiles):
-    comparisons_pa_reversed = OrderedDict()
-    for p in categoriesProfiles:
-        comparisons_pa_reversed.update({p: OrderedDict([(a, None) for a in alternatives])})
-    for a in comparisons_pa:
-        for p in comparisons_pa[a]:
-            comparisons_pa_reversed[p][a] = comparisons_pa[a][p]
-    comparisons_rev = OrderedDict()
-    comparisons_rev.update(comparisons_ap)
-    comparisons_rev.update(comparisons_pa_reversed)
-    return comparisons_rev
-
-
-def unreverseAltComparisons(comparisons, alternatives, categoriesProfiles):
-    comparisons_ap = OrderedDict()
-    comparisons_pa = OrderedDict()
-    comparisons_pa_reversed = OrderedDict()
-    for a in alternatives:
-        comparisons_ap[a] = comparisons[a]
-    for p in categoriesProfiles:
-        comparisons_pa_reversed[p] = comparisons[p]
-    for p in categoriesProfiles:
-        for a in alternatives:
-            if a not in comparisons_pa:
-                comparisons_pa[a] = OrderedDict()
-            comparisons_pa[a][p] = comparisons_pa_reversed[p][a]
-    return comparisons_ap, comparisons_pa
-
-
 def write_xmcda(xmcda, filename):
     et = etree.ElementTree(xmcda)
     try:
@@ -253,79 +324,6 @@ def get_intersection_distillation(xmltree, altId):
                         datas[init] = {}
                     datas[init][term] = 1.0
         return datas
-
-
-def get_concordance(alternatives, categories_profiles, performances,
-                    profiles_performance_table, criteria, thresholds,
-                    pref_directions, weights):
-
-    def _omega(x, y):
-        # 'x' and 'y' to keep it as general as possible
-        if pref_directions[criterion] == 'max':
-            return x - y
-        if pref_directions[criterion] == 'min':
-            return y - x
-
-    def _get_partial_concordance(x, y, criterion):
-        p = thresholds[criterion].get('preference')
-        q = thresholds[criterion].get('indifference')
-        if _omega(x, y) < -p:
-            return 0
-        elif _omega(x, y) >= -q:
-            return 1
-        else:
-            return (_omega(x, y) + p) / (p - q)
-
-    # compute partial concordances
-    partial_concordances_ap = {}
-    partial_concordances_pa = {}
-    for a in alternatives:
-        p_dict_ap = {}
-        p_dict_pa = {}
-        for p in categories_profiles:
-            c_dict_ap = {}
-            c_dict_pa = {}
-            for criterion in criteria:
-                # compare alternatives with profiles
-                x = performances[a][criterion]
-                y = profiles_performance_table[p][criterion]
-                c_ap = _get_partial_concordance(x, y, criterion)
-                # compare profiles with alternatives
-                x = profiles_performance_table[p][criterion]
-                y = performances[a][criterion]
-                c_pa = _get_partial_concordance(x, y, criterion)
-                c_dict_ap.update({criterion: c_ap})
-                c_dict_pa.update({criterion: c_pa})
-            p_dict_ap.update({p: c_dict_ap})
-            p_dict_pa.update({p: c_dict_pa})
-        partial_concordances_ap.update({a: p_dict_ap})
-        partial_concordances_pa.update({a: p_dict_pa})
-
-    # aggregate partial concordances
-    aggregated_concordances_ap = OrderedDict()
-    aggregated_concordances_pa = OrderedDict()
-    sum_of_weights = sum([weights[criterion] for criterion in criteria])
-    for a in alternatives:
-        p_dict_ap = OrderedDict()
-        p_dict_pa = OrderedDict()
-        for p in categories_profiles:
-            # 'C' - aggregated, 'c' - partial
-            C_ap = sum([weights[criterion] * partial_concordances_ap[a][p][criterion]
-                        for criterion in criteria]) / sum_of_weights
-            C_pa = sum([weights[criterion] * partial_concordances_pa[a][p][criterion]
-                        for criterion in criteria]) / sum_of_weights
-            p_dict_ap.update({p: C_ap})
-            p_dict_pa.update({p: C_pa})
-        aggregated_concordances_ap.update({a: p_dict_ap})
-        aggregated_concordances_pa.update({a: p_dict_pa})
-
-    ret = reverseAltComparisons(
-        aggregated_concordances_ap,
-        aggregated_concordances_pa,
-        alternatives,
-        categories_profiles,
-    )
-    return ret
 
 
 def check_cut_threshold(threshold):
