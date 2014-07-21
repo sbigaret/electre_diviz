@@ -33,8 +33,11 @@ def get_input_data(input_dir, filenames, params):
         trees = {}
         for f, is_optional in filenames:
             file_name = os.path.join(input_dir, f)
-            if not os.path.isfile(file_name) and not is_optional:
-                raise RuntimeError("Problem with input file: '{}'.".format(f))
+            if not os.path.isfile(file_name):
+                if is_optional:
+                    continue
+                else:
+                    raise RuntimeError("Problem with input file: '{}'.".format(f))
             tree = None
             tree = px.parseValidate(file_name)
             if tree is None:
@@ -63,6 +66,47 @@ def get_input_data(input_dir, filenames, params):
             raise RuntimeError("Wrong comparison type ('{}') specified.".format(comparison_with))
         return categories_profiles
 
+    def _get_criteria_interactions(xmltree, criteria_allowed):
+        # in returned dict 'interactions', the most outer key designates direction
+        # of the interaction effect (i.e. which criterion is affected), which is
+        # significant in case of 'antagonistic' interaction
+        interaction_types_allowed = ['strengthening', 'weakening', 'antagonistic']
+        path = 'criteriaValues[@mcdaConcept="criteriaInteractions"]/criterionValue'
+        interactions = {}
+        cvs = xmltree.xpath(path)
+        if not cvs:
+            raise RuntimeError("Wrong or missing definitions for criteria interactions.")
+        for cv in cvs:
+            interaction_type = cv.attrib.get('mcdaConcept')
+            if interaction_type not in interaction_types_allowed:
+                raise RuntimeError("Wrong interaction type '{}'.".format(interaction_type))
+            criteria_involved = cv.xpath('.//criterionID/text()')
+            if len(criteria_involved) != 2:
+                raise RuntimeError("Wrong number of criteria for '{}' interaction.".format(interaction_type))
+            for criterion in criteria_involved:
+                if criterion not in criteria_allowed:
+                    raise RuntimeError("Unknown criterion '{}' for '{}' interaction.".format(criterion, interaction_type))
+            interaction_value = float(cv.find('./value//').text)
+            if ((interaction_value > 0 and interaction_type == 'weakening') or
+                    (interaction_value < 0 and interaction_type in ('strengthening', 'antagonistic')) or
+                    (interaction_value == 0)):
+                raise RuntimeError("Wrong value for '{}' interaction.".format(interaction_type))
+            if interaction_type == 'strengthening' and 'weakening' in interactions.keys():
+                for i in interactions['weakening']:
+                    if set(i[:2]) == set(criteria_involved):
+                        raise RuntimeError("'strengthening' and 'weakening' interactions are mutually exclusive.")
+            elif interaction_type == 'weakening' and 'strengthening' in interactions.keys():
+                for i in interactions['strengthening']:
+                    if set(i[:2]) == set(criteria_involved):
+                        raise RuntimeError("'strengthening' and 'weakening' interactions are mutually exclusive.")
+            c1, c2 = criteria_involved
+            try:
+                interactions[interaction_type].append((c1, c2, interaction_value))
+            except KeyError:
+                interactions.update({interaction_type: [(c1, c2, interaction_value)]})
+        return interactions
+
+
     trees = _get_trees(input_dir, filenames)
     d = _create_data_object(params)
     for p in params:
@@ -70,7 +114,7 @@ def get_input_data(input_dir, filenames, params):
             d.alternatives = px.getAlternativesID(trees['alternatives'])
         elif p == 'categories_profiles':
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            d.categories_profiles = _get_categories_profiles(trees['categoriesProfiles'],
+            d.categories_profiles = _get_categories_profiles(trees['categories_profiles'],
                                                              comparison_with)
         elif p == 'categories_rank':
             categories = px.getCategoriesID(trees['categories'])
@@ -81,7 +125,7 @@ def get_input_data(input_dir, filenames, params):
             alternatives = px.getAlternativesID(trees['alternatives'])
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
             if comparison_with in ('boundary_profiles', 'central_profiles'):
-                categories_profiles = _get_categories_profiles(trees['categoriesProfiles'],
+                categories_profiles = _get_categories_profiles(trees['categories_profiles'],
                                                                comparison_with)
                 d.concordance = getAlternativesComparisons(trees['concordance'], alternatives,
                                                            categories_profiles)
@@ -90,7 +134,7 @@ def get_input_data(input_dir, filenames, params):
         elif p == 'credibility':  # XXX dependence on method?
             alternatives = px.getAlternativesID(trees['alternatives'])
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            categories_profiles = _get_categories_profiles(trees['categoriesProfiles'],
+            categories_profiles = _get_categories_profiles(trees['categories_profiles'],
                                                            comparison_with)
             d.credibility = getAlternativesComparisons(trees['credibility'], alternatives,
                                                        categories_profiles)
@@ -101,7 +145,7 @@ def get_input_data(input_dir, filenames, params):
         elif p == 'discordances':  # XXX dependence on method?
             alternatives = px.getAlternativesID(trees['alternatives'])
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            categories_profiles = _get_categories_profiles(trees['categoriesProfiles'],
+            categories_profiles = _get_categories_profiles(trees['categories_profiles'],
                                                            comparison_with)
             d.discordances = getAlternativesComparisons(trees['discordances'], alternatives,
                                                         categories_profiles, partials=True)
@@ -112,9 +156,9 @@ def get_input_data(input_dir, filenames, params):
         elif p == 'eliminate_cycles_method':
             d.eliminate_cycles_method = px.getParameterByName(trees['method_parameters'],
                                                               'eliminate_cycles_method')
-        elif p == 'interactions':  # XXX check / get_criteria_interactions should be here
+        elif p == 'interactions':  # XXX check
             criteria = px.getCriteriaID(trees['criteria'])
-            d.interactions = get_criteria_interactions(trees['interactions'], criteria)
+            d.interactions = _get_criteria_interactions(trees['interactions'], criteria)
         elif p == 'outranking':
             alternatives = px.getAlternativesID(trees['alternatives'])
             outranking = get_intersection_distillation(trees['outranking'], alternatives)
@@ -122,12 +166,12 @@ def get_input_data(input_dir, filenames, params):
                 outranking = px.getAlternativesComparisons(trees['outranking'], alternatives)
             d.outranking = outranking
         elif p == 'performances':
-            d.performances = px.getPerformanceTable(trees['performanceTable'], None, None)
+            d.performances = px.getPerformanceTable(trees['performance_table'], None, None)
         elif p == 'pref_directions':
             criteria = px.getCriteriaID(trees['criteria'])
             d.pref_directions = px.getCriteriaPreferenceDirections(trees['criteria'], criteria)
         elif p == 'profiles_performance_table':
-            d.profiles_performance_table = px.getPerformanceTable(trees['profilesPerformanceTable'],
+            d.profiles_performance_table = px.getPerformanceTable(trees['profiles_performance_table'],
                                                                   None, None)
         elif p == 'thresholds':
             criteria = px.getCriteriaID(trees['criteria'])
@@ -157,18 +201,19 @@ def get_dirs(args):
 def comparisons_to_xmcda(comparisons, comparables, partials=False, mcda_concept=None):
     # 'comparables' should be a tuple e.g. (('a01', 'a02', 'a03', 'a04'), ('b01', 'b02')).
     # The order of nodes in xml file will be derived from its content.
-    if len(comparables) == 2:
-        ordering = []  # all the sorting should be done just before serialization, I think
+    # All the sorting should be done here (i.e. just before serialization), I think.
+    if len(comparables) != 2:
+        raise RuntimeError("Too many nesting levels '({})' for this serialization function.".format(len(ordering)))
+    elif comparables[0] == comparables[1]:  # alternatives vs alternatives
+        ordering = [(a, b) for a in comparables[0] for b in comparables[0]]
+    else:  # alternatives vs profiles
+        ordering = []
         for a in comparables[0]:
             for b in comparables[1]:
                 ordering.append((a, b))
         for b in comparables[1]:
             for a in comparables[0]:
                 ordering.append((b, a))
-    elif len(comparables) == 1:
-        ordering = [(a, b) for a in comparables[0] for b in comparables[0]]
-    else:
-        raise RuntimeError("Too many nesting levels '({})' for this serialization function.".format(len(ordering)))
     if not mcda_concept:
         xmcda = etree.Element('alternativesComparisons')
     else:

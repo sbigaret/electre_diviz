@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
-  <program provider="PUT" name="ElectreCriteriaInteractionsConcordance" displayName="ElectreCriteriaInteractionsConcordance" version="0.1.0" />
+  <program provider="PUT" name="ElectreConcordanceWithInteractions" displayName="ElectreConcordanceWithInteractions" version="0.9.0" />
   <documentation>
     <description>Computes concordance matrix taking into account interactions between criteria. Possible interactions are: 'strengthening', 'weakening' and 'antagonistic'.
 
-Please note that in its current version, this module doesn't allow to compute concordance for methods belonging to Electre TRI family (i.e. the ones where we have alternatives vs profiles comparisons).
+This module allows to compute concordance matrix for both for alternatives vs alternatives and alternatives vs profiles comparison - where profiles may be boundary or central (characteristic).
     </description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
@@ -18,14 +18,21 @@ Please note that in its current version, this module doesn't allow to compute co
       <xmcda tag="alternatives" />
     </input>
 
-    <input id="input2" name="criteria" displayName="criteria" isoptional="0">
+    <input id="input2" name="categoriesProfiles" displayName="categoriesProfiles" isoptional="1">
+      <documentation>
+        <description>Definitions of profiles (boundary or central) which should be used for categories (classes) representation.</description>
+      </documentation>
+      <xmcda tag="categoriesProfiles" />
+    </input>
+
+    <input id="input3" name="criteria" displayName="criteria" isoptional="0">
       <documentation>
         <description>Criteria to consider, with preference and indifference thresholds. Each criterion must have a preference direction specified (min or max).</description>
       </documentation>
       <xmcda tag="criteria" />
     </input>
 
-    <input id="input3" name="interactions" displayName="interactions" isoptional="0">
+    <input id="input4" name="interactions" displayName="interactions" isoptional="0">
       <documentation>
         <description>Declarations of criteria interactions which should be taken into account. Possible interactions are: &quot;strengthening&quot;, &quot;weakening&quot; and &quot;antagonistic&quot;.
 
@@ -64,48 +71,85 @@ It is possible to declare more than one interactions of the same type, although 
       </xmcda>
     </input>
 
-    <input id="input4" name="performance_table" displayName="performance_table" isoptional="0">
+    <input id="input5" name="performance_table" displayName="performance_table" isoptional="0">
       <documentation>
         <description>The performance of alternatives.</description>
       </documentation>
       <xmcda tag="performanceTable" />
     </input>
 
-    <input id="input5" name="weights" displayName="weights" isoptional="0">
+    <input id="input6" name="profilesPerformanceTable" displayName="profilesPerformanceTable" isoptional="1">
+      <documentation>
+        <description>The performance of profiles (boundary or central).</description>
+      </documentation>
+      <xmcda tag="performanceTable" />
+    </input>
+
+    <input id="input7" name="weights" displayName="weights" isoptional="0">
       <documentation>
         <description>Weights of criteria to consider.</description>
       </documentation>
       <xmcda tag="criteriaValues" />
     </input>
 
-    <input id="input6" name="method_parameters" displayName="method_parameters" isoptional="0">
+    <input id="input8" name="method_parameters" displayName="method_parameters" isoptional="0">
       <documentation>
-        <description>Z(x, y) - function used to capture interaction effects in the ambiguity zone. There are multiple forms that can be chosen for it, but two of them have intuitive and meaningful interpretation: Z(x, y) = min{x, y} Z(x, y) = xy - the last one is prefereable, though.</description>
+        <description>A set of parameters provided to tune up the module's operation.</description>
       </documentation>
       <xmcda tag="methodParameters">
         <![CDATA[
         <methodParameters>
-          <parameter name="z_function">
+          <parameter name="comparison_with">
             <value>
               <label>%1</label>
             </value>
           </parameter>
-        </methodParameters>
+          <parameter name="z_function">
+            <value>
+              <label>%2</label>
+            </value>
+          </parameter>
+         </methodParameters>
         ]]>
       </xmcda>
       <gui status="preferGUI">
-        <entry id="%1" type="enum" displayName="z_function">
+        <entry id="%1" type="enum" displayName="comparison_with">
+          <documentation>
+            <description>This parameter specifies the type of elements provided for comparison.
+
+Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'categoriesProfiles' and 'profilesPerformanceTable' as well (which are optional by default).</description>
+          </documentation>
           <items>
             <item id="item0">
-              <description>Z(x, y) = min{x, y}</description>
-              <value>minimum</value>
+              <description>alternatives vs alternatives</description>
+              <value>alternatives</value>
             </item>
             <item id="item1">
+              <description>alternatives vs boundary profiles</description>
+              <value>boundary_profiles</value>
+            </item>
+            <item id="item2">
+              <description>alternatives vs central (characteristic) profiles</description>
+              <value>central_profiles</value>
+            </item>
+          </items>
+          <defaultValue>item0</defaultValue>
+        </entry>
+        <entry id="%2" type="enum" displayName="z_function">
+          <documentation>
+            <description>Z(x, y) - function used to capture interaction effects in the ambiguity zone. There are multiple forms that can be chosen for it, but two of them have intuitive and meaningful interpretation: Z(x, y) = min{x, y} Z(x, y) = xy - the last one is prefereable, though.</description>
+          </documentation>
+          <items>
+            <item id="item0">
               <description>Z(x, y) = xy</description>
               <value>multiplication</value>
             </item>
+            <item id="item1">
+              <description>Z(x, y) = min{x, y}</description>
+              <value>minimum</value>
+            </item>
           </items>
-          <defaultValue>item1</defaultValue>
+          <defaultValue>item0</defaultValue>
         </entry>
       </gui>
     </input>
