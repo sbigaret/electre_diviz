@@ -52,6 +52,9 @@ def get_input_data(input_dir, filenames, params):
         return obj
 
     def _get_categories_profiles(tree, comparison_with):
+        # XXX not sure if it's a good idea to return two different data types here, i.e.:
+        # for boundary profiles: ['b1', 'b2', 'b3', 'b4']
+        # for central profiles: OrderedDict([('b1', 'C1'), ('b2', 'C2'), ('b3', 'C3'), ('b4', 'C4')])
         if comparison_with == 'boundary_profiles':
             # # categories_profiles e.g. ['pMG', 'pBM']
             path = '//categoriesProfiles//alternativeID/text()'
@@ -233,7 +236,9 @@ def comparisons_to_xmcda(comparisons, comparables, partials=False, mcda_concept=
             v.text = str(comparisons[alt1][alt2])
         else:
             values = etree.SubElement(pair, 'values')
-            for i in comparisons[alt1][alt2].iteritems():
+            items = comparisons[alt1][alt2].items()
+            items.sort(key=lambda x: x[0])  # XXX temporary solution
+            for i in items:
                 value = etree.SubElement(values, 'value', id=i[0])
                 v = etree.SubElement(value, 'real')
                 v.text = str(i[1])
