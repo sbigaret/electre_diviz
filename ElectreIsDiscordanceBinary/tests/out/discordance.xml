@@ -6,51 +6,7 @@
   <pairs>
     <pair>
       <initial>
-        <alternativeID>ger</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ger</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ger</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>fra</alternativeID>
-      </terminal>
-      <value>
-        <integer>1</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ger</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>aut</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ger</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>bel</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>ita</alternativeID>
       </initial>
       <terminal>
         <alternativeID>ita</alternativeID>
@@ -61,117 +17,18 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ger</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>fra</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>aut</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>bel</alternativeID>
-      </terminal>
-      <value>
-        <integer>1</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
         <alternativeID>ita</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>aut</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ger</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>aut</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>fra</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>aut</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>aut</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>aut</alternativeID>
       </initial>
       <terminal>
         <alternativeID>bel</alternativeID>
       </terminal>
       <value>
-        <integer>1</integer>
+        <integer>0</integer>
       </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>aut</alternativeID>
-      </initial>
-      <terminal>
         <alternativeID>ita</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>bel</alternativeID>
       </initial>
       <terminal>
         <alternativeID>ger</alternativeID>
@@ -182,32 +39,21 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>bel</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>fra</alternativeID>
-      </terminal>
-      <value>
-        <integer>1</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>ita</alternativeID>
       </initial>
       <terminal>
         <alternativeID>aut</alternativeID>
       </terminal>
       <value>
-        <integer>1</integer>
+        <integer>0</integer>
       </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>ita</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>fra</alternativeID>
       </terminal>
       <value>
         <integer>0</integer>
@@ -226,40 +72,7 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>ita</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ger</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ita</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>fra</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ita</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>aut</alternativeID>
-      </terminal>
-      <value>
-        <integer>0</integer>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>bel</alternativeID>
       </initial>
       <terminal>
         <alternativeID>bel</alternativeID>
@@ -270,10 +83,197 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>bel</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>ger</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>bel</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>aut</alternativeID>
+      </terminal>
+      <value>
+        <integer>1</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>bel</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>fra</alternativeID>
+      </terminal>
+      <value>
+        <integer>1</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>ger</alternativeID>
       </initial>
       <terminal>
         <alternativeID>ita</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>ger</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>bel</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>ger</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>ger</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>ger</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>aut</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>ger</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>fra</alternativeID>
+      </terminal>
+      <value>
+        <integer>1</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>aut</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>ita</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>aut</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>bel</alternativeID>
+      </terminal>
+      <value>
+        <integer>1</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>aut</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>ger</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>aut</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>aut</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>aut</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>fra</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>fra</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>ita</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>fra</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>bel</alternativeID>
+      </terminal>
+      <value>
+        <integer>1</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>fra</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>ger</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>fra</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>aut</alternativeID>
+      </terminal>
+      <value>
+        <integer>0</integer>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>fra</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>fra</alternativeID>
       </terminal>
       <value>
         <integer>0</integer>

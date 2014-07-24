@@ -55,7 +55,9 @@ def get_input_data(input_dir, filenames, params):
         # XXX not sure if it's a good idea to return two different data types here, i.e.:
         # for boundary profiles: ['b1', 'b2', 'b3', 'b4']
         # for central profiles: OrderedDict([('b1', 'C1'), ('b2', 'C2'), ('b3', 'C3'), ('b4', 'C4')])
-        if comparison_with == 'boundary_profiles':
+        if comparison_with == 'alternatives':
+            return None
+        elif comparison_with == 'boundary_profiles':
             # # categories_profiles e.g. ['pMG', 'pBM']
             path = '//categoriesProfiles//alternativeID/text()'
             categories_profiles = [profile for profile in tree.xpath(path)]
@@ -117,7 +119,7 @@ def get_input_data(input_dir, filenames, params):
             d.alternatives = px.getAlternativesID(trees['alternatives'])
         elif p == 'categories_profiles':
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            d.categories_profiles = _get_categories_profiles(trees['categories_profiles'],
+            d.categories_profiles = _get_categories_profiles(trees.get('categories_profiles'),
                                                              comparison_with)
         elif p == 'categories_rank':
             categories = px.getCategoriesID(trees['categories'])
@@ -174,8 +176,11 @@ def get_input_data(input_dir, filenames, params):
             criteria = px.getCriteriaID(trees['criteria'])
             d.pref_directions = px.getCriteriaPreferenceDirections(trees['criteria'], criteria)
         elif p == 'profiles_performance_table':
-            d.profiles_performance_table = px.getPerformanceTable(trees['profiles_performance_table'],
-                                                                  None, None)
+            if comparison_with in ('boundary_profiles', 'central_profiles'):
+                d.profiles_performance_table = px.getPerformanceTable(
+                    trees['profiles_performance_table'], None, None)
+            else:
+                d.profiles_performance_table = None
         elif p == 'thresholds':
             criteria = px.getCriteriaID(trees['criteria'])
             d.thresholds = px.getConstantThresholds(trees['criteria'], criteria)
@@ -205,6 +210,17 @@ def comparisons_to_xmcda(comparisons, comparables, partials=False, mcda_concept=
     # 'comparables' should be a tuple e.g. (('a01', 'a02', 'a03', 'a04'), ('b01', 'b02')).
     # The order of nodes in xml file will be derived from its content.
     # All the sorting should be done here (i.e. just before serialization), I think.
+
+    # XXX maybe it's better to get/set those types globally (i.e. for the whole file)?
+    def _get_value_type(value):
+        if type(value) == float:
+            value_type = 'real'
+        elif type(value) == int:
+            value_type = 'integer'
+        else:
+            raise RuntimeError("Unknown type '{}'.".format(type(value)))
+        return value_type
+
     if len(comparables) != 2:
         raise RuntimeError("Too many nesting levels '({})' for this serialization function.".format(len(ordering)))
     elif comparables[0] == comparables[1]:  # alternatives vs alternatives
@@ -231,16 +247,18 @@ def comparisons_to_xmcda(comparisons, comparables, partials=False, mcda_concept=
         alt_id = etree.SubElement(terminal, 'alternativeID')
         alt_id.text = alt2
         if not partials:
-            value = etree.SubElement(pair, 'value')
-            v = etree.SubElement(value, 'real')
+            value_type = _get_value_type(comparisons[alt1][alt2])
+            value_node = etree.SubElement(pair, 'value')
+            v = etree.SubElement(value_node, value_type)
             v.text = str(comparisons[alt1][alt2])
         else:
             values = etree.SubElement(pair, 'values')
             items = comparisons[alt1][alt2].items()
-            items.sort(key=lambda x: x[0])  # XXX temporary solution
+            items.sort(key=lambda x: x[0])  # XXX until I find better solution
             for i in items:
-                value = etree.SubElement(values, 'value', id=i[0])
-                v = etree.SubElement(value, 'real')
+                value_type = _get_value_type(i[1])
+                value_node = etree.SubElement(values, 'value', id=i[0])
+                v = etree.SubElement(value_node, value_type)
                 v.text = str(i[1])
     return xmcda
 
