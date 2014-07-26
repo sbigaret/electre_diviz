@@ -18,7 +18,7 @@ This module allows to compute concordance matrix for both for alternatives vs al
       <xmcda tag="alternatives" />
     </input>
 
-    <input id="input2" name="categoriesProfiles" displayName="categoriesProfiles" isoptional="1">
+    <input id="input2" name="categories_profiles" displayName="categories_profiles" isoptional="1">
       <documentation>
         <description>Definitions of profiles (boundary or central) which should be used for categories (classes) representation.</description>
       </documentation>
@@ -78,7 +78,7 @@ It is possible to declare more than one interactions of the same type, although 
       <xmcda tag="performanceTable" />
     </input>
 
-    <input id="input6" name="profilesPerformanceTable" displayName="profilesPerformanceTable" isoptional="1">
+    <input id="input6" name="profiles_performance_table" displayName="profiles_performance_table" isoptional="1">
       <documentation>
         <description>The performance of profiles (boundary or central).</description>
       </documentation>

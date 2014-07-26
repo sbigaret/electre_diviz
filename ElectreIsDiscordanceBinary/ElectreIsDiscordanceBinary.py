@@ -46,7 +46,7 @@ __version__ = '0.9.0'
 def get_discordance(comparables_a, comparables_perf_a, comparables_b, comparables_perf_b,
                     criteria, thresholds, pref_directions):
 
-    def _get_partial_discordance(x, y, criterion):
+    def _get_partial_discordances(x, y, criterion):
         v = thresholds[criterion].get('veto')
         if pref_directions[criterion] == 'max':
             if (y < x + v):
@@ -60,7 +60,7 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b, comparable
                 d = 1
         return d
 
-    def _get_aggregated_discordances(x, y):
+    def _get_aggregated_discordance(x, y):
         d_aggregated = 0
         for d_partial in partial_discordances[x][y].itervalues():
             if d_partial == 1:
@@ -73,24 +73,24 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b, comparable
     for a in comparables_a:
         for b in comparables_b:
             for criterion in criteria:
-                partial_discordances[a][b][criterion] = _get_partial_discordance(
+                partial_discordances[a][b][criterion] = _get_partial_discordances(
                     comparables_perf_a[a][criterion],
                     comparables_perf_b[b][criterion],
                     criterion,
                 )
                 if two_way_comparison:
-                    partial_discordances[b][a][criterion] = _get_partial_discordance(
+                    partial_discordances[b][a][criterion] = _get_partial_discordances(
                         comparables_perf_b[b][criterion],
                         comparables_perf_a[a][criterion],
                         criterion,
                     )
-    aggregated_discordances = Vividict()
+    discordance = Vividict()
     for a in comparables_a:
         for b in comparables_b:
-            aggregated_discordances[a][b] = _get_aggregated_discordances(a, b)
+            discordance[a][b] = _get_aggregated_discordance(a, b)
             if two_way_comparison:
-                aggregated_discordances[b][a] = _get_aggregated_discordances(b, a)
-    return aggregated_discordances
+                discordance[b][a] = _get_aggregated_discordance(b, a)
+    return discordance
 
 
 def main():

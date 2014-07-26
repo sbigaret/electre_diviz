@@ -69,9 +69,9 @@ def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparable
         p = thresholds[criterion].get('preference')
         q = thresholds[criterion].get('indifference')
         if _omega(x, y) < -p:
-            return float(0)
+            return 0.0
         elif _omega(x, y) >= -q:
-            return float(1)
+            return 1.0
         else:
             return (_omega(x, y) + p) / (p - q)
 
@@ -87,7 +87,7 @@ def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparable
                     ci = partial_concordances[x][y][interaction[0]]
                     cj = partial_concordances[x][y][interaction[1]]
                     sum_kij += Z(ci, cj) * interaction[2]
-            sum_kih = float(0)
+            sum_kih = 0.0
             for interaction in interactions.get('antagonistic', []):
                 ci = partial_concordances[x][y][interaction[0]]
                 ch = partial_concordances[y][x][interaction[1]]

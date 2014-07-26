@@ -83,7 +83,7 @@ Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'ca
       </gui>
     </input>
 
-    <output id="output1" name="discordance" displayName="discordance">
+    <output id="output1" name="discordances" displayName="discordances">
       <documentation>
         <description>Partial (i.e. per-criterion) discordance indices computed from the given data.</description>
       </documentation>

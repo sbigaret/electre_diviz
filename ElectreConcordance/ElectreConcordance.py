@@ -56,9 +56,9 @@ def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparable
         p = thresholds[criterion].get('preference')
         q = thresholds[criterion].get('indifference')
         if _omega(x, y) < -p:
-            return 0
+            return 0.0
         elif _omega(x, y) >= -q:
-            return 1
+            return 1.0
         else:
             return (_omega(x, y) + p) / (p - q)
 
