@@ -4,9 +4,19 @@
   xsi:schemaLocation='http://www.decision-deck.org/2012/XMCDA-2.2.0 http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.0.xsd'>
 
 <methodParameters>
-  <parameter name="cut_threshold">
+  <parameter name="comparison_with">
     <value>
-      <real>0.6</real>
+      <label>boundary_profiles</label>
+    </value>
+  </parameter>
+  <parameter name="use_1_minus_C">
+    <value>
+      <boolean>true</boolean>
+    </value>
+  </parameter>
+  <parameter name="use_partials">
+    <value>
+      <boolean>true</boolean>
     </value>
   </parameter>
 </methodParameters>

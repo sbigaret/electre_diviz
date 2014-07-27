@@ -42,7 +42,7 @@ from common import (
 __version__ = '0.9.0'
 
 
-def get_discordances(comparables_a, comparables_perf_a, comparables_b, comparables_perf_b,
+def get_discordance(comparables_a, comparables_perf_a, comparables_b, comparables_perf_b,
                     criteria, thresholds, pref_directions):
 
     def _omega(x, y):  # XXX exactly the same as in ElectreConcordance
@@ -52,7 +52,7 @@ def get_discordances(comparables_a, comparables_perf_a, comparables_b, comparabl
         if pref_directions[criterion] == 'min':
             return y - x
 
-    def _get_partial_discordances(x, y, criterion):
+    def _get_partial_discordance(x, y, criterion):
         p = thresholds[criterion].get('preference')
         v = thresholds[criterion].get('veto')
         if not v:
@@ -65,22 +65,22 @@ def get_discordances(comparables_a, comparables_perf_a, comparables_b, comparabl
             return (_omega(x, y) + p) / (p - v)
 
     two_way_comparison = True if comparables_a != comparables_b else False
-    partial_discordances = Vividict()
+    partial_discordance = Vividict()
     for a in comparables_a:
         for b in comparables_b:
             for criterion in criteria:
-                partial_discordances[a][b][criterion] = _get_partial_discordances(
+                partial_discordance[a][b][criterion] = _get_partial_discordance(
                     comparables_perf_a[a][criterion],
                     comparables_perf_b[b][criterion],
                     criterion,
                 )
                 if two_way_comparison:
-                    partial_discordances[b][a][criterion] = _get_partial_discordances(
+                    partial_discordance[b][a][criterion] = _get_partial_discordance(
                         comparables_perf_b[b][criterion],
                         comparables_perf_a[a][criterion],
                         criterion,
                     )
-    return partial_discordances
+    return partial_discordance
 
 
 def main():
@@ -118,7 +118,7 @@ def main():
             comparables_b = d.alternatives
             comparables_perf_b = d.performances
 
-        discordances = get_discordances(
+        discordance = get_discordance(
             comparables_a,
             comparables_perf_a,
             comparables_b,
@@ -134,9 +134,9 @@ def main():
         else:
             mcda_concept = None
         comparables = (comparables_a, comparables_b)
-        xmcda = comparisons_to_xmcda(discordances, comparables, partials=True,
+        xmcda = comparisons_to_xmcda(discordance, comparables, partials=True,
                                      mcda_concept=mcda_concept)
-        write_xmcda(xmcda, os.path.join(output_dir, 'discordances.xml'))
+        write_xmcda(xmcda, os.path.join(output_dir, 'discordance.xml'))
         create_messages_file(('Everything OK.',), None, output_dir)
         return 0
     except Exception, err:

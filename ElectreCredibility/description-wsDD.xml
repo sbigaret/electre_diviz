@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
+  <program provider="PUT" name="ElectreCredibility" displayName="ElectreCredibility" version="0.9.0" />
+  <documentation>
+    <description>ElectreCredibility - computes credibility matrix using procedure which is common to the most methods from the Electre family.
+
+The key feature of this module is its flexibility in terms of the types of elements accepted as input - concordance or discordance may be a result of the following comparisons: alternatives vs alternatives, alternatives vs boundary profiles and alternatives vs central (characteristic) profiles, and discordance may be provided both in non-aggregated ('partial') and aggregated form (think of discordances in Electre TRI and Electre Is methods).</description>
+    <url>http://github.com/xor-xor/electre_diviz</url>
+  </documentation>
+  <parameters>
+
+    <input id="input1" name="alternatives" displayName="alternatives" isoptional="0">
+      <documentation>
+        <description>Alternatives to consider.</description>
+      </documentation>
+      <xmcda tag="alternatives" />
+    </input>
+
+    <input id="input2" name="categories_profiles" displayName="categories_profiles" isoptional="1">
+      <documentation>
+        <description>Definitions of profiles (boundary or central) which should be used for categories (classes) representation.</description>
+      </documentation>
+      <xmcda tag="categoriesProfiles" />
+    </input>
+
+    <input id="input3" name="concordance" displayName="concordance" isoptional="0">
+      <documentation>
+        <description>Concordance matrix with aggregated concordance indices (i.e. one index per pair of alternatives or alternatives/profiles).</description>
+      </documentation>
+      <xmcda tag="alternativesComparisons" />
+    </input>
+
+    <input id="input4" name="discordance" displayName="discordance" isoptional="0">
+      <documentation>
+        <description>Discordance indices provided in non-aggregated ('partial') or aggregated form. In the former case, 'use_1_minus_C' parameter (see below) should be set to 'true'.</description>
+      </documentation>
+      <xmcda tag="alternativesComparisons" />
+    </input>
+
+    <input id="input5" name="method_parameters" displayName="method_parameters" isoptional="0">
+      <documentation>
+        <description>A set of parameters provided to tune up the module's operation.</description>
+      </documentation>
+      <xmcda tag="methodParameters">
+        <![CDATA[
+        <methodParameters>
+          <parameter name="comparison_with">
+            <value>
+              <label>%1</label>
+            </value>
+          </parameter>
+          <parameter name="use_1_minus_C">
+            <value>
+              <boolean>%2</boolean>
+            </value>
+          </parameter>
+          <parameter name="use_partials">
+            <value>
+              <boolean>%3</boolean>
+            </value>
+          </parameter>
+        </methodParameters>
+        ]]>
+      </xmcda>
+      <gui status="preferGUI">
+        <entry id="%1" type="enum" displayName="comparison_with">
+          <documentation>
+            <description>This parameter specifies the type of elements provided for comparison.
+
+Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'categories_profiles' and 'profiles_performance_table' as well (which are optional by default).</description>
+          </documentation>
+          <items>
+            <item id="item0">
+              <description>alternatives vs alternatives</description>
+              <value>alternatives</value>
+            </item>
+            <item id="item1">
+              <description>alternatives vs boundary profiles</description>
+              <value>boundary_profiles</value>
+            </item>
+            <item id="item2">
+              <description>alternatives vs central (characteristic) profiles</description>
+              <value>central_profiles</value>
+            </item>
+          </items>
+          <defaultValue>item0</defaultValue>
+        </entry>
+        <entry id="%2" type="boolean" displayName="use_1_minus_C">
+          <documentation>
+            <description>This parameter specifies whether the '(1 - C)' expression should be used in the products' denominators.</description>
+          </documentation>
+          <defaultValue>true</defaultValue>
+        </entry>
+        <entry id="%3" type="boolean" displayName="use_partials">
+          <documentation>
+            <description>This parameter specifies whether the discordance indices are provided in non-aggregated form.</description>
+          </documentation>
+          <defaultValue>true</defaultValue>
+        </entry>
+      </gui>
+    </input>
+
+    <output id="output1" name="credibility" displayName="credibility">
+      <documentation>
+        <description>Credibility matrix computed from the given data.</description>
+      </documentation>
+      <xmcda tag="alternativesComparisons" />
+    </output>
+
+    <output id="output2" name="messages" displayName="messages">
+      <documentation>
+        <description>Messages or errors generated by this module.</description>
+      </documentation>
+      <xmcda tag="methodMessages" />
+    </output>
+
+  </parameters>
+</program_description>

@@ -28,6 +28,9 @@ class InputData(object):
 
 
 def get_input_data(input_dir, filenames, params):
+    # This functions is pretty big and ugly, but at least it's easier to maintain
+    # since everything now is in one place instead of being scattered/duplicated
+    # amongst many different modules.
 
     def _get_trees(input_dir, filenames):
         trees = {}
@@ -56,7 +59,7 @@ def get_input_data(input_dir, filenames, params):
         # for boundary profiles: ['b1', 'b2', 'b3', 'b4']
         # for central profiles: OrderedDict([('b1', 'C1'), ('b2', 'C2'), ('b3', 'C3'), ('b4', 'C4')])
         if comparison_with == 'alternatives':
-            return None
+            categories_profiles = None
         elif comparison_with == 'boundary_profiles':
             # # categories_profiles e.g. ['pMG', 'pBM']
             path = '//categoriesProfiles//alternativeID/text()'
@@ -132,8 +135,8 @@ def get_input_data(input_dir, filenames, params):
             if comparison_with in ('boundary_profiles', 'central_profiles'):
                 categories_profiles = _get_categories_profiles(trees['categories_profiles'],
                                                                comparison_with)
-                d.concordance = getAlternativesComparisons(trees['concordance'], alternatives,
-                                                           categories_profiles)
+                d.concordance = get_alternatives_comparisons(trees['concordance'], alternatives,
+                                                             categories_profiles)
             else:
                 d.concordance = px.getAlternativesComparisons(trees['concordance'], alternatives)
         elif p == 'credibility':  # XXX dependence on method?
@@ -141,23 +144,25 @@ def get_input_data(input_dir, filenames, params):
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
             categories_profiles = _get_categories_profiles(trees['categories_profiles'],
                                                            comparison_with)
-            d.credibility = getAlternativesComparisons(trees['credibility'], alternatives,
-                                                       categories_profiles)
+            d.credibility = get_alternatives_comparisons(trees['credibility'], alternatives,
+                                                         categories_profiles)
         elif p == 'criteria':
             d.criteria = px.getCriteriaID(trees['criteria'])
         elif p == 'cut_threshold':  # XXX check
             d.cut_threshold = px.getParameterByName(trees['method_parameters'], 'cut_threshold')
-        elif p == 'discordances':  # XXX dependence on method?
+        elif p == 'discordance':  # XXX dependence on method?
             alternatives = px.getAlternativesID(trees['alternatives'])
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            categories_profiles = _get_categories_profiles(trees['categories_profiles'],
-                                                           comparison_with)
-            d.discordances = getAlternativesComparisons(trees['discordances'], alternatives,
-                                                        categories_profiles, partials=True)
-        elif p == 'discordance_binary':
-            alternatives = px.getAlternativesID(trees['alternatives'])
-            d.discordance_binary = px.getAlternativesComparisons(trees['discordance_binary'],
-                                                                 alternatives)
+            parameter = px.getParameterByName(trees['method_parameters'], 'use_partials')
+            use_partials = True if parameter == 'true' else False
+            if comparison_with in ('boundary_profiles', 'central_profiles'):
+                categories_profiles = _get_categories_profiles(trees['categories_profiles'],
+                                                               comparison_with)
+            else:
+                categories_profiles = None
+            d.discordance = get_alternatives_comparisons(trees['discordance'], alternatives,
+                                                         categories_profiles=categories_profiles,
+                                                         use_partials=use_partials)
         elif p == 'eliminate_cycles_method':
             d.eliminate_cycles_method = px.getParameterByName(trees['method_parameters'],
                                                               'eliminate_cycles_method')
@@ -187,8 +192,16 @@ def get_input_data(input_dir, filenames, params):
         elif p == 'weights':
             criteria = px.getCriteriaID(trees['criteria'])
             d.weights = px.getCriterionValue(trees['weights'], criteria)
+
         elif p == 'z_function':
             d.z_function = px.getParameterByName(trees['method_parameters'], 'z_function')
+        elif p == 'use_1_minus_C':
+            parameter = px.getParameterByName(trees['method_parameters'], 'use_1_minus_C')
+            d.use_1_minus_C = True if parameter == 'true' else False
+
+        elif p == 'use_partials':
+            parameter = px.getParameterByName(trees['method_parameters'], 'use_partials')
+            d.use_partials = True if parameter == 'true' else False
         else:
             raise RuntimeError("Unknown parameter '{}' specified.".format(p))
     return d
@@ -206,7 +219,7 @@ def get_dirs(args):
             raise RuntimeError("Directory '{}' doesn't exist. Aborting.".format(d))
     return input_dir, output_dir
 
-def comparisons_to_xmcda(comparisons, comparables, partials=False, mcda_concept=None):
+def comparisons_to_xmcda(comparisons, comparables, use_partials=False, mcda_concept=None):
     # 'comparables' should be a tuple e.g. (('a01', 'a02', 'a03', 'a04'), ('b01', 'b02')).
     # The order of nodes in xml file will be derived from its content.
     # All the sorting should be done here (i.e. just before serialization), I think.
@@ -246,7 +259,7 @@ def comparisons_to_xmcda(comparisons, comparables, partials=False, mcda_concept=
         terminal = etree.SubElement(pair, 'terminal')
         alt_id = etree.SubElement(terminal, 'alternativeID')
         alt_id.text = alt2
-        if not partials:
+        if not use_partials:
             value_type = _get_value_type(comparisons[alt1][alt2])
             value_node = etree.SubElement(pair, 'value')
             v = etree.SubElement(value_node, value_type)
@@ -291,42 +304,49 @@ def get_categories_profiles_central(categories_profiles_tree):
     return categoriesProfiles
 
 
-def getAlternativesComparisons(xmltree, alternatives, categoriesProfiles,
-                               partials=False, mcdaConcept=None) :
-    # XXX explain what 'partials' is
-    if mcdaConcept == None :
-        strSearch = ".//alternativesComparisons"
+def get_alternatives_comparisons(xmltree, alternatives, categories_profiles=None,
+                                 use_partials=False, mcda_concept=None) :
+    # This function is only used by credibility and exploitation procedures.
+    # 'use_partials' parameter designates whether the input contains 'partial'
+    # (i.e. per-criterion) comparisons.
+    if mcda_concept == None :
+        str_search = ".//alternativesComparisons"
     else :
-        strSearch = ".//alternativesComparisons[@mcdaConcept=\'" + mcdaConcept + "\']"
-    comparisons = xmltree.xpath(strSearch)[0]
+        str_search = ".//alternativesComparisons[@mcdaConcept=\'" + mcda_concept + "\']"
+    comparisons = xmltree.xpath(str_search)[0]
     if comparisons == None:
         return {}
     else:
-        ret = OrderedDict()
-        for pair in comparisons.findall ("pairs/pair"):
-            init = pair.find("initial/alternativeID").text
-            term = pair.find("terminal/alternativeID").text
-            if not partials:
-                val = getNumericValue(pair.find("value"))
+        ret = Vividict()
+        for pair in comparisons.findall("pairs/pair"):
+            initial = pair.find("initial/alternativeID").text
+            terminal = pair.find("terminal/alternativeID").text
+            if not use_partials:
+                val = pair.find("value")
+                if val is None:
+                    f = os.path.split(xmltree.base)[-1]
+                    raise RuntimeError("Corrupted '{}' file or wrong value of 'use_partials' parameter.".format(f))
+                num_val = get_numeric_value(val)
             else:
-                val = OrderedDict()
-                for value in pair.find("values"):
-                    valueID = value.get("id")
-                    numVal = getNumericValue(value)
-                    val[valueID] = numVal
-            if init in alternatives or init in categoriesProfiles:
-                if term in alternatives or term in categoriesProfiles:
-                    if init not in ret:
-                        ret[init] = OrderedDict()
-                    ret[init][term] = val
+                vals = pair.find("values")
+                if vals is None:
+                    f = os.path.split(xmltree.base)[-1]
+                    raise RuntimeError("Corrupted '{}' file or wrong value of 'use_partials' parameter.".format(f))
+                num_vals = Vividict()
+                for val in vals:
+                    val_id = val.get("id")
+                    num_vals[val_id] = get_numeric_value(val)
+            if initial in alternatives or initial in categories_profiles:
+                if terminal in alternatives or terminal in categories_profiles:
+                    if initial not in ret:
+                        ret[initial] = Vividict()
+                    ret[initial][terminal] = num_vals if use_partials else num_val
         return ret
 
 
-def getNumericValue(xmltree) :
-    # changed from PyXMCDA's original in order to handle both concordance
-    # and discordances
-
-    # Only returns value if it is numeric
+def get_numeric_value(xmltree) :
+    # Changed from PyXMCDA's original in order to handle both concordance
+    # and discordance. Only returns value if it is numeric.
     try :
         if xmltree.find("integer") != None :
             val = int(xmltree.find("integer").text)
