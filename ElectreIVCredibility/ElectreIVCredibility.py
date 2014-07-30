@@ -4,6 +4,10 @@
 ElectreIVCredibility - computes credibility matrix as presented in Electre IV
 method.
 
+The key feature of this module is its flexibility in terms of the types of
+elements allowed to compare, i.e. alternatives vs alternatives, alternatives vs
+boundary profiles and alternatives vs central (characteristic) profiles.
+
 Electre IV is a method based on the construction of a set of embedded
 outranking relations (similarly to Electre III). There are five such relations,
 and every subsequent one accepts an outranking in a less credible
@@ -15,11 +19,7 @@ Usage:
     ElectreIVCredibility.py -i DIR -o DIR
 
 Options:
-    -i DIR     Specify input directory. It should contain following files
-               (otherwise program will throw an error):
-                   alternatives.xml
-                   criteria.xml
-                   performanceTable.xml
+    -i DIR     Specify input directory.
     -o DIR     Specify output directory.
     --version  Show version.
     -h --help  Show this screen.
@@ -30,147 +30,180 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import itertools as it
 import os
 import sys
 import traceback
 
 from docopt import docopt
-from lxml import etree
-import PyXMCDA as px
 
 from common import (
+    comparisons_to_xmcda,
+    create_messages_file,
     get_dirs,
     get_error_message,
-    get_trees,
+    get_input_data,
     write_xmcda,
-    create_messages_file,
+    Vividict,
 )
 
-__version__ = '0.1.0'
+__version__ = '0.9.0'
 
 
-def get_credibility(performances, criteria, thresholds, pref_directions):
-    # XXX this function needs serious refactoring (cryptic variables, exceptions
-    # used for function's flow steering)
-    alt = performances.keys()
-    mtx_temp = {i: {j: 0 for j in alt} for i in alt}
-    mtx_final = {i: {j: 0 for j in alt} for i in alt}
-    pairs = [(i, j) for i in alt for j in alt]
-    for pair in pairs:
-        # nq, nq, ni, no = number of p's, number of q's and so on
-        np = nq = ni = no = 0
-        a, b = pair
-        if a == b:
-            mtx_final[a][b] = 1.0
-            continue
+def get_credibility(comparables_a, comparables_perf_a, comparables_b, comparables_perf_b,
+                    criteria, pref_directions, thresholds):
+    """
+    np, nq, ni, no - number of criteria where:
+    n_p(a, b) - 'a' is strictly preferred over 'b'
+    n_q(a, b) - 'a' is weakly preferred over 'b'
+    n_i(a, b) - 'a' is indifferent than 'b', but 'a' has better performance
+    n_o(a, b) - 'a' is indifferent than 'b' and both have the same performances
+    """
+
+    def _check_diff(diff, criterion):
+        if ((pref_directions[criterion] == 'max' and diff > 0) or
+                (pref_directions[criterion] == 'min' and diff < 0)):
+            diff = abs(diff)
+        elif diff == 0:
+            pass
+        else:
+            diff = None
+        return diff
+
+    def _check_for_veto(performances_x, performances_y):
+        veto = False
         for c in criteria:
-            diff = performances[a][c] - performances[b][c]
-            if ((pref_directions[c] == 'max' and diff > 0) or
-                (pref_directions[c] == 'min' and diff < 0)):
-                diff = abs(diff)
-                if diff >= thresholds[c]['preference']:     #     diff >= p
+            if thresholds[c].get('veto') is None:
+                continue
+            diff = _check_diff(performances_x[c] - performances_y[c], c)
+            if diff > thresholds[c]['veto']:
+                veto = True
+                break
+        return veto
+
+    def _get_criteria_counts(x, y, performances_x, performances_y):
+        np = nq = ni = no = 0
+        for c in criteria:
+            diff = _check_diff(performances_x[c] - performances_y[c], c)
+            if diff:
+                if diff >= thresholds[c]['preference']:     # diff >= p
                     np += 1
                 elif diff > thresholds[c]['indifference']:  # q > diff < p
                     nq += 1
-                else:                                       #     diff <= q
+                else:                                       # diff <= q
                     ni += 1
             elif diff == 0:
                 no += 1
-        mtx_temp[a][b] = {'np': np, 'nq': nq, 'ni': ni, 'no': no}
-    # at this point we have filled mtx_temp and we can start calculating mtx_final
-    for pair in pairs:
-        a, b = pair
-        if a == b:
-            continue
-        aSb = mtx_temp[a][b]
-        bSa = mtx_temp[b][a]
-        try:
-            if bSa['np'] + bSa['nq'] == 0 and bSa['ni'] < aSb['np'] + aSb['ni']:
-                mtx_final[a][b] = 1.0
-                raise Exception
-            if bSa['np'] == 0:
-                if bSa['nq'] <= aSb['np'] and bSa['nq'] + bSa['ni'] < sum(aSb.values()):
-                    mtx_final[a][b] = 0.8
-                    raise Exception
-                if bSa['nq'] <= aSb['np'] + aSb['nq']:
-                    mtx_final[a][b] = 0.6
-                    raise Exception
+        return {'np': np, 'nq': nq, 'ni': ni, 'no': no}
+
+    def _get_credibility_values(comparables_x, comparables_y, comparables_perf_x,
+                                comparables_perf_y, credibility):
+        for x in comparables_x:
+            for y in comparables_y:
+                if x == y:
+                    credibility[x][y] = 1.0
+                    continue
+                # let's abbreviate these two for convenience
+                cc_xy = criteria_counts[x][y]
+                cc_yx = criteria_counts[y][x]
+                if (cc_yx['np'] + cc_yx['nq'] == 0 and
+                        cc_yx['ni'] < cc_xy['np'] + cc_xy['nq'] + cc_xy['ni']):
+                    credibility[x][y] = 1.0
+                    continue
+                elif cc_yx['np'] == 0:
+                    if (cc_yx['nq'] <= cc_xy['np'] and
+                            cc_yx['nq'] + cc_yx['ni'] < cc_xy['np'] + cc_xy['nq'] + cc_xy['ni']):
+                        credibility[x][y] = 0.8
+                        continue
+                    elif cc_yx['nq'] <= cc_xy['np'] + cc_xy['nq']:
+                        credibility[x][y] = 0.6
+                        continue
+                    else:
+                        credibility[x][y] = 0.4
+                elif cc_yx['np'] <= 1 and cc_xy['np'] >= len(criteria) // 2:  # "at least half"
+                    veto = _check_for_veto(comparables_perf_y[y], comparables_perf_x[x])
+                    if not veto:
+                        credibility[x][y] = 0.2
+                        continue
+                    else:
+                        credibility[x][y] = 0.0
+                        continue
                 else:
-                    mtx_final[a][b] = 0.4
-                    raise Exception
-            if bSa['np'] <= 1 and aSb['np'] >= len(criteria) // 2:  # "at least half"
-                for c in criteria:
-                    diff = performances[b][c] - performances[a][c]
-                    if ((pref_directions[c] == 'max' and diff > 0) or
-                        (pref_directions[c] == 'min' and diff < 0)):
-                        diff = abs(diff)
-                        if diff > thresholds[c]['veto']:
-                            mtx_final[a][b] = 0.0
-                            raise Exception
-                mtx_final[a][b] = 0.2
-            else:
-                mtx_final[a][b] = 0.0
-        except Exception:
-            continue
-    return mtx_final
+                    credibility[x][y] = 0.0
+                    continue
+        return credibility
 
-
-def get_input_data(input_dir):
-    file_names = (
-        'alternatives.xml',
-        'criteria.xml',
-        'performanceTable.xml',
-    )
-    trees = get_trees(input_dir, file_names)
-
-    criteria = px.getCriteriaID(trees['criteria'])
-    pref_directions = px.getCriteriaPreferenceDirections(trees['criteria'], criteria)
-    thresholds = px.getConstantThresholds(trees['criteria'], criteria)
-    performances = px.getPerformanceTable(trees['performanceTable'], None, None)
-
-    ret = {
-        'criteria': criteria,
-        'performances': performances,
-        'pref_directions': pref_directions,
-        'thresholds': thresholds,
-    }
-    return ret
-
-
-def credibility_to_xmcda(credibility):
-    xmcda = etree.Element('alternativesComparisons')
-    pairs = etree.SubElement(xmcda, 'pairs')
-    for alt1 in credibility.iterkeys():
-        for alt2 in credibility[alt1].iterkeys():
-            pair = etree.SubElement(pairs, 'pair')
-            initial = etree.SubElement(pair, 'initial')
-            alt_id = etree.SubElement(initial, 'alternativeID')
-            alt_id.text = alt1
-            terminal = etree.SubElement(pair, 'terminal')
-            alt_id = etree.SubElement(terminal, 'alternativeID')
-            alt_id.text = alt2
-            value = etree.SubElement(pair, 'value')
-            v = etree.SubElement(value, 'real')
-            v.text = str(credibility[alt1][alt2])
-    return xmcda
+    two_way_comparison = True if comparables_a != comparables_b else False
+    criteria_counts = Vividict()
+    for a in comparables_a:
+        for b in comparables_b:
+            criteria_counts[a][b] = _get_criteria_counts(a, b, comparables_perf_a[a],
+                                                         comparables_perf_b[b])
+            if two_way_comparison:
+                criteria_counts[b][a] = _get_criteria_counts(b, a, comparables_perf_b[b],
+                                                             comparables_perf_a[a])
+    credibility = Vividict()
+    credibility = _get_credibility_values(comparables_a, comparables_b,
+                                          comparables_perf_a, comparables_perf_b,
+                                          credibility)
+    if two_way_comparison:
+        credibility = _get_credibility_values(comparables_b, comparables_a,
+                                              comparables_perf_b, comparables_perf_a,
+                                              credibility)
+    return credibility
 
 
 def main():
     try:
         args = docopt(__doc__, version=__version__)
         input_dir, output_dir = get_dirs(args)
-        input_data = get_input_data(input_dir)
+        filenames = [
+            # every tuple below == (filename, is_optional)
+            ('alternatives.xml', False),
+            ('categories_profiles.xml', True),
+            ('criteria.xml', False),
+            ('method_parameters.xml', False),
+            ('performance_table.xml', False),
+            ('profiles_performance_table.xml', True),
+        ]
+        params = [
+            'alternatives',
+            'categories_profiles',
+            'comparison_with',
+            'criteria',
+            'performances',
+            'pref_directions',
+            'profiles_performance_table',
+            'thresholds',
+        ]
+        d = get_input_data(input_dir, filenames, params)
 
-        performances = input_data['performances']
-        criteria = input_data['criteria']
-        thresholds = input_data['thresholds']
-        pref_directions = input_data['pref_directions']
+        # getting the elements to compare
+        comparables_a = d.alternatives
+        comparables_perf_a = d.performances
+        if d.comparison_with in ('boundary_profiles', 'central_profiles'):
+            comparables_b = d.categories_profiles
+            comparables_perf_b = d.profiles_performance_table
+        else:
+            comparables_b = d.alternatives
+            comparables_perf_b = d.performances
 
-        credibility = get_credibility(performances, criteria, thresholds,
-                                      pref_directions)
+        credibility = get_credibility(
+            comparables_a,
+            comparables_perf_a,
+            comparables_b,
+            comparables_perf_b,
+            d.criteria,
+            d.pref_directions,
+            d.thresholds,
+        )
 
-        xmcda = credibility_to_xmcda(credibility)
+        # serialization etc.
+        if d.comparison_with in ('boundary_profiles', 'central_profiles'):
+            mcda_concept = 'alternativesProfilesComparisons'
+        else:
+            mcda_concept = None
+        comparables = (comparables_a, comparables_b)
+        xmcda = comparisons_to_xmcda(credibility, comparables, mcda_concept=mcda_concept)
         write_xmcda(xmcda, os.path.join(output_dir, 'credibility.xml'))
         create_messages_file(('Everything OK.',), None, output_dir)
         return 0

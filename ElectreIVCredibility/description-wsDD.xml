@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
-  <program provider="PUT" name="ElectreIVCredibility" displayName="ElectreIVCredibility" version="0.1.0" />
+  <program provider="PUT" name="ElectreIVCredibility" displayName="ElectreIVCredibility" version="0.9.0" />
   <documentation>
-    <description>Computes credibility matrix as presented in Electre IV method.
+    <description>ElectreIVCredibility - computes credibility matrix as presented in Electre IV method.
+
+The key feature of this module is its flexibility in terms of the types of elements allowed to compare, i.e. alternatives vs alternatives, alternatives vs boundary profiles and alternatives vs central (characteristic) profiles.
 
 Electre IV is a method based on the construction of a set of embedded outranking relations (similarly to Electre III). There are five such relations, and every subsequent one accepts an outranking in a less credible circumstances.
 
@@ -19,18 +21,70 @@ Please note that Electre IV is not the same method as Electre Iv.</description>
       <xmcda tag="alternatives" />
     </input>
 
-    <input id="input2" name="criteria" displayName="criteria" isoptional="0">
+    <input id="input2" name="categories_profiles" displayName="categories_profiles" isoptional="1">
+      <documentation>
+        <description>Definitions of profiles (boundary or central) which should be used for categories (classes) representation.</description>
+      </documentation>
+      <xmcda tag="categoriesProfiles" />
+    </input>
+
+    <input id="input3" name="criteria" displayName="criteria" isoptional="0">
       <documentation>
         <description>Criteria to consider, possibly with preference, indifference and veto thresholds. Each criterion must have a preference direction specified (min or max).</description>
       </documentation>
       <xmcda tag="criteria"/>
     </input>
 
-    <input id="input3" name="performanceTable" displayName="performanceTable" isoptional="0">
+    <input id="input4" name="performance_table" displayName="performance_table" isoptional="0">
       <documentation>
         <description>The performance of alternatives.</description>
       </documentation>
       <xmcda tag="performanceTable" />
+    </input>
+
+    <input id="input5" name="profiles_performance_table" displayName="profiles_performance_table" isoptional="1">
+      <documentation>
+        <description>The performance of profiles (boundary or central).</description>
+      </documentation>
+      <xmcda tag="performanceTable" />
+    </input>
+
+    <input id="input6" name="method_parameters" displayName="method_parameters" isoptional="0">
+      <documentation>
+        <description>This parameter specifies the type of elements provided for comparison.
+
+Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'categoriesProfiles' and 'profilesPerformanceTable' as well (which are optional by default).</description>
+      </documentation>
+      <xmcda tag="methodParameters">
+        <![CDATA[
+        <methodParameters>
+          <parameter name="comparison_with">
+            <value>
+              <label>%1</label>
+            </value>
+          </parameter>
+        </methodParameters>
+        ]]>
+      </xmcda>
+      <gui status="preferGUI">
+        <entry id="%1" type="enum" displayName="comparison_with">
+          <items>
+            <item id="item0">
+              <description>alternatives vs alternatives</description>
+              <value>alternatives</value>
+            </item>
+            <item id="item1">
+              <description>alternatives vs boundary profiles</description>
+              <value>boundary_profiles</value>
+            </item>
+            <item id="item2">
+              <description>alternatives vs central (characteristic) profiles</description>
+              <value>central_profiles</value>
+            </item>
+          </items>
+          <defaultValue>item0</defaultValue>
+        </entry>
+      </gui>
     </input>
 
     <output id="output1" name="credibility" displayName="credibility">

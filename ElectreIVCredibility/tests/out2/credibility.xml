@@ -2,14 +2,69 @@
 <xmcda:XMCDA xmlns:xmcda='http://www.decision-deck.org/2012/XMCDA-2.2.0'
   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
   xsi:schemaLocation='http://www.decision-deck.org/2012/XMCDA-2.2.0 http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.0.xsd'>
-<alternativesComparisons>
+<alternativesComparisons mcdaConcept="alternativesProfilesComparisons">
   <pairs>
     <pair>
       <initial>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>a01</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <value>
+        <real>0.0</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a01</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <value>
+        <real>0.8</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a02</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <value>
+        <real>0.0</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a02</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <value>
+        <real>0.2</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a03</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <value>
+        <real>0.4</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a03</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
       </terminal>
       <value>
         <real>1.0</real>
@@ -17,10 +72,10 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>a04</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>fra</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </terminal>
       <value>
         <real>0.0</real>
@@ -28,21 +83,65 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>a04</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>aut</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </terminal>
       <value>
-        <real>0.6</real>
+        <real>0.8</real>
       </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>a05</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <value>
+        <real>0.4</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a05</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <value>
+        <real>0.8</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a06</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <value>
+        <real>0.0</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a06</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <value>
+        <real>0.8</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a01</alternativeID>
       </terminal>
       <value>
         <real>0.2</real>
@@ -50,32 +149,10 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>ita</alternativeID>
-      </terminal>
-      <value>
-        <real>0.2</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ger</alternativeID>
-      </terminal>
-      <value>
-        <real>0.2</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>fra</alternativeID>
+        <alternativeID>a02</alternativeID>
       </terminal>
       <value>
         <real>1.0</real>
@@ -83,43 +160,10 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>fra</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>aut</alternativeID>
-      </terminal>
-      <value>
-        <real>0.2</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>bel</alternativeID>
-      </terminal>
-      <value>
-        <real>0.2</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ita</alternativeID>
-      </terminal>
-      <value>
-        <real>0.2</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>aut</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>a03</alternativeID>
       </terminal>
       <value>
         <real>0.0</real>
@@ -127,21 +171,21 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>aut</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>fra</alternativeID>
+        <alternativeID>a04</alternativeID>
       </terminal>
       <value>
-        <real>0.2</real>
+        <real>0.4</real>
       </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>aut</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>aut</alternativeID>
+        <alternativeID>a05</alternativeID>
       </terminal>
       <value>
         <real>1.0</real>
@@ -149,21 +193,21 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>aut</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>a06</alternativeID>
       </terminal>
       <value>
-        <real>0.2</real>
+        <real>0.8</real>
       </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>aut</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>a01</alternativeID>
       </terminal>
       <value>
         <real>0.0</real>
@@ -171,21 +215,10 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>ger</alternativeID>
-      </terminal>
-      <value>
-        <real>0.2</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>bel</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>fra</alternativeID>
+        <alternativeID>a02</alternativeID>
       </terminal>
       <value>
         <real>0.0</real>
@@ -193,10 +226,10 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>aut</alternativeID>
+        <alternativeID>a03</alternativeID>
       </terminal>
       <value>
         <real>0.0</real>
@@ -204,21 +237,10 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>bel</alternativeID>
-      </terminal>
-      <value>
-        <real>1.0</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>bel</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>a04</alternativeID>
       </terminal>
       <value>
         <real>0.0</real>
@@ -226,10 +248,10 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>a05</alternativeID>
       </terminal>
       <value>
         <real>0.0</real>
@@ -237,46 +259,13 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>fra</alternativeID>
+        <alternativeID>a06</alternativeID>
       </terminal>
       <value>
-        <real>0.2</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ita</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>aut</alternativeID>
-      </terminal>
-      <value>
-        <real>0.2</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ita</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>bel</alternativeID>
-      </terminal>
-      <value>
-        <real>0.2</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ita</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ita</alternativeID>
-      </terminal>
-      <value>
-        <real>1.0</real>
+        <real>0.0</real>
       </value>
     </pair>
   </pairs>
