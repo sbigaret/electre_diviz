@@ -2,18 +2,9 @@
 <xmcda:XMCDA xmlns:xmcda='http://www.decision-deck.org/2012/XMCDA-2.2.0'
   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
   xsi:schemaLocation='http://www.decision-deck.org/2012/XMCDA-2.2.0 http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.0.xsd'>
-
-<methodParameters>
-  <parameter name="cut_threshold">
-    <value>
-      <real>1.0</real>
-    </value>
-  </parameter>
-  <parameter name="eliminate_cycles_method">
-    <value>
-      <label>aggregate</label>
-    </value>
-  </parameter>
-</methodParameters>
-
+<alternativesSet mcdaConcept="kernel">
+  <element>
+    <alternativeID>UW</alternativeID>
+  </element>
+</alternativesSet>
 </xmcda:XMCDA>

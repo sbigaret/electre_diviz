@@ -120,15 +120,19 @@ def get_input_data(input_dir, filenames, params):
     for p in params:
         if p == 'alternatives':
             d.alternatives = px.getAlternativesID(trees['alternatives'])
+
         elif p == 'categories_profiles':
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
             d.categories_profiles = _get_categories_profiles(trees.get('categories_profiles'),
                                                              comparison_with)
+
         elif p == 'categories_rank':
             categories = px.getCategoriesID(trees['categories'])
             d.categories_rank = px.getCategoriesRank(trees['categories'], categories)
+
         elif p == 'comparison_with':
             d.comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
+
         elif p == 'concordance':
             alternatives = px.getAlternativesID(trees['alternatives'])
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
@@ -139,17 +143,24 @@ def get_input_data(input_dir, filenames, params):
                                                              categories_profiles)
             else:
                 d.concordance = px.getAlternativesComparisons(trees['concordance'], alternatives)
+
         elif p == 'credibility':  # XXX dependence on method?
             alternatives = px.getAlternativesID(trees['alternatives'])
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            categories_profiles = _get_categories_profiles(trees['categories_profiles'],
-                                                           comparison_with)
-            d.credibility = get_alternatives_comparisons(trees['credibility'], alternatives,
-                                                         categories_profiles)
+            if comparison_with in ('boundary_profiles', 'central_profiles'):
+                categories_profiles = _get_categories_profiles(trees['categories_profiles'],
+                                                            comparison_with)
+            else:
+                categories_profiles = None
+            d.credibility = get_alternatives_comparisons(trees.get('credibility'), alternatives,
+                                                         categories_profiles=categories_profiles)
+
         elif p == 'criteria':
             d.criteria = px.getCriteriaID(trees['criteria'])
+
         elif p == 'cut_threshold':  # XXX check
             d.cut_threshold = px.getParameterByName(trees['method_parameters'], 'cut_threshold')
+
         elif p == 'discordance':  # XXX dependence on method?
             alternatives = px.getAlternativesID(trees['alternatives'])
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
@@ -163,38 +174,47 @@ def get_input_data(input_dir, filenames, params):
             d.discordance = get_alternatives_comparisons(trees['discordance'], alternatives,
                                                          categories_profiles=categories_profiles,
                                                          use_partials=use_partials)
+
         elif p == 'eliminate_cycles_method':
             d.eliminate_cycles_method = px.getParameterByName(trees['method_parameters'],
                                                               'eliminate_cycles_method')
+
         elif p == 'interactions':  # XXX check
             criteria = px.getCriteriaID(trees['criteria'])
             d.interactions = _get_criteria_interactions(trees['interactions'], criteria)
+
         elif p == 'outranking':
             alternatives = px.getAlternativesID(trees['alternatives'])
             outranking = get_intersection_distillation(trees['outranking'], alternatives)
             if outranking == None:
                 outranking = px.getAlternativesComparisons(trees['outranking'], alternatives)
             d.outranking = outranking
+
         elif p == 'performances':
             d.performances = px.getPerformanceTable(trees['performance_table'], None, None)
+
         elif p == 'pref_directions':
             criteria = px.getCriteriaID(trees['criteria'])
             d.pref_directions = px.getCriteriaPreferenceDirections(trees['criteria'], criteria)
+
         elif p == 'profiles_performance_table':
             if comparison_with in ('boundary_profiles', 'central_profiles'):
                 d.profiles_performance_table = px.getPerformanceTable(
                     trees['profiles_performance_table'], None, None)
             else:
                 d.profiles_performance_table = None
+
         elif p == 'thresholds':
             criteria = px.getCriteriaID(trees['criteria'])
             d.thresholds = px.getConstantThresholds(trees['criteria'], criteria)
+
         elif p == 'weights':
             criteria = px.getCriteriaID(trees['criteria'])
             d.weights = px.getCriterionValue(trees['weights'], criteria)
 
         elif p == 'z_function':
             d.z_function = px.getParameterByName(trees['method_parameters'], 'z_function')
+
         elif p == 'use_1_minus_C':
             parameter = px.getParameterByName(trees['method_parameters'], 'use_1_minus_C')
             d.use_1_minus_C = True if parameter == 'true' else False
@@ -202,13 +222,11 @@ def get_input_data(input_dir, filenames, params):
         elif p == 'use_partials':
             parameter = px.getParameterByName(trees['method_parameters'], 'use_partials')
             d.use_partials = True if parameter == 'true' else False
+
         else:
             raise RuntimeError("Unknown parameter '{}' specified.".format(p))
+
     return d
-
-
-def DivizError(Error):  # XXX not used anywhere
-    pass
 
 
 def get_dirs(args):
@@ -309,6 +327,8 @@ def get_alternatives_comparisons(xmltree, alternatives, categories_profiles=None
     # This function is only used by credibility and exploitation procedures.
     # 'use_partials' parameter designates whether the input contains 'partial'
     # (i.e. per-criterion) comparisons.
+    if xmltree is None:
+        return None
     if mcda_concept == None :
         str_search = ".//alternativesComparisons"
     else :

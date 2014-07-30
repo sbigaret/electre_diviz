@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
-  <program provider="PUT" name="ElectreIsFindKernel" displayName="ElectreIsFindKernel" version="0.1.0" />
+  <program provider="PUT" name="ElectreIsFindKernel" displayName="ElectreIsFindKernel" version="0.9.0" />
   <documentation>
-    <description>Finds kernel of a graph (i.e. subset of best alternatives) according to the procedure used by the Electre Is method.
+    <description>ElectreIsFindKernel - finds kernel of a graph (i.e. subset of best alternatives) according to the procedure used by the Electre Is method. The graph is generated from the outranking matrix provided as one of the input files.
 
-The graph is generated from outranking matrix provided as one of the input files. If credibility matrix is provided instead, edges are created only for pairs of alternatives where credibility index is greater than cut threshold provided (and in such case a weight equal to the value of this index is added to the edge).
-
-This module provides two methods of cycle elimination: by cutting weakest edge (i.e.  with lowest weight, if weights are added to edges) or by aggregation of nodes (which is the default). Please note that these two methods may give different results.</description>
+This module provides two methods of cycle elimination: by cutting weakest edge (i.e. with the lowest weight) or by aggregation of the nodes, which is the default. In case of the former method, it is required to provide a credibility matrix as an additional input, since weights are derived from credibility indices. Please note that these two methods may give different results.</description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>
@@ -19,52 +17,37 @@ This module provides two methods of cycle elimination: by cutting weakest edge (
       <xmcda tag="alternatives" />
     </input>
 
-    <input id="input2" name="outranking" displayName="outranking" isoptional="0">
+    <input id="input2" name="credibility" displayName="credibility" isoptional="1">
       <documentation>
-        <description>The outranking (or credibility) matrix which should be used as a base for generated graph. When credibility matrix is provided as input, it is important to set cut_threshold accordingly, because it's default value (1.0) may generate a graph which will be different than expected.</description>
+        <description>The credibility matrix for determining the weights of the generated graph. This input is required only if the 'cut_weakest' option is used for cycle elimination.</description>
       </documentation>
       <xmcda tag="alternativesComparisons"/>
     </input>
 
-    <input id="input3" name="method_parameters" displayName="method_parameters" isoptional="0">
+    <input id="input3" name="outranking" displayName="outranking" isoptional="0">
       <documentation>
-        <description>A set of parameters (with sensible defaults) to tune up the module's operation.</description>
+        <description>The outranking matrix which should be used as a base for generated graph.</description>
+      </documentation>
+      <xmcda tag="alternativesComparisons"/>
+    </input>
+
+    <input id="input4" name="method_parameters" displayName="method_parameters" isoptional="0">
+      <documentation>
+        <description>Method for cycle elimination. Please note that 'cut_weakest' method requires providing credibility matrix as an additional input.</description>
       </documentation>
       <xmcda tag="methodParameters">
         <![CDATA[
         <methodParameters>
-          <parameter name="cut_threshold">
-            <value>
-              <real>%1</real>
-            </value>
-          </parameter>
           <parameter name="eliminate_cycles_method">
             <value>
-              <label>%2</label>
+              <label>%1</label>
             </value>
           </parameter>
         </methodParameters>
         ]]>
       </xmcda>
       <gui status="preferGUI">
-        <entry id="%1" type="float" displayName="cut_threshold">
-          <documentation>
-            <description>Cut threshold for graph construction.</description>
-          </documentation>
-          <constraint>
-            <description>The value should be in range <![CDATA[<0, 1>]]>.</description>
-            <code>
-              <![CDATA[
-              0.0 <= %1 && %1 <= 1.0
-              ]]>
-            </code>
-          </constraint>
-          <defaultValue>1.0</defaultValue>
-        </entry>
-        <entry id="%2" type="enum" displayName="eliminate_cycles_method">
-          <documentation>
-            <description>Method for cycle elimination.</description>
-          </documentation>
+        <entry id="%1" type="enum" displayName="eliminate_cycles_method">
           <items>
             <item id="item0">
               <description>aggregate nodes</description>

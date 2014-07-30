@@ -2,28 +2,21 @@
 
 """
 ElectreIsFindKernel - finds kernel of a graph (i.e. subset of best
-alternatives) according to the procedure used by the Electre Is method.
-
-The graph is generated from outranking matrix provided as one of the input
-files. If credibility matrix is provided instead, edges are created only for
-pairs of alternatives where credibility index is greater than cut threshold
-provided (and in such case a weight equal to the value of this index is added
-to the edge).
+alternatives) according to the procedure used by the Electre Is method. The
+graph is generated from the outranking matrix provided as one of the input
+files.
 
 This module provides two methods of cycle elimination: by cutting weakest edge
-(i.e.  with lowest weight, if weights are added to edges) or by aggregation of
-nodes, which is the default. Please note that these two methods may give
-different results.
+(i.e. with the lowest weight) or by aggregation of the nodes, which is the
+default. In case of the former method, it is required to provide a credibility
+matrix as an additional input, since weights are derived from credibility
+indices. Please note that these two methods may give different results.
 
 Usage:
     ElectreIsFindKernel.py -i DIR -o DIR
 
 Options:
-    -i DIR     Specify input directory. It should contain following files
-               (otherwise program will throw an error):
-                   alternatives.xml
-                   method_parameters.xml
-                   outranking.xml
+    -i DIR     Specify input directory.
     -o DIR     Specify output directory.
     --version  Show version.
     -h --help  Show this screen.
@@ -44,29 +37,25 @@ from docopt import docopt
 from lxml import etree
 from networkx import DiGraph
 from networkx.algorithms.cycles import simple_cycles
-import PyXMCDA as px
 
 from common import (
     get_dirs,
     get_error_message,
-    get_trees,
-    get_intersection_distillation,
-    check_cut_threshold,
+    get_input_data,
     create_messages_file,
     write_xmcda,
 )
 
-__version__ = '0.1.0'
+__version__ = '0.9.0'
 
-
-def build_graph(alternatives, outranking, cut_threshold):
+def build_graph(alternatives, outranking, credibility=False):
     # There are some conventions to follow here:
     # 1. labels (i.e. alternatives' ids) are kept in graph's dictionary (see: graph.graph)
     # 2. aggregated nodes (only numbers, as list) are kept under 'aggr' key in node's
     #    dict (see: graph.nodes(data=True))
     # 3. weights on the edges are kept under 'weight' key in edge's dict - similarly as
     #    with nodes (see: graph.edges(data=True))
-    graph = DiGraph()
+    graph = DiGraph()  # we need directed graph for this
     # creating nodes...
     for i, alternative in enumerate(alternatives):
         graph.add_node(i)
@@ -77,8 +66,9 @@ def build_graph(alternatives, outranking, cut_threshold):
         if not relations:  # if graph is built from intersectionDistillation
             continue
         for relation in relations.items():
-            if relation[1] >= cut_threshold:
-                graph.add_edge(i, alternatives.index(relation[0]), weight=relation[1])
+            if relation[1] == 1.0:
+                weight = credibility[alternative][relation[0]] if credibility else None
+                graph.add_edge(i, alternatives.index(relation[0]), weight=weight)
     return graph
 
 
@@ -196,7 +186,6 @@ def find_kernel(graph, eliminate_cycles_method):
             # we are checking just the first one
             if not g.edges(data=True)[0][2].get('weight'):
                 raise RuntimeError("Can't use 'cut_weakest' method because input graph has no weights.")
-                # XXX maybe a fallback to 'aggregate' would be a good idea here?
             eliminate_fun = _cut_weakest
         else:  # 'aggregate' method
             eliminate_fun = _aggregate_nodes
@@ -210,7 +199,7 @@ def find_kernel(graph, eliminate_cycles_method):
     graph = _remove_selfloops(graph)
     graph = _eliminate_cycles(graph, eliminate_cycles_method)
     kernel = []
-    # XXX this routine below needs refactoring (those names w/ underscore postfixes)
+    # XXX yes, I don't like those names with underscore postfixes either
     predecessors_per_node = {node: graph.predecessors(node) for node in graph.nodes()}
     while len(predecessors_per_node) > 0:
         for node, predecessors in predecessors_per_node.iteritems():
@@ -224,39 +213,10 @@ def find_kernel(graph, eliminate_cycles_method):
                         for predecessors__ in predecessors_per_node.itervalues():
                             if node_ in predecessors__:
                                 predecessors__.remove(node_)
-                for node_to_remove in nodes_to_remove:  # removing nodes added to the kernel
+                for node_to_remove in nodes_to_remove:  # remove nodes added to the kernel
                     predecessors_per_node.pop(node_to_remove)
                 break
     return kernel, graph
-
-
-def get_input_data(input_dir):
-    file_names = (
-        'alternatives.xml',
-        'method_parameters.xml',
-        'outranking.xml',
-    )
-    trees = get_trees(input_dir, file_names)
-
-    alternatives = px.getAlternativesID(trees['alternatives'])
-    alternatives.sort()
-    outranking = get_intersection_distillation(trees['outranking'], alternatives)
-    if outranking == None:
-        outranking = px.getAlternativesComparisons(trees['outranking'], alternatives)
-    eliminate_cycles_method = px.getParameterByName(trees['method_parameters'],
-                                                    'eliminate_cycles_method')
-    if eliminate_cycles_method not in ['aggregate', 'cut_weakest']:
-        raise RuntimeError("Invalid/missing method for cycle elimination.")
-    cut_threshold = px.getParameterByName(trees['method_parameters'], 'cut_threshold')
-    check_cut_threshold(cut_threshold)
-
-    ret = {
-        'alternatives': alternatives,
-        'cut_threshold': cut_threshold,
-        'eliminate_cycles_method': eliminate_cycles_method,
-        'outranking': outranking,
-    }
-    return ret
 
 
 def get_kernel_as_labels(kernel, g):
@@ -273,9 +233,9 @@ def get_kernel_as_labels(kernel, g):
     return kernel_as_labels
 
 
-def kernel_to_xmcda(kernel_as_labels):
+def kernel_to_xmcda(kernel):
     xmcda = etree.Element('alternativesSet', mcdaConcept="kernel")
-    for alternative in kernel_as_labels:
+    for alternative in kernel:
         element = etree.SubElement(xmcda, 'element')
         alt_id = etree.SubElement(element, 'alternativeID')
         alt_id.text = alternative
@@ -286,19 +246,30 @@ def main():
     try:
         args = docopt(__doc__, version=__version__)
         input_dir, output_dir = get_dirs(args)
-        input_data = get_input_data(input_dir)
+        filenames = [
+            # every tuple below == (filename, is_optional)
+            ('alternatives.xml', False),
+            ('credibility.xml', True),
+            ('method_parameters.xml', False),
+            ('outranking.xml', False),
+        ]
+        params = [
+            'alternatives',
+            'credibility',
+            'eliminate_cycles_method',
+            'outranking',
+        ]
+        d = get_input_data(input_dir, filenames, params)
 
-        alternatives = input_data['alternatives']
-        cut_threshold = input_data['cut_threshold']
-        eliminate_cycles_method = input_data['eliminate_cycles_method']
-        outranking = input_data['outranking']
+        if d.eliminate_cycles_method == 'cut_weakest' and not d.credibility:
+            raise RuntimeError("'cut_weakest' option requires credibility as "
+                               "an additional input (apart from outranking).")
 
-        graph = build_graph(alternatives, outranking, cut_threshold)
+        graph = build_graph(d.alternatives, d.outranking, d.credibility)
         # because of the 'eliminate_cycles' routine used by 'find_kernel, a graph
         # is returned with the kernel which allows for further examination
-        kernel, graph = find_kernel(graph, eliminate_cycles_method)
-
-        kernel_as_labels = get_kernel_as_labels(kernel, graph)
+        kernel, graph_without_cycles = find_kernel(graph, d.eliminate_cycles_method)
+        kernel_as_labels = get_kernel_as_labels(kernel, graph_without_cycles)
         xmcda = kernel_to_xmcda(kernel_as_labels)
         write_xmcda(xmcda, os.path.join(output_dir, 'kernel.xml'))
         create_messages_file(('Everything OK.',), None, output_dir)
@@ -308,7 +279,6 @@ def main():
         err_msg = get_error_message(err)
         create_messages_file(None, (err_msg, ), output_dir)
         return 1
-
 
 if __name__ == '__main__':
     sys.exit(main())
