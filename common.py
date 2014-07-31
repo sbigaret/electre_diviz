@@ -27,7 +27,7 @@ class InputData(object):
     pass
 
 
-def get_input_data(input_dir, filenames, params):
+def get_input_data(input_dir, filenames, params, **kwargs):
     # This functions is pretty big and ugly, but at least it's easier to maintain
     # since everything now is in one place instead of being scattered/duplicated
     # amongst many different modules.
@@ -122,7 +122,9 @@ def get_input_data(input_dir, filenames, params):
             d.alternatives = px.getAlternativesID(trees['alternatives'])
 
         elif p == 'categories_profiles':
-            comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
+            comparison_with = kwargs.get('comparison_with')
+            if comparison_with is None:
+                comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
             d.categories_profiles = _get_categories_profiles(trees.get('categories_profiles'),
                                                              comparison_with)
 
@@ -146,7 +148,9 @@ def get_input_data(input_dir, filenames, params):
 
         elif p == 'credibility':  # XXX dependence on method?
             alternatives = px.getAlternativesID(trees['alternatives'])
-            comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
+            comparison_with = kwargs.get('comparison_with')
+            if not comparison_with:
+                comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
             if comparison_with in ('boundary_profiles', 'central_profiles'):
                 categories_profiles = _get_categories_profiles(trees['categories_profiles'],
                                                             comparison_with)
@@ -248,6 +252,8 @@ def comparisons_to_xmcda(comparisons, comparables, use_partials=False, mcda_conc
             value_type = 'real'
         elif type(value) == int:
             value_type = 'integer'
+        elif type(value) in (str, unicode):
+            value_type = 'label'
         else:
             raise RuntimeError("Unknown type '{}'.".format(type(value)))
         return value_type

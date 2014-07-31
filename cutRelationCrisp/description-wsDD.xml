@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
-  <program provider="PUT" name="ElectreConcordance" displayName="ElectreConcordance" version="0.9.0" />
+  <program provider="PUT" name="cutRelationCrisp" displayName="cutRelationCrisp" version="0.1.0" />
   <documentation>
-    <description>Computes concordance matrix using procedure which is common to the most methods from the Electre family.
+    <description>cutRelationCrisp - this module applies a cut threshold and determines the type of the outranking relation between given pairs of alternatives or alternatives/profiles (boundary or central).
 
-The key feature of this module is its flexibility in terms of the types of elements allowed to compare, i.e. alternatives vs alternatives, alternatives vs boundary profiles and alternatives vs central (characteristic) profiles.
+The possible relations are 'preference', 'indifference' and 'incomparability'.  The output is produced for all pairs provided as input - therefore, in case of getting a 'preference' relation, which is unidirectional, the other direction's relation (or rather, lack of thereof) will be denoted as 'none'.</description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>
@@ -24,39 +24,16 @@ The key feature of this module is its flexibility in terms of the types of eleme
       <xmcda tag="categoriesProfiles" />
     </input>
 
-    <input id="input3" name="criteria" displayName="criteria" isoptional="0">
+    <input id="input3" name="credibility" displayName="credibility" isoptional="0">
       <documentation>
-        <description>Criteria to consider, possibly with preference, indifference and veto thresholds. Each criterion must have a preference direction specified (min or max).</description>
+        <description>Credibility matrix, which may be a result of comparison between alternatives or alternatives/profiles (boundary or central).</description>
       </documentation>
       <xmcda tag="criteria" />
     </input>
 
-    <input id="input4" name="performance_table" displayName="performance_table" isoptional="0">
+    <input id="input4" name="method_parameters" displayName="method_parameters" isoptional="0">
       <documentation>
-        <description>The performance of alternatives.</description>
-      </documentation>
-      <xmcda tag="performanceTable" />
-    </input>
-
-    <input id="input5" name="profiles_performance_table" displayName="profiles_performance_table" isoptional="1">
-      <documentation>
-        <description>The performance of profiles (boundary or central).</description>
-      </documentation>
-      <xmcda tag="performanceTable" />
-    </input>
-
-    <input id="input6" name="weights" displayName="weights" isoptional="0">
-      <documentation>
-        <description>Weights of criteria to consider.</description>
-      </documentation>
-      <xmcda tag="criteriaValues" />
-    </input>
-
-    <input id="input7" name="method_parameters" displayName="method_parameters" isoptional="0">
-      <documentation>
-        <description>This parameter specifies the type of elements provided for comparison.
-
-Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'categoriesProfiles' and 'profilesPerformanceTable' as well (which are optional by default).</description>
+        <description>A set of parameters (with sensible defaults) to tune up the module's operation.</description>
       </documentation>
       <xmcda tag="methodParameters">
         <![CDATA[
@@ -66,11 +43,19 @@ Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'ca
               <label>%1</label>
             </value>
           </parameter>
+          <parameter name="cut_threshold">
+            <value>
+              <real>%2</real>
+            </value>
+          </parameter>
         </methodParameters>
         ]]>
       </xmcda>
       <gui status="preferGUI">
         <entry id="%1" type="enum" displayName="comparison_with">
+          <documentation>
+            <description>Method for cycle elimination. Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'categoriesProfiles' and 'profilesPerformanceTable' as well (which are optional by default).</description>
+          </documentation>
           <items>
             <item id="item0">
               <description>alternatives vs alternatives</description>
@@ -87,12 +72,26 @@ Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'ca
           </items>
           <defaultValue>item0</defaultValue>
         </entry>
+        <entry id="%2" type="float" displayName="cut_threshold">
+          <documentation>
+            <description>Cut threshold (lambda) which should be applied to the given data.</description>
+          </documentation>
+          <constraint>
+            <description>The value should be in range <![CDATA[<0, 1>]]>.</description>
+            <code>
+              <![CDATA[
+                0.0 <= %1 && %1 <= 1.0
+              ]]>
+            </code>
+          </constraint>
+          <defaultValue>0.7</defaultValue>
+        </entry>
       </gui>
     </input>
 
-    <output id="output1" name="concordance" displayName="concordance">
+    <output id="output1" name="outranking" displayName="outranking">
       <documentation>
-        <description>Concordance matrix computed from the given data. This matrix aggregates partial concordances from all criteria into single concordance index per pair of alternatives or alternatives/profiles.</description>
+        <description>Outranking relations calculated from the given data. Please note that the output is given as strings, i.e. 'preference', indifference', 'incomparability' or 'none'.</description>
       </documentation>
       <xmcda tag="alternativesComparisons" />
     </output>
