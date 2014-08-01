@@ -57,7 +57,7 @@ def get_input_data(input_dir, filenames, params, **kwargs):
     def _get_categories_profiles(tree, comparison_with):
         # XXX not sure if it's a good idea to return two different data types here, i.e.:
         # for boundary profiles: ['b1', 'b2', 'b3', 'b4']
-        # for central profiles: OrderedDict([('b1', 'C1'), ('b2', 'C2'), ('b3', 'C3'), ('b4', 'C4')])
+        # for central profiles: {'b4': 'C4', 'b5': 'C5', 'b1': 'C1', 'b2': 'C2', 'b3': 'C3'}
 
         def _get_profiles_ordering(last_found, profiles):
             """Gets the ordering of categories profiles."""
@@ -86,7 +86,15 @@ def get_input_data(input_dir, filenames, params, **kwargs):
             categories_profiles = []
             _get_profiles_ordering(None, categories_profiles)
         elif comparison_with == 'central_profiles':
-            categories_profiles = get_categories_profiles_central(tree)
+            categories_profiles = {}
+            for xmlprofile in tree.findall(".//categoryProfile"):
+                try:
+                    profile_id = xmlprofile.find("alternativeID").text
+                    category = xmlprofile.find("central/categoryID").text
+                    categories_profiles[profile_id] = category
+                except:
+                    categories_profiles = {}
+                    break
         else:
             raise RuntimeError("Wrong comparison type ('{}') specified.".format(comparison_with))
         return categories_profiles
@@ -325,6 +333,7 @@ def comparisons_to_xmcda(comparisons, comparables, use_partials=False, mcda_conc
 
 
 def assignments_to_xmcda(assignments):
+    # XXX maybe passing alternatives as a second argument and using them for sorting would be a good idea here?
     xmcda = etree.Element('alternativesAffectations')  # XXX affectations..?
     for assignment in sorted(assignments.items(), key=lambda x: x[0]):  # XXX same as in comparisons_to_xmcda
         alternative_assignment = etree.SubElement(xmcda, 'alternativeAffectation')
@@ -336,6 +345,7 @@ def assignments_to_xmcda(assignments):
 
 
 def assignments_as_intervals_to_xmcda(assignments):
+    # XXX maybe passing alternatives as a second argument and using them for sorting would be a good idea here?
     xmcda = etree.Element('alternativesAffectations')  # XXX affectations..?
     for assignment in sorted(assignments.items(), key=lambda x: x[0]):  # XXX same as in comparisons_to_xmcda
         alternative_assignment = etree.SubElement(xmcda, 'alternativeAffectation')
@@ -349,18 +359,6 @@ def assignments_as_intervals_to_xmcda(assignments):
         category_id = etree.SubElement(upper_bound, 'categoryID')
         category_id.text = assignment[1][1]  # 'ascending', 'optimistic', 'disjunctive'
     return xmcda
-
-
-def get_categories_profiles_central(categories_profiles_tree):
-    categoriesProfiles = OrderedDict()
-    for xmlprofile in categories_profiles_tree.findall(".//categoryProfile"):
-        try:
-            profile_id = xmlprofile.find("alternativeID").text
-            category = xmlprofile.find("central/categoryID").text
-            categoriesProfiles[profile_id] = category
-        except:
-            return {}
-    return categoriesProfiles
 
 
 def get_alternatives_comparisons(xmltree, alternatives, categories_profiles=None,
@@ -407,7 +405,7 @@ def get_alternatives_comparisons(xmltree, alternatives, categories_profiles=None
                 values = Vividict()
                 for value_node in value_nodes:
                     value_node_id = value_node.get("id")
-                    values[value_node_id] = _gat_value(value_node)
+                    values[value_node_id] = _get_value(value_node)
             if initial in alternatives or initial in categories_profiles:
                 if terminal in alternatives or terminal in categories_profiles:
                     if initial not in ret:

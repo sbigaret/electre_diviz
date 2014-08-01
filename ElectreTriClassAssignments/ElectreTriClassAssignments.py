@@ -27,6 +27,7 @@ import traceback
 from docopt import docopt
 
 from common import (
+    # assignments_as_intervals_to_xmcda,
     assignments_to_xmcda,
     create_messages_file,
     get_dirs,
@@ -79,8 +80,8 @@ def main():
         ]
         params = [
             'alternatives',
-            'categories_rank',
             'categories_profiles',
+            'categories_rank',
             'outranking',
         ]
         d = get_input_data(input_dir, filenames, params, comparison_with='boundary_profiles')

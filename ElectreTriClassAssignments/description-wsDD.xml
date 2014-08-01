@@ -17,7 +17,7 @@
 
     <input id="input2" name="categories" displayName="categories" isoptional="0">
       <documentation>
-        <description>Classes (categories) to be considered for alternatives assignment. Each class must have its rank provided as an integer, where the lowest number defines the most preferred class.</description>
+        <description>Definitions of the classes to be considered for the assignments. Each class must have its rank provided as an integer, where the lowest number defines the most preferred class.</description>
       </documentation>
       <xmcda tag="categories"/>
     </input>
