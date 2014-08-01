@@ -58,16 +58,33 @@ def get_input_data(input_dir, filenames, params, **kwargs):
         # XXX not sure if it's a good idea to return two different data types here, i.e.:
         # for boundary profiles: ['b1', 'b2', 'b3', 'b4']
         # for central profiles: OrderedDict([('b1', 'C1'), ('b2', 'C2'), ('b3', 'C3'), ('b4', 'C4')])
+
+        def _get_profiles_ordering(last_found, profiles):
+            """Gets the ordering of categories profiles."""
+            for i in categories_profiles_full.values():
+                if i.get('lower') == last_found:
+                    if i.get('upper') is None:
+                        return
+                    profiles.append(i.get('upper'))
+                    last_found = profiles[-1]
+                    break
+            _get_profiles_ordering(last_found, profiles)
+
         if comparison_with == 'alternatives':
             categories_profiles = None
         elif comparison_with == 'boundary_profiles':
-            # # categories_profiles e.g. ['pMG', 'pBM']
-            path = '//categoriesProfiles//alternativeID/text()'
-            categories_profiles = [profile for profile in tree.xpath(path)]
-            # # categories_names e.g. ['Bad', 'Medium', 'Good']
+            # ####### different options which are available here:
+            # ### categories_profiles e.g. ['pMG', 'pBM']
+            # path = '//categoriesProfiles//alternativeID/text()'
+            # categories_profiles = [profile for profile in tree.xpath(path)]
+            # ### categories_names e.g. ['Bad', 'Medium', 'Good']
             # categories_names = list(set(tree.xpath('//categoriesProfiles//limits//categoryID/text()')))
-            # # categories_profiles_full e.g. {'Bad': {'upper': 'pBM'}, 'Medium': {'upper': 'pMG', 'lower': 'pBM'}, 'Good': {'lower': 'pMG'}}
+            # ### categories_profiles_full e.g. {'Bad': {'upper': 'pBM'}, 'Medium': {'upper': 'pMG', 'lower': 'pBM'}, 'Good': {'lower': 'pMG'}}
             # categories_profiles_full = px.getCategoriesProfiles(tree, categories_names)  # tri class assign
+            categories_names = list(set(tree.xpath('//categoriesProfiles//limits//categoryID/text()')))
+            categories_profiles_full = px.getCategoriesProfiles(tree, categories_names)
+            categories_profiles = []
+            _get_profiles_ordering(None, categories_profiles)
         elif comparison_with == 'central_profiles':
             categories_profiles = get_categories_profiles_central(tree)
         else:
@@ -188,10 +205,17 @@ def get_input_data(input_dir, filenames, params, **kwargs):
             d.interactions = _get_criteria_interactions(trees['interactions'], criteria)
 
         elif p == 'outranking':
+            # XXX I don't really like how 'cutRelationCrisp' case is handled here
             alternatives = px.getAlternativesID(trees['alternatives'])
             outranking = get_intersection_distillation(trees['outranking'], alternatives)
             if outranking == None:
                 outranking = px.getAlternativesComparisons(trees['outranking'], alternatives)
+            if outranking == {}:  # XXX for cutRelationCrisp (alternativesComparisons with strings as values)
+                comparison_with = kwargs.get('comparison_with')
+                categories_profiles = _get_categories_profiles(trees.get('categories_profiles'),
+                                                               comparison_with)
+                outranking = get_alternatives_comparisons(trees['outranking'], alternatives,
+                                                          categories_profiles=categories_profiles)
             d.outranking = outranking
 
         elif p == 'performances':
@@ -300,19 +324,30 @@ def comparisons_to_xmcda(comparisons, comparables, use_partials=False, mcda_conc
     return xmcda
 
 
-def affectations_to_xmcda(affectations):
-    xmcda = etree.Element('alternativesAffectations')
-    for affectation in affectations.items():
-        alternativeAffectation = etree.SubElement(xmcda, 'alternativeAffectation')
-        alternativeID = etree.SubElement(alternativeAffectation, 'alternativeID')
-        alternativeID.text = affectation[0]
-        categoriesInterval = etree.SubElement(alternativeAffectation, 'categoriesInterval')
-        lowerBound = etree.SubElement(categoriesInterval, 'lowerBound')
-        categoryID = etree.SubElement(lowerBound, 'categoryID')
-        categoryID.text = affectation[1][0]  # 'descending', 'pessimistic', 'conjunctive'
-        upperBound = etree.SubElement(categoriesInterval, 'upperBound')
-        categoryID = etree.SubElement(upperBound, 'categoryID')
-        categoryID.text = affectation[1][1]  # 'ascending', 'optimistic', 'disjunctive'
+def assignments_to_xmcda(assignments):
+    xmcda = etree.Element('alternativesAffectations')  # XXX affectations..?
+    for assignment in sorted(assignments.items(), key=lambda x: x[0]):  # XXX same as in comparisons_to_xmcda
+        alternative_assignment = etree.SubElement(xmcda, 'alternativeAffectation')
+        alternative_id = etree.SubElement(alternative_assignment, 'alternativeID')
+        alternative_id.text = assignment[0]
+        category_id = etree.SubElement(alternative_assignment, 'categoryID')
+        category_id.text = assignment[1]
+    return xmcda
+
+
+def assignments_as_intervals_to_xmcda(assignments):
+    xmcda = etree.Element('alternativesAffectations')  # XXX affectations..?
+    for assignment in sorted(assignments.items(), key=lambda x: x[0]):  # XXX same as in comparisons_to_xmcda
+        alternative_assignment = etree.SubElement(xmcda, 'alternativeAffectation')
+        alternative_id = etree.SubElement(alternative_assignment, 'alternativeID')
+        alternative_id.text = assignment[0]
+        categories_interval = etree.SubElement(alternative_assignment, 'categoriesInterval')
+        lower_bound = etree.SubElement(categories_interval, 'lowerBound')
+        category_id = etree.SubElement(lower_bound, 'categoryID')
+        category_id.text = assignment[1][0]  # 'descending', 'pessimistic', 'conjunctive'
+        upper_bound = etree.SubElement(categories_interval, 'upperBound')
+        category_id = etree.SubElement(upper_bound, 'categoryID')
+        category_id.text = assignment[1][1]  # 'ascending', 'optimistic', 'disjunctive'
     return xmcda
 
 
@@ -330,9 +365,20 @@ def get_categories_profiles_central(categories_profiles_tree):
 
 def get_alternatives_comparisons(xmltree, alternatives, categories_profiles=None,
                                  use_partials=False, mcda_concept=None) :
-    # This function is only used by credibility and exploitation procedures.
     # 'use_partials' parameter designates whether the input contains 'partial'
     # (i.e. per-criterion) comparisons.
+
+    def _get_value(value_node):
+        if value_node.find('integer') is not None:
+            value = int(value_node.find('integer').text)
+        elif value_node.find('real') is not None:
+            value = float(value_node.find('real').text)
+        elif value_node.find('label') is not None:
+            value = value_node.find('label').text
+        else:
+            value = None
+        return value
+
     if xmltree is None:
         return None
     if mcda_concept == None :
@@ -348,45 +394,26 @@ def get_alternatives_comparisons(xmltree, alternatives, categories_profiles=None
             initial = pair.find("initial/alternativeID").text
             terminal = pair.find("terminal/alternativeID").text
             if not use_partials:
-                val = pair.find("value")
-                if val is None:
+                value_node = pair.find("value")
+                if value_node is None:
                     f = os.path.split(xmltree.base)[-1]
                     raise RuntimeError("Corrupted '{}' file or wrong value of 'use_partials' parameter.".format(f))
-                num_val = get_numeric_value(val)
+                value = _get_value(value_node)
             else:
-                vals = pair.find("values")
-                if vals is None:
+                value_nodes = pair.find("values")
+                if value_nodes is None:
                     f = os.path.split(xmltree.base)[-1]
                     raise RuntimeError("Corrupted '{}' file or wrong value of 'use_partials' parameter.".format(f))
-                num_vals = Vividict()
-                for val in vals:
-                    val_id = val.get("id")
-                    num_vals[val_id] = get_numeric_value(val)
+                values = Vividict()
+                for value_node in value_nodes:
+                    value_node_id = value_node.get("id")
+                    values[value_node_id] = _gat_value(value_node)
             if initial in alternatives or initial in categories_profiles:
                 if terminal in alternatives or terminal in categories_profiles:
                     if initial not in ret:
                         ret[initial] = Vividict()
-                    ret[initial][terminal] = num_vals if use_partials else num_val
+                    ret[initial][terminal] = values if use_partials else value
         return ret
-
-
-def get_numeric_value(xmltree) :
-    # Changed from PyXMCDA's original in order to handle both concordance
-    # and discordance. Only returns value if it is numeric.
-    try :
-        if xmltree.find("integer") != None :
-            val = int(xmltree.find("integer").text)
-        elif xmltree.find("real") != None :
-            val = float(xmltree.find("real").text)
-        elif xmltree.find("rational") != None :
-            val = float(xmltree.find("rational/numerator").text) / float(xmltree.find("rational/denominator").text)
-        elif xmltree.find("NA") != None :
-            val = "NA"
-        else :
-            val = None
-    except :
-        val = None
-    return val
 
 
 def write_xmcda(xmcda, filename):
