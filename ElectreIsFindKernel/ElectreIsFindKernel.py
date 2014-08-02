@@ -46,7 +46,7 @@ from common import (
     write_xmcda,
 )
 
-__version__ = '0.9.0'
+__version__ = '0.2.0'
 
 def build_graph(alternatives, outranking, credibility=False):
     # There are some conventions to follow here:

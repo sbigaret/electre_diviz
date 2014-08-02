@@ -41,7 +41,7 @@ from common import (
     Vividict,
 )
 
-__version__ = '0.9.0'
+__version__ = '0.2.0'
 
 
 def get_outranking_relation(comparables_a, comparables_b, credibility, cut_threshold):
