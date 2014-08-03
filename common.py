@@ -430,16 +430,19 @@ def print_xmcda(xmcda):
     print(etree.tostring(xmcda, pretty_print=True))
 
 
-def create_messages_file(log_msg, err_msg, out_dir):
-    with open(os.path.join(out_dir, 'messages.xml'), 'w') as f:
-        px.writeHeader(f)
-        if err_msg:
-            px.writeErrorMessages(f, err_msg)
-        elif log_msg:
-            px.writeLogMessages(f, log_msg)
-        else:
-            px.writeErrorMessages(f, ('Neither log nor error messages have been supplied.',))
-        px.writeFooter(f)
+def create_messages_file(error_messages, log_messages, out_dir):
+    xmcda = etree.Element('methodMessages')
+    if error_messages:
+        for err_msg in error_messages:
+            err_msg_node = etree.SubElement(xmcda, 'errorMessage')
+            err_msg_node_text = etree.SubElement(err_msg_node, 'text')
+            err_msg_node_text.text = etree.CDATA(err_msg.strip())
+    if log_messages:
+        for log_msg in log_messages:
+            log_msg_node = etree.SubElement(xmcda, 'logMessage')
+            log_msg_node_text = etree.SubElement(log_msg_node, 'text')
+            log_msg_node_text.text = etree.CDATA(log_msg.strip())
+    write_xmcda(xmcda, os.path.join(out_dir, 'messages.xml'))
 
 
 def get_intersection_distillation(xmltree, altId):

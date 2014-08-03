@@ -114,12 +114,13 @@ def main():
         # serialization etc.
         xmcda_intervals = assignments_as_intervals_to_xmcda(assignments)
         write_xmcda(xmcda_intervals, os.path.join(output_dir, 'assignments.xml'))
-        create_messages_file(('Everything OK.',), None, output_dir)
+        create_messages_file(None, ('Everything OK.',), output_dir)
         return 0
     except Exception, err:
-        traceback.print_exc()
         err_msg = get_error_message(err)
-        create_messages_file(None, (err_msg, ), output_dir)
+        log_msg = traceback.format_exc()
+        print(log_msg.strip())
+        create_messages_file((err_msg, ), (log_msg, ), output_dir)
         return 1
 
 
