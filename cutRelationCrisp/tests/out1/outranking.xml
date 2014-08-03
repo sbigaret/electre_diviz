@@ -9,6 +9,17 @@
         <alternativeID>a01</alternativeID>
       </initial>
       <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <value>
+        <label>preference</label>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a01</alternativeID>
+      </initial>
+      <terminal>
         <alternativeID>pMG</alternativeID>
       </terminal>
       <value>
@@ -17,7 +28,7 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>a01</alternativeID>
+        <alternativeID>a02</alternativeID>
       </initial>
       <terminal>
         <alternativeID>pBM</alternativeID>
@@ -39,28 +50,6 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>a02</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pBM</alternativeID>
-      </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a03</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pMG</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
         <alternativeID>a03</alternativeID>
       </initial>
       <terminal>
@@ -72,7 +61,7 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>a04</alternativeID>
+        <alternativeID>a03</alternativeID>
       </initial>
       <terminal>
         <alternativeID>pMG</alternativeID>
@@ -94,98 +83,21 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>a05</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pMG</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a05</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pBM</alternativeID>
-      </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a06</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pMG</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a06</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pBM</alternativeID>
-      </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a01</alternativeID>
-      </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a02</alternativeID>
-      </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a03</alternativeID>
-      </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
         <alternativeID>a04</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
       </terminal>
       <value>
-        <label>preference</label>
+        <label>none</label>
       </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
         <alternativeID>a05</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
       </terminal>
       <value>
         <label>preference</label>
@@ -193,13 +105,35 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>pMG</alternativeID>
+        <alternativeID>a05</alternativeID>
       </initial>
       <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <value>
+        <label>none</label>
+      </value>
+    </pair>
+    <pair>
+      <initial>
         <alternativeID>a06</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
       </terminal>
       <value>
         <label>preference</label>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a06</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <value>
+        <label>none</label>
       </value>
     </pair>
     <pair>
@@ -266,6 +200,72 @@
       </terminal>
       <value>
         <label>none</label>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a01</alternativeID>
+      </terminal>
+      <value>
+        <label>indifference</label>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a02</alternativeID>
+      </terminal>
+      <value>
+        <label>preference</label>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a03</alternativeID>
+      </terminal>
+      <value>
+        <label>preference</label>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a04</alternativeID>
+      </terminal>
+      <value>
+        <label>preference</label>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a05</alternativeID>
+      </terminal>
+      <value>
+        <label>preference</label>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a06</alternativeID>
+      </terminal>
+      <value>
+        <label>preference</label>
       </value>
     </pair>
   </pairs>

@@ -9,17 +9,6 @@
         <alternativeID>a01</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>pMG</alternativeID>
-      </terminal>
-      <value>
-        <real>0.7</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a01</alternativeID>
-      </initial>
-      <terminal>
         <alternativeID>pBM</alternativeID>
       </terminal>
       <value>
@@ -28,13 +17,13 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>a02</alternativeID>
+        <alternativeID>a01</alternativeID>
       </initial>
       <terminal>
         <alternativeID>pMG</alternativeID>
       </terminal>
       <value>
-        <real>0.0</real>
+        <real>0.7</real>
       </value>
     </pair>
     <pair>
@@ -50,13 +39,13 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>a03</alternativeID>
+        <alternativeID>a02</alternativeID>
       </initial>
       <terminal>
         <alternativeID>pMG</alternativeID>
       </terminal>
       <value>
-        <real>0.654</real>
+        <real>0.0</real>
       </value>
     </pair>
     <pair>
@@ -72,13 +61,13 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>a04</alternativeID>
+        <alternativeID>a03</alternativeID>
       </initial>
       <terminal>
         <alternativeID>pMG</alternativeID>
       </terminal>
       <value>
-        <real>0.0</real>
+        <real>0.654</real>
       </value>
     </pair>
     <pair>
@@ -94,13 +83,13 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>a05</alternativeID>
+        <alternativeID>a04</alternativeID>
       </initial>
       <terminal>
         <alternativeID>pMG</alternativeID>
       </terminal>
       <value>
-        <real>0.6181</real>
+        <real>0.0</real>
       </value>
     </pair>
     <pair>
@@ -116,13 +105,13 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>a06</alternativeID>
+        <alternativeID>a05</alternativeID>
       </initial>
       <terminal>
         <alternativeID>pMG</alternativeID>
       </terminal>
       <value>
-        <real>0.0</real>
+        <real>0.6181</real>
       </value>
     </pair>
     <pair>
@@ -138,68 +127,13 @@
     </pair>
     <pair>
       <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a01</alternativeID>
-      </terminal>
-      <value>
-        <real>0.7219</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a02</alternativeID>
-      </terminal>
-      <value>
-        <real>1.0</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a03</alternativeID>
-      </terminal>
-      <value>
-        <real>0.7891</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a04</alternativeID>
-      </terminal>
-      <value>
-        <real>0.829</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a05</alternativeID>
-      </terminal>
-      <value>
-        <real>1.0</real>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pMG</alternativeID>
-      </initial>
-      <terminal>
         <alternativeID>a06</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
       </terminal>
       <value>
-        <real>0.874</real>
+        <real>0.0</real>
       </value>
     </pair>
     <pair>
@@ -266,6 +200,72 @@
       </terminal>
       <value>
         <real>0.356</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a01</alternativeID>
+      </terminal>
+      <value>
+        <real>0.7219</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a02</alternativeID>
+      </terminal>
+      <value>
+        <real>1.0</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a03</alternativeID>
+      </terminal>
+      <value>
+        <real>0.7891</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a04</alternativeID>
+      </terminal>
+      <value>
+        <real>0.829</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a05</alternativeID>
+      </terminal>
+      <value>
+        <real>1.0</real>
+      </value>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a06</alternativeID>
+      </terminal>
+      <value>
+        <real>0.874</real>
       </value>
     </pair>
   </pairs>
