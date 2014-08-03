@@ -55,7 +55,7 @@ def get_input_data(input_dir, filenames, params, **kwargs):
         return obj
 
     def _get_categories_profiles(tree, comparison_with):
-        # XXX not sure if it's a good idea to return two different data types here, i.e.:
+        # XXX not sure if it's a good idea to return two different data structures here, i.e.:
         # for boundary profiles: ['b1', 'b2', 'b3', 'b4']
         # for central profiles: {'b4': 'C4', 'b5': 'C5', 'b1': 'C1', 'b2': 'C2', 'b3': 'C3'}
 

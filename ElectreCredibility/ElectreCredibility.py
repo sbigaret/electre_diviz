@@ -111,7 +111,7 @@ def main():
         # getting the elements to compare
         comparables_a = d.alternatives
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
-            comparables_b = d.categories_profiles
+            comparables_b = [i for i in d.categories_profiles]  # because of central_profiles being a dict
         else:
             comparables_b = d.alternatives
 

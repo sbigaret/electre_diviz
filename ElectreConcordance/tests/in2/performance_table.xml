@@ -2,7 +2,7 @@
 <xmcda:XMCDA xmlns:xmcda='http://www.decision-deck.org/2009/XMCDA-2.1.0' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.decision-deck.org/2009/XMCDA-2.1.0 http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.1.0.xsd'>
 <performanceTable>
   <alternativePerformances>
-    <alternativeID>a1</alternativeID>
+    <alternativeID>a01</alternativeID>
       <performance>
         <criterionID>g1</criterionID>
         <value>
@@ -35,7 +35,7 @@
       </performance>
   </alternativePerformances>
   <alternativePerformances>
-    <alternativeID>a2</alternativeID>
+    <alternativeID>a02</alternativeID>
       <performance>
         <criterionID>g1</criterionID>
         <value>
@@ -68,7 +68,7 @@
       </performance>
   </alternativePerformances>
   <alternativePerformances>
-    <alternativeID>a3</alternativeID>
+    <alternativeID>a03</alternativeID>
       <performance>
         <criterionID>g1</criterionID>
         <value>
@@ -101,7 +101,7 @@
       </performance>
   </alternativePerformances>
   <alternativePerformances>
-    <alternativeID>a4</alternativeID>
+    <alternativeID>a04</alternativeID>
       <performance>
         <criterionID>g1</criterionID>
         <value>
@@ -134,7 +134,7 @@
       </performance>
   </alternativePerformances>
   <alternativePerformances>
-    <alternativeID>a5</alternativeID>
+    <alternativeID>a05</alternativeID>
       <performance>
         <criterionID>g1</criterionID>
         <value>
@@ -167,7 +167,7 @@
       </performance>
   </alternativePerformances>
   <alternativePerformances>
-    <alternativeID>a6</alternativeID>
+    <alternativeID>a06</alternativeID>
       <performance>
         <criterionID>g1</criterionID>
         <value>
@@ -200,7 +200,7 @@
       </performance>
   </alternativePerformances>
   <alternativePerformances>
-    <alternativeID>a7</alternativeID>
+    <alternativeID>a07</alternativeID>
       <performance>
         <criterionID>g1</criterionID>
         <value>
@@ -233,7 +233,7 @@
       </performance>
   </alternativePerformances>
   <alternativePerformances>
-    <alternativeID>a8</alternativeID>
+    <alternativeID>a08</alternativeID>
       <performance>
         <criterionID>g1</criterionID>
         <value>
@@ -266,7 +266,7 @@
       </performance>
   </alternativePerformances>
   <alternativePerformances>
-    <alternativeID>a9</alternativeID>
+    <alternativeID>a09</alternativeID>
       <performance>
         <criterionID>g1</criterionID>
         <value>

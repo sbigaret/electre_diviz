@@ -120,7 +120,7 @@ def main():
         comparables_a = d.alternatives
         comparables_perf_a = d.performances
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
-            comparables_b = d.categories_profiles
+            comparables_b = [i for i in d.categories_profiles]  # because of central_profiles being a dict
             comparables_perf_b = d.profiles_performance_table
         else:
             comparables_b = d.alternatives
