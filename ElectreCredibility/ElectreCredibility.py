@@ -13,8 +13,15 @@ Usage:
     ElectreCredibility.py -i DIR -o DIR
 
 Options:
-    -i DIR     Specify input directory.
-    -o DIR     Specify output directory.
+    -i DIR     Specify input directory. It should contain the following files:
+                   alternatives.xml
+                   categories_profiles.xml (optional)
+                   concordance.xml
+                   discordance.xml
+                   method_parameters.xml
+    -o DIR     Specify output directory. Files generated as output:
+                   credibility.xml
+                   messages.xml
     --version  Show version.
     -h --help  Show this screen.
 """

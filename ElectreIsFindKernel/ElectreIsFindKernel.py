@@ -16,8 +16,14 @@ Usage:
     ElectreIsFindKernel.py -i DIR -o DIR
 
 Options:
-    -i DIR     Specify input directory.
-    -o DIR     Specify output directory.
+    -i DIR     Specify input directory. It should contain the following files:
+                   alternatives.xml
+                   credibility.xml (optional)
+                   method_parameters.xml
+                   outranking.xml
+    -o DIR     Specify output directory. Files generated as output:
+                   kernel.xml
+                   messages.xml
     --version  Show version.
     -h --help  Show this screen.
 """
