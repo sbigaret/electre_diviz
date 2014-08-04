@@ -70,9 +70,15 @@ def get_input_data(input_dir, filenames, params, **kwargs):
                     break
             _get_profiles_ordering(last_found, profiles)
 
+        if tree is None and comparison_with in ('boundary_profiles', 'central_profiles'):
+            raise RuntimeError(
+                "Missing definitions of profiles (did you forget to provide "
+                "'categories_profiles.xml' file?)."
+            )
         if comparison_with == 'alternatives':
             categories_profiles = None
         elif comparison_with == 'boundary_profiles':
+            categories_profiles = []
             # ####### different options which are available here:
             # ### categories_profiles e.g. ['pMG', 'pBM']
             # path = '//categoriesProfiles//alternativeID/text()'
@@ -83,7 +89,6 @@ def get_input_data(input_dir, filenames, params, **kwargs):
             # categories_profiles_full = px.getCategoriesProfiles(tree, categories_names)  # tri class assign
             categories_names = list(set(tree.xpath('//categoriesProfiles//limits//categoryID/text()')))
             categories_profiles_full = px.getCategoriesProfiles(tree, categories_names)
-            categories_profiles = []
             _get_profiles_ordering(None, categories_profiles)
         elif comparison_with == 'central_profiles':
             categories_profiles = {}
@@ -181,7 +186,13 @@ def get_input_data(input_dir, filenames, params, **kwargs):
                                                             comparison_with)
             else:
                 categories_profiles = None
-            d.credibility = get_alternatives_comparisons(trees.get('credibility'), alternatives,
+            eliminate_cycles_method = px.getParameterByName(trees.get('method_parameters'),
+                                                            'eliminate_cycles_method')
+            tree = trees.get('credibility')
+            if eliminate_cycles_method == 'cut_weakest' and tree is None:
+                raise RuntimeError("'cut_weakest' option requires credibility as "
+                                   "an additional input (apart from outranking).")
+            d.credibility = get_alternatives_comparisons(tree, alternatives,
                                                          categories_profiles=categories_profiles)
 
         elif p == 'criteria':
@@ -235,8 +246,13 @@ def get_input_data(input_dir, filenames, params, **kwargs):
 
         elif p == 'profiles_performance_table':
             if comparison_with in ('boundary_profiles', 'central_profiles'):
-                d.profiles_performance_table = px.getPerformanceTable(
-                    trees['profiles_performance_table'], None, None)
+                tree = trees.get('profiles_performance_table')
+                if tree is None:
+                    raise RuntimeError(
+                        "Missing performance table for profiles (did you forget to provide "
+                        "'profiles_performance_table.xml' file?)."
+                    )
+                d.profiles_performance_table = px.getPerformanceTable(tree, None, None)
             else:
                 d.profiles_performance_table = None
 

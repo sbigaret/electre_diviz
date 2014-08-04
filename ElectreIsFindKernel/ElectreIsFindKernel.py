@@ -268,10 +268,6 @@ def main():
         ]
         d = get_input_data(input_dir, filenames, params)
 
-        if d.eliminate_cycles_method == 'cut_weakest' and not d.credibility:
-            raise RuntimeError("'cut_weakest' option requires credibility as "
-                               "an additional input (apart from outranking).")
-
         graph = build_graph(d.alternatives, d.outranking, d.credibility)
         # because of the 'eliminate_cycles' routine used by 'find_kernel, a graph
         # is returned with the kernel which allows for further examination
