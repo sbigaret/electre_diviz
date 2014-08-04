@@ -198,8 +198,14 @@ def get_input_data(input_dir, filenames, params, **kwargs):
         elif p == 'criteria':
             d.criteria = px.getCriteriaID(trees['criteria'])
 
-        elif p == 'cut_threshold':  # XXX check
-            d.cut_threshold = px.getParameterByName(trees['method_parameters'], 'cut_threshold')
+        elif p == 'cut_threshold':
+            cut_threshold = px.getParameterByName(trees['method_parameters'], 'cut_threshold')
+            if cut_threshold is None or not (0 <= float(cut_threshold) <= 1):
+                raise RuntimeError(
+                    "'cut_threshold' should be in range [0, 1] "
+                    "(most commonly used values are 0.6 or 0.7)."
+                )
+            d.cut_threshold = cut_threshold
 
         elif p == 'discordance':  # XXX dependence on method?
             alternatives = px.getAlternativesID(trees['alternatives'])
