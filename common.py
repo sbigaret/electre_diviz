@@ -269,7 +269,7 @@ def get_dirs(args):
     input_dir = args.get('-i')
     output_dir = args.get('-o')
     for d in (input_dir, output_dir):
-        if not os.path.isdir(output_dir):
+        if not os.path.isdir(d):
             raise RuntimeError("Directory '{}' doesn't exist. Aborting.".format(d))
     return input_dir, output_dir
 
@@ -431,6 +431,8 @@ def print_xmcda(xmcda):
 
 
 def create_messages_file(error_messages, log_messages, out_dir):
+    if not out_dir:
+        return
     xmcda = etree.Element('methodMessages')
     if error_messages:
         for err_msg in error_messages:

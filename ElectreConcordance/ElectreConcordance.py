@@ -107,6 +107,7 @@ def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparable
 def main():
     try:
         args = docopt(__doc__, version=__version__)
+        output_dir = None
         input_dir, output_dir = get_dirs(args)
         filenames = [
             # every tuple below == (filename, is_optional)

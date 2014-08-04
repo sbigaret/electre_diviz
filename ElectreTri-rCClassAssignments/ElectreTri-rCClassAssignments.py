@@ -90,6 +90,7 @@ def assign_class(alternatives, categories_rank, categories_profiles, outranking,
 def main():
     try:
         args = docopt(__doc__, version=__version__)
+        output_dir = None
         input_dir, output_dir = get_dirs(args)
         filenames = [
             # every tuple below == (filename, is_optional)

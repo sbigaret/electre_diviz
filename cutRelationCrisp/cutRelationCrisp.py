@@ -82,6 +82,7 @@ def get_outranking_relation(comparables_a, comparables_b, credibility, cut_thres
 def main():
     try:
         args = docopt(__doc__, version=__version__)
+        output_dir = None
         input_dir, output_dir = get_dirs(args)
         filenames = [
             # every tuple below == (filename, is_optional)
