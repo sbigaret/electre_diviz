@@ -36,7 +36,7 @@ import traceback
 from docopt import docopt
 
 from common import assignments_as_intervals_to_xmcda, create_messages_file, \
-    get_dirs, get_error_message, get_input_data, write_xmcda
+    get_dirs, get_error_message, get_input_data, get_relation_type, write_xmcda
 
 __version__ = '0.2.0'
 
@@ -57,7 +57,8 @@ def assign_class(alternatives, categories_rank, categories_profiles,
         found_descending = False
         for p in profiles[len(profiles) - 2:: -1]:
             p_next = profiles[profiles.index(p) + 1]
-            if (outranking[a][p] == 'preference' and
+            relation_ap = get_relation_type(a, p, outranking)
+            if (relation_ap == 'preference' and
                     credibility[a][p_next] > credibility[p][a]):
                 category = categories_profiles.get(p_next)
                 assignments_descending.append((a, category))
@@ -72,7 +73,8 @@ def assign_class(alternatives, categories_rank, categories_profiles,
         found_ascending = False
         for p in profiles[1:]:
             p_prev = profiles[profiles.index(p) - 1]
-            if (outranking[p][a] == 'preference' and
+            relation_pa = get_relation_type(p, a, outranking)
+            if (relation_pa == 'preference' and
                     credibility[p_prev][a] > credibility[a][p]):
                 category = categories_profiles.get(p_prev)
                 assignments_ascending.append((a, category))

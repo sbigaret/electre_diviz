@@ -33,7 +33,7 @@ import traceback
 from docopt import docopt
 
 from common import assignments_to_xmcda, create_messages_file, get_dirs, \
-    get_error_message, get_input_data, write_xmcda, Vividict
+    get_error_message, get_input_data, get_relation_type, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
@@ -49,7 +49,7 @@ def assign_class(alternatives, categories_rank, categories_profiles,
         # conjuctive ('pessimistic' - from 'best' to 'worst')
         conjuctive_idx = 0
         for profile_idx, profile in list(enumerate(categories_profiles))[::-1]:
-            relation = outranking[alternative][profile]
+            relation = get_relation_type(alternative, profile, outranking)
             if relation in ('indifference', 'preference'):
                 conjuctive_idx = profile_idx + 1
                 break
@@ -58,9 +58,8 @@ def assign_class(alternatives, categories_rank, categories_profiles,
         # disjunctive ('optimistic' - from 'worst' to 'best')
         disjunctive_idx = len(categories_profiles)
         for profile_idx, profile in enumerate(categories_profiles):
-            relation = outranking[alternative][profile]
-            # 'reversed' preference, i.e. profile is preferred over alternative
-            if relation == 'none':
+            relation = get_relation_type(profile, alternative, outranking)
+            if relation == 'preference':
                 disjunctive_idx = profile_idx
                 break
             else:

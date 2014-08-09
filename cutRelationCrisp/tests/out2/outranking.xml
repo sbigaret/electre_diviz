@@ -2,282 +2,103 @@
 <xmcda:XMCDA xmlns:xmcda='http://www.decision-deck.org/2012/XMCDA-2.2.0'
   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
   xsi:schemaLocation='http://www.decision-deck.org/2012/XMCDA-2.2.0 http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.0.xsd'>
-<alternativesComparisons>
+<alternativesComparisons mcdaConcept="alternativesProfilesComparisons">
   <pairs>
     <pair>
       <initial>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>a01</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>a01</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>a02</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>a03</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>aut</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>a05</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>fra</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>a06</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>a01</alternativeID>
       </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>a02</alternativeID>
       </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>aut</alternativeID>
+        <alternativeID>a03</alternativeID>
       </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>fra</alternativeID>
+        <alternativeID>a04</alternativeID>
       </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>ita</alternativeID>
+        <alternativeID>a05</alternativeID>
       </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
-        <alternativeID>ger</alternativeID>
+        <alternativeID>pMG</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>bel</alternativeID>
+        <alternativeID>a06</alternativeID>
       </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ger</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ger</alternativeID>
-      </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ger</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>aut</alternativeID>
-      </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>ger</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>fra</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>aut</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ita</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>aut</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>bel</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>aut</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ger</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>aut</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>aut</alternativeID>
-      </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>aut</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>fra</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ita</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>bel</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ger</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>aut</alternativeID>
-      </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>fra</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>fra</alternativeID>
-      </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
     </pair>
   </pairs>
 </alternativesComparisons>

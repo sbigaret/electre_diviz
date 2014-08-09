@@ -37,38 +37,21 @@ import traceback
 
 from docopt import docopt
 
-from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
-    get_error_message, get_input_data, write_xmcda, Vividict
+from common import create_messages_file, get_dirs, get_error_message, \
+        get_input_data, outranking_to_xmcda, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
 
-def get_outranking_relation(comparables_a, comparables_b, credibility,
+def get_outranking(comparables_a, comparables_b, credibility,
                             cut_threshold):
     outranking = Vividict()
     for a in comparables_a:
         for b in comparables_b:
-            c_ab = credibility[a][b]
-            c_ba = credibility[b][a]
-            if c_ab >= cut_threshold and c_ba >= cut_threshold:
-                relation = 'indifference'
-            elif c_ab >= cut_threshold and c_ba < cut_threshold:
-                relation = 'preference_ab'
-            elif c_ab < cut_threshold and c_ba >= cut_threshold:
-                relation = 'preference_ba'
-            elif c_ab < cut_threshold and c_ba < cut_threshold:
-                relation = 'incomparability'
-            if relation in ('indifference', 'incomparability'):
-                outranking[a][b] = relation
-                outranking[b][a] = relation
-            elif relation in ('preference_ab', 'preference_ba'):
-                relation, pair = relation.split('_')
-                if pair == 'ab':
-                    outranking[a][b] = relation
-                    outranking[b][a] = 'none'
-                elif pair == 'ba':
-                    outranking[b][a] = relation
-                    outranking[a][b] = 'none'
+            if credibility[a][b] >= cut_threshold:
+                outranking[a][b] = True
+            if credibility[b][a] >= cut_threshold:
+                outranking[b][a] = True
     return outranking
 
 
@@ -100,8 +83,8 @@ def main():
         else:
             comparables_b = d.alternatives
 
-        outranking = get_outranking_relation(comparables_a, comparables_b,
-                                             d.credibility, d.cut_threshold)
+        outranking = get_outranking(comparables_a, comparables_b,
+                                    d.credibility, d.cut_threshold)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
@@ -109,8 +92,7 @@ def main():
         else:
             mcda_concept = None
         comparables = (comparables_a, comparables_b)
-        xmcda = comparisons_to_xmcda(outranking, comparables,
-                                     mcda_concept=mcda_concept)
+        xmcda = outranking_to_xmcda(outranking, mcda_concept=mcda_concept)
         write_xmcda(xmcda, os.path.join(output_dir, 'outranking.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)
         return 0

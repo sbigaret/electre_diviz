@@ -9,33 +9,16 @@
         <alternativeID>a01</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>pMG</alternativeID>
+        <alternativeID>pBM</alternativeID>
       </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
     </pair>
     <pair>
       <initial>
         <alternativeID>a01</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>pBM</alternativeID>
-      </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a02</alternativeID>
-      </initial>
-      <terminal>
         <alternativeID>pMG</alternativeID>
       </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -44,20 +27,6 @@
       <terminal>
         <alternativeID>pBM</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a03</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pMG</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -66,42 +35,6 @@
       <terminal>
         <alternativeID>pBM</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a04</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pMG</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a04</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pBM</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a05</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pMG</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -110,20 +43,6 @@
       <terminal>
         <alternativeID>pBM</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a06</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>pMG</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -132,9 +51,6 @@
       <terminal>
         <alternativeID>pBM</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -143,9 +59,6 @@
       <terminal>
         <alternativeID>a01</alternativeID>
       </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -154,9 +67,6 @@
       <terminal>
         <alternativeID>a02</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -165,9 +75,6 @@
       <terminal>
         <alternativeID>a03</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -176,9 +83,6 @@
       <terminal>
         <alternativeID>a04</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -187,9 +91,6 @@
       <terminal>
         <alternativeID>a05</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -198,75 +99,6 @@
       <terminal>
         <alternativeID>a06</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pBM</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a01</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pBM</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a02</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pBM</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a03</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pBM</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a04</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pBM</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a05</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>pBM</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a06</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
   </pairs>
 </alternativesComparisons>

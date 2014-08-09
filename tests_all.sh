@@ -20,6 +20,14 @@ e2=$?
 if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
 rm tests/outranking.xml && rm tests/messages.xml
 
+./cutRelationCrisp.py -i tests/in3 -o tests
+diff -s tests/outranking.xml tests/out3/outranking.xml > /dev/null
+e1=$?
+diff -s tests/messages.xml tests/out3/messages.xml > /dev/null
+e2=$?
+if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
+rm tests/outranking.xml && rm tests/messages.xml
+
 ###
 echo "testing ElectreConcordance..."
 cd ../ElectreConcordance

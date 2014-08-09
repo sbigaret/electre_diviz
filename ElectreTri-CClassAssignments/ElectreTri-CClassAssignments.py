@@ -36,7 +36,7 @@ import traceback
 from docopt import docopt
 
 from common import assignments_as_intervals_to_xmcda, create_messages_file, \
-    get_dirs, get_error_message, get_input_data, write_xmcda
+    get_dirs, get_error_message, get_input_data, get_relation_type, write_xmcda
 
 __version__ = '0.2.0'
 
@@ -56,10 +56,12 @@ def assign_class(alternatives, categories_rank, categories_profiles,
         found_descending = False
         for p in profiles[len(profiles) - 2:: -1]:
             p_next = profiles[profiles.index(p) + 1]
-            if (outranking[a][p] == 'preference' and
+            relation_ap = get_relation_type(a, p, outranking)
+            relation_apn = get_relation_type(a, p_next, outranking)
+            if (relation_ap == 'preference' and
                     (credibility[a][p_next] > credibility[p][a] or
                         credibility[a][p_next] >= credibility[p][a] and
-                        outranking[a][p_next] == 'incomparability')):
+                        relation_apn == 'incomparability')):
                 category = categories_profiles.get(p_next)
                 assignments_descending.append((a, category))
                 found_descending = True
@@ -73,10 +75,12 @@ def assign_class(alternatives, categories_rank, categories_profiles,
         found_ascending = False
         for p in profiles[1:]:
             p_prev = profiles[profiles.index(p) - 1]
-            if (outranking[p][a] == 'preference' and
+            relation_pa = get_relation_type(p, a, outranking)
+            relation_app = get_relation_type(a, p_prev, outranking)
+            if (relation_pa == 'preference' and
                     (credibility[p_prev][a] > credibility[a][p] or
                         credibility[p_prev][a] >= credibility[a][p] and
-                        outranking[a][p_prev] == 'incomparability')):
+                        relation_app == 'incomparability')):
                 category = categories_profiles.get(p_prev)
                 assignments_ascending.append((a, category))
                 found_ascending = True

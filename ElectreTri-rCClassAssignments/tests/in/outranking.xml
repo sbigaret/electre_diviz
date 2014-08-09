@@ -11,9 +11,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -22,9 +19,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -33,31 +27,6 @@
       <terminal>
         <alternativeID>b3</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a01</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b4</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a01</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -66,9 +35,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -77,9 +43,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -88,31 +51,6 @@
       <terminal>
         <alternativeID>b3</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a02</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b4</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a02</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -121,9 +59,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -132,9 +67,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -143,31 +75,6 @@
       <terminal>
         <alternativeID>b3</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a03</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b4</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a03</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -176,9 +83,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -187,9 +91,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -198,31 +99,6 @@
       <terminal>
         <alternativeID>b3</alternativeID>
       </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a04</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b4</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a04</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -231,9 +107,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -242,42 +115,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a05</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b3</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a05</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b4</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a05</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -286,9 +123,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -297,42 +131,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a06</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b3</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a06</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b4</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a06</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -341,9 +139,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -352,42 +147,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a07</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b3</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a07</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b4</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a07</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -396,9 +155,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -407,9 +163,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -418,9 +171,6 @@
       <terminal>
         <alternativeID>b3</alternativeID>
       </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -429,20 +179,6 @@
       <terminal>
         <alternativeID>b4</alternativeID>
       </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a08</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -451,9 +187,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -462,42 +195,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a09</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b3</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a09</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b4</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a09</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -506,9 +203,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -517,42 +211,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a10</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b3</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a10</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b4</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a10</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -561,9 +219,6 @@
       <terminal>
         <alternativeID>b1</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -572,317 +227,6 @@
       <terminal>
         <alternativeID>b2</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a11</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b3</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a11</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b4</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>a11</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>b5</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a01</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a02</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a03</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a04</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a05</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a06</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a07</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a08</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a09</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a10</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b1</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a11</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a01</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a02</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a03</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a04</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a05</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a06</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a07</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a08</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a09</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a10</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b2</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a11</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b3</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a01</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b3</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a02</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b3</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a03</alternativeID>
-      </terminal>
-      <value>
-        <label>none</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -891,42 +235,6 @@
       <terminal>
         <alternativeID>a04</alternativeID>
       </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b3</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a05</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b3</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a06</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b3</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a07</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -935,42 +243,6 @@
       <terminal>
         <alternativeID>a08</alternativeID>
       </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b3</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a09</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b3</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a10</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b3</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a11</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -979,9 +251,6 @@
       <terminal>
         <alternativeID>a01</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -990,9 +259,6 @@
       <terminal>
         <alternativeID>a02</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1001,9 +267,6 @@
       <terminal>
         <alternativeID>a03</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1012,9 +275,6 @@
       <terminal>
         <alternativeID>a04</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1023,9 +283,6 @@
       <terminal>
         <alternativeID>a05</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1034,9 +291,6 @@
       <terminal>
         <alternativeID>a06</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1045,9 +299,6 @@
       <terminal>
         <alternativeID>a07</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1056,42 +307,6 @@
       <terminal>
         <alternativeID>a08</alternativeID>
       </terminal>
-      <value>
-        <label>indifference</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b4</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a09</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b4</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a10</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>b4</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>a11</alternativeID>
-      </terminal>
-      <value>
-        <label>incomparability</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1100,9 +315,6 @@
       <terminal>
         <alternativeID>a01</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1111,9 +323,6 @@
       <terminal>
         <alternativeID>a02</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1122,9 +331,6 @@
       <terminal>
         <alternativeID>a03</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1133,9 +339,6 @@
       <terminal>
         <alternativeID>a04</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1144,9 +347,6 @@
       <terminal>
         <alternativeID>a05</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1155,9 +355,6 @@
       <terminal>
         <alternativeID>a06</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1166,9 +363,6 @@
       <terminal>
         <alternativeID>a07</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1177,9 +371,6 @@
       <terminal>
         <alternativeID>a08</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1188,9 +379,6 @@
       <terminal>
         <alternativeID>a09</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1199,9 +387,6 @@
       <terminal>
         <alternativeID>a10</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
     <pair>
       <initial>
@@ -1210,9 +395,6 @@
       <terminal>
         <alternativeID>a11</alternativeID>
       </terminal>
-      <value>
-        <label>preference</label>
-      </value>
     </pair>
   </pairs>
 </alternativesComparisons>

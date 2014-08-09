@@ -16,8 +16,7 @@ FOOTER = "</xmcda:XMCDA>"
 
 
 ###############################################################################
-# Getting the input data and related stuff.                                   #
-# Functions prefixed with the underscore are meant for the internal use only. #
+# Data structures etc.                                                        #
 ###############################################################################
 
 class Vividict(dict):
@@ -37,6 +36,30 @@ def _create_data_object(params):
         setattr(obj, p, None)
     return obj
 
+
+###############################################################################
+# Shared 'business logic'.                                                    #
+###############################################################################
+
+def get_relation_type(x, y, outranking):
+    """Determines an exact type of relation for (x, y) based on the outranking
+    relation produced by the 'cutRelationCrisp' module.
+    """
+    if outranking[x][y] and outranking[y][x]:
+        relation = 'indifference'
+    elif outranking[x][y] and not outranking[y][x]:
+        relation = 'preference'
+    elif not outranking[x][y] and not outranking[y][x]:
+        relation = 'incomparability'
+    else:
+        relation = None
+    return relation
+
+
+###############################################################################
+# Getting the input data and related stuff.                                   #
+# Functions prefixed with the underscore are meant for the internal use only. #
+###############################################################################
 
 def get_dirs(args):
     input_dir = args.get('-i')
@@ -95,6 +118,26 @@ def _get_intersection_distillation(xmltree, altId):
                         datas[init] = {}
                     datas[init][term] = 1.0
         return datas
+
+
+def _get_outranking(xmltree, mcda_concept=None):
+    if xmltree is None:
+        return None
+    if mcda_concept == None :
+        str_search = ".//alternativesComparisons"
+    else :
+        str_search = (".//alternativesComparisons"
+                      "[@mcdaConcept=\'" + mcda_concept + "\']")
+    comparisons = xmltree.xpath(str_search)[0]
+    if comparisons == None:
+        return {}
+    else:
+        ret = Vividict()
+        for pair in comparisons.findall("pairs/pair"):
+            initial = pair.find("initial/alternativeID").text
+            terminal = pair.find("terminal/alternativeID").text
+            ret[initial][terminal] = True
+        return ret
 
 
 def _get_alternatives_comparisons(xmltree, alternatives,
@@ -347,17 +390,12 @@ def get_input_data(input_dir, filenames, params, **kwargs):
             d.interactions = _get_criteria_interactions(trees['interactions'], criteria)
 
         elif p == 'outranking':
-            # XXX I don't really like how 'cutRelationCrisp' case is handled here
             alternatives = px.getAlternativesID(trees['alternatives'])
             outranking = _get_intersection_distillation(trees['outranking'], alternatives)
             if outranking == None:
                 outranking = px.getAlternativesComparisons(trees['outranking'], alternatives)
-            if outranking == {}:  # XXX for cutRelationCrisp (alternativesComparisons with strings as values)
-                comparison_with = kwargs.get('comparison_with')
-                categories_profiles = _get_categories_profiles(trees.get('categories_profiles'),
-                                                               comparison_with)
-                outranking = _get_alternatives_comparisons(trees['outranking'], alternatives,
-                                                           categories_profiles=categories_profiles)
+            if outranking == {}:
+                outranking = _get_outranking(trees['outranking'])
             d.outranking = outranking
 
         elif p == 'performances':
@@ -468,6 +506,38 @@ def comparisons_to_xmcda(comparisons, comparables, use_partials=False,
                 value_node = etree.SubElement(values, 'value', id=i[0])
                 v = etree.SubElement(value_node, value_type)
                 v.text = str(i[1])
+    return xmcda
+
+
+def outranking_to_xmcda(outranking, mcda_concept=None):
+
+    def _extract(dict_in, list_of_tuples_out, outer_key=None):
+        """Extracts a list of (k, v) tuples from nested dicts."""
+        for key, value in dict_in.iteritems():
+            if isinstance(value, dict):
+                _extract(value, list_of_tuples_out, outer_key=key)
+            elif isinstance(value, bool):
+                list_of_tuples_out.append((outer_key, key))
+        return list_of_tuples_out
+
+    if not mcda_concept:
+        xmcda = etree.Element('alternativesComparisons')
+    else:
+        xmcda = etree.Element('alternativesComparisons',
+                              mcdaConcept=mcda_concept)
+    pairs_node = etree.SubElement(xmcda, 'pairs')
+    pairs = []
+    _extract(outranking, pairs)
+    # tuples are sorted lexographically, so there's no need for lambda as a key
+    pairs.sort()
+    for pair in pairs:
+        pair_node = etree.SubElement(pairs_node, 'pair')
+        initial_node = etree.SubElement(pair_node, 'initial')
+        alt_node = etree.SubElement(initial_node, 'alternativeID')
+        alt_node.text = pair[0]
+        terminal_node = etree.SubElement(pair_node, 'terminal')
+        alt_node = etree.SubElement(terminal_node, 'alternativeID')
+        alt_node.text = pair[1]
     return xmcda
 
 

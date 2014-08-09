@@ -6,7 +6,7 @@
 <methodParameters>
   <parameter name="comparison_with">
     <value>
-      <label>boundary_profiles</label>
+      <label>central_profiles</label>
     </value>
   </parameter>
   <parameter name="cut_threshold">
