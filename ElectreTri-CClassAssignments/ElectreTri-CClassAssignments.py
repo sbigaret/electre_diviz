@@ -35,20 +35,16 @@ import traceback
 
 from docopt import docopt
 
-from common import (
-    assignments_as_intervals_to_xmcda,
-    create_messages_file,
-    get_dirs,
-    get_error_message,
-    get_input_data,
-    write_xmcda,
-)
+from common import assignments_as_intervals_to_xmcda, create_messages_file, \
+    get_dirs, get_error_message, get_input_data, write_xmcda
 
 __version__ = '0.2.0'
 
 
-def assign_class(alternatives, categories_rank, categories_profiles, outranking, credibility):
-    # sort categories by their rank, but we want the worst one on the 'left'- hence 'reverse=True'
+def assign_class(alternatives, categories_rank, categories_profiles,
+                 outranking, credibility):
+    # sort categories by their rank, but we want the worst one on the 'left'
+    # - hence 'reverse=True'
     categories = [i[0] for i in sorted(categories_rank.items(),
                                        key=lambda x: x[1], reverse=True)]
     # get a list of profiles sorted accordingly to the above
@@ -56,7 +52,7 @@ def assign_class(alternatives, categories_rank, categories_profiles, outranking,
                                      key=lambda x: categories.index(x[1]))]
     assignments_descending = []; assignments_ascending = []
     for a in alternatives:
-        # direction: rank n <--- rank 1 (from the most preferred to the least preferred)
+        # direction: rank n <--- rank 1 (from the most to the least preferred)
         found_descending = False
         for p in profiles[len(profiles) - 2:: -1]:
             p_next = profiles[profiles.index(p) + 1]
@@ -73,7 +69,7 @@ def assign_class(alternatives, categories_rank, categories_profiles, outranking,
             # but since that always returns True, we just assign to C_h+1
             # (similar situation below - 'if not found_ascending...')
             assignments_descending.append((a, categories[0]))
-        # direction: rank n ---> rank 1 (from the least preferred to the most preferred)
+        # direction: rank n ---> rank 1 (from the least to the most preferred)
         found_ascending = False
         for p in profiles[1:]:
             p_prev = profiles[profiles.index(p) - 1]
@@ -113,14 +109,16 @@ def main():
             'credibility',
             'outranking',
         ]
-        d = get_input_data(input_dir, filenames, params, comparison_with='central_profiles')
+        d = get_input_data(input_dir, filenames, params,
+                           comparison_with='central_profiles')
 
-        assignments = assign_class(d.alternatives, d.categories_rank, d.categories_profiles,
-                                   d.outranking, d.credibility)
+        assignments = assign_class(d.alternatives, d.categories_rank,
+                                   d.categories_profiles, d.outranking,
+                                   d.credibility)
 
         # serialization etc.
-        xmcda_intervals = assignments_as_intervals_to_xmcda(assignments)
-        write_xmcda(xmcda_intervals, os.path.join(output_dir, 'assignments.xml'))
+        xmcda_assign = assignments_as_intervals_to_xmcda(assignments)
+        write_xmcda(xmcda_assign, os.path.join(output_dir, 'assignments.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)
         return 0
     except Exception, err:

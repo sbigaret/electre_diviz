@@ -32,28 +32,23 @@ import traceback
 
 from docopt import docopt
 
-from common import (
-    # assignments_as_intervals_to_xmcda,
-    assignments_to_xmcda,
-    create_messages_file,
-    get_dirs,
-    get_error_message,
-    get_input_data,
-    write_xmcda,
-    Vividict,
-)
+from common import assignments_to_xmcda, create_messages_file, get_dirs, \
+    get_error_message, get_input_data, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
 
-def assign_class(alternatives, categories_rank, categories_profiles, outranking):
-    # sort categories by their rank, but we want the worst one on the 'left' - hence 'reverse=True'
-    categories = [i[0] for i in sorted(categories_rank.items(), key=lambda x: x[1], reverse=True)]
+def assign_class(alternatives, categories_rank, categories_profiles,
+                 outranking):
+    # sort categories by their rank, but we want the worst one on the 'left'
+    # - hence 'reverse=True'
+    categories = [i[0] for i in sorted(categories_rank.items(),
+                                       key=lambda x: x[1], reverse=True)]
     exploitation = Vividict()
     for alternative in alternatives:
         # conjuctive ('pessimistic' - from 'best' to 'worst')
         conjuctive_idx = 0
-        for profile_idx, profile in list(enumerate(categories_profiles))[::-1]:  # .reverse()
+        for profile_idx, profile in list(enumerate(categories_profiles))[::-1]:
             relation = outranking[alternative][profile]
             if relation in ('indifference', 'preference'):
                 conjuctive_idx = profile_idx + 1
@@ -64,12 +59,14 @@ def assign_class(alternatives, categories_rank, categories_profiles, outranking)
         disjunctive_idx = len(categories_profiles)
         for profile_idx, profile in enumerate(categories_profiles):
             relation = outranking[alternative][profile]
-            if relation == 'none':  # 'reversed' preference, i.e. profile is preferred over alternative
+            # 'reversed' preference, i.e. profile is preferred over alternative
+            if relation == 'none':
                 disjunctive_idx = profile_idx
                 break
             else:
                 continue
-        exploitation[alternative] = (categories[conjuctive_idx], categories[disjunctive_idx])
+        exploitation[alternative] = (categories[conjuctive_idx],
+                                     categories[disjunctive_idx])
     return exploitation
 
 
@@ -91,20 +88,25 @@ def main():
             'categories_rank',
             'outranking',
         ]
-        d = get_input_data(input_dir, filenames, params, comparison_with='boundary_profiles')
+        d = get_input_data(input_dir, filenames, params,
+                           comparison_with='boundary_profiles')
 
-        assignments = assign_class(d.alternatives, d.categories_rank, d.categories_profiles,
-                                   d.outranking)
+        assignments = assign_class(d.alternatives, d.categories_rank,
+                                   d.categories_profiles, d.outranking)
 
-        # uncomment this if you want output combined as a single file
+        # uncomment this if you want output combined as a single file (and
+        # remember to import assignments_as_intervals_to_xmcda):
         # xmcda_intervals = assignments_as_intervals_to_xmcda(assignments)
-        # write_xmcda(xmcda_intervals, os.path.join(output_dir, 'assignments_intervals.xml'))
-        assignments_conjuctive = {i[0]: i[1][0] for i in assignments.iteritems()}
-        xmcda_conjuctive = assignments_to_xmcda(assignments_conjuctive)
-        write_xmcda(xmcda_conjuctive, os.path.join(output_dir, 'assignments_conjuctive.xml'))
-        assignments_disjunctive = {i[0]: i[1][1] for i in assignments.iteritems()}
-        xmcda_disjunctive = assignments_to_xmcda(assignments_disjunctive)
-        write_xmcda(xmcda_disjunctive, os.path.join(output_dir, 'assignments_disjunctive.xml'))
+        # write_xmcda(xmcda_intervals,
+        #             os.path.join(output_dir, 'assignments_intervals.xml'))
+        assignments_con = {i[0]: i[1][0] for i in assignments.iteritems()}
+        xmcda_con = assignments_to_xmcda(assignments_con)
+        write_xmcda(xmcda_con, os.path.join(output_dir,
+                                            'assignments_conjuctive.xml'))
+        assignments_dis = {i[0]: i[1][1] for i in assignments.iteritems()}
+        xmcda_dis = assignments_to_xmcda(assignments_dis)
+        write_xmcda(xmcda_dis, os.path.join(output_dir,
+                                            'assignments_disjunctive.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)
         return 0
     except Exception, err:

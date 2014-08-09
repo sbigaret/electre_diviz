@@ -37,24 +37,18 @@ import traceback
 
 from docopt import docopt
 
-from common import (
-    comparisons_to_xmcda,
-    create_messages_file,
-    get_dirs,
-    get_error_message,
-    get_input_data,
-    write_xmcda,
-    Vividict,
-)
+from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
+    get_error_message, get_input_data, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
 
-def get_discordance(comparables_a, comparables_perf_a, comparables_b, comparables_perf_b,
-                    criteria, thresholds, pref_directions):
+def get_discordance(comparables_a, comparables_perf_a, comparables_b,
+                    comparables_perf_b, criteria, thresholds, pref_directions):
 
-    def _omega(x, y):  # XXX exactly the same as in ElectreConcordance
-        # 'x' and 'y' to keep it as general as possible
+    # XXX exactly the same as in ElectreConcordance
+    # 'x' and 'y' to keep it as general as possible
+    def _omega(x, y):
         if pref_directions[criterion] == 'max':
             return x - y
         if pref_directions[criterion] == 'min':
@@ -77,17 +71,15 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b, comparable
     for a in comparables_a:
         for b in comparables_b:
             for criterion in criteria:
-                partial_discordance[a][b][criterion] = _get_partial_discordance(
-                    comparables_perf_a[a][criterion],
-                    comparables_perf_b[b][criterion],
-                    criterion,
-                )
+                pc = _get_partial_discordance(comparables_perf_a[a][criterion],
+                                              comparables_perf_b[b][criterion],
+                                              criterion)
+                partial_discordance[a][b][criterion] = pc
                 if two_way_comparison:
-                    partial_discordance[b][a][criterion] = _get_partial_discordance(
-                        comparables_perf_b[b][criterion],
-                        comparables_perf_a[a][criterion],
-                        criterion,
-                    )
+                    pc = _get_partial_discordance(comparables_perf_b[b][criterion],
+                                                  comparables_perf_a[a][criterion],
+                                                  criterion)
+                    partial_discordance[b][a][criterion] = pc
     return partial_discordance
 
 
@@ -121,21 +113,17 @@ def main():
         comparables_a = d.alternatives
         comparables_perf_a = d.performances
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
-            comparables_b = [i for i in d.categories_profiles]  # because of central_profiles being a dict
+            # central_profiles is a dict, so we need to get the keys
+            comparables_b = [i for i in d.categories_profiles]
             comparables_perf_b = d.profiles_performance_table
         else:
             comparables_b = d.alternatives
             comparables_perf_b = d.performances
 
-        discordance = get_discordance(
-            comparables_a,
-            comparables_perf_a,
-            comparables_b,
-            comparables_perf_b,
-            d.criteria,
-            d.thresholds,
-            d.pref_directions,
-        )
+        discordance = get_discordance(comparables_a, comparables_perf_a,
+                                      comparables_b, comparables_perf_b,
+                                      d.criteria, d.thresholds,
+                                      d.pref_directions)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
@@ -143,7 +131,8 @@ def main():
         else:
             mcda_concept = None
         comparables = (comparables_a, comparables_b)
-        xmcda = comparisons_to_xmcda(discordance, comparables, use_partials=True,
+        xmcda = comparisons_to_xmcda(discordance, comparables,
+                                     use_partials=True,
                                      mcda_concept=mcda_concept)
         write_xmcda(xmcda, os.path.join(output_dir, 'discordance.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)

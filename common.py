@@ -421,8 +421,9 @@ def comparisons_to_xmcda(comparisons, comparables, use_partials=False,
         return value_type
 
     if len(comparables) != 2:
-        raise RuntimeError("Too many nesting levels '({})' for this "
-                           "serialization function.".format(len(ordering)))
+        raise RuntimeError("You have to specify exactly 2 comparables for "
+                           "this serialization function (instead of {})."
+                           .format(len(ordering)))
     elif comparables[0] == comparables[1]:  # alternatives vs alternatives
         ordering = [(a, b) for a in comparables[0] for b in comparables[0]]
     else:  # alternatives vs profiles

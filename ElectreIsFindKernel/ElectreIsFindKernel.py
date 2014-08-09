@@ -33,48 +33,46 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from copy import deepcopy
 import itertools as it
 import os
 import sys
 import traceback
+from copy import deepcopy
 
 from docopt import docopt
 from lxml import etree
 from networkx import DiGraph
 from networkx.algorithms.cycles import simple_cycles
 
-from common import (
-    get_dirs,
-    get_error_message,
-    get_input_data,
-    create_messages_file,
-    write_xmcda,
-)
+from common import get_dirs, get_error_message, get_input_data, \
+    create_messages_file, write_xmcda
 
 __version__ = '0.2.0'
 
 def build_graph(alternatives, outranking, credibility=False):
-    # There are some conventions to follow here:
-    # 1. labels (i.e. alternatives' ids) are kept in graph's dictionary (see: graph.graph)
-    # 2. aggregated nodes (only numbers, as list) are kept under 'aggr' key in node's
-    #    dict (see: graph.nodes(data=True))
-    # 3. weights on the edges are kept under 'weight' key in edge's dict - similarly as
-    #    with nodes (see: graph.edges(data=True))
+    """There are some conventions to follow in this function:
+    1. labels (i.e. alternatives' ids) are kept in graph's dictionary (see:
+       graph.graph)
+    2. aggregated nodes (only numbers, as list) are kept under 'aggr' key in
+       node's dict (see: graph.nodes(data=True))
+    3. weights on the edges are kept under 'weight' key in edge's dict -
+       similarly as with nodes (see: graph.edges(data=True))
+    """
     graph = DiGraph()  # we need directed graph for this
     # creating nodes...
-    for i, alternative in enumerate(alternatives):
+    for i, alt in enumerate(alternatives):
         graph.add_node(i)
-        graph.graph.update({i: alternative})
+        graph.graph.update({i: alt})
     # creating edges...
-    for i, alternative in enumerate(alternatives):
-        relations = outranking.get(alternative)
+    for i, alt in enumerate(alternatives):
+        relations = outranking.get(alt)
         if not relations:  # if graph is built from intersectionDistillation
             continue
         for relation in relations.items():
             if relation[1] == 1.0:
-                weight = credibility[alternative][relation[0]] if credibility else None
-                graph.add_edge(i, alternatives.index(relation[0]), weight=weight)
+                weight = credibility[alt][relation[0]] if credibility else None
+                graph.add_edge(i, alternatives.index(relation[0]),
+                               weight=weight)
     return graph
 
 
@@ -83,7 +81,7 @@ def find_kernel(graph, eliminate_cycles_method):
     def _remove_selfloops(g):
         for edge in g.edges():
             if len(set(edge)) == 1:
-                g.remove_edge(*edge)  # '*' unpacks 'edge' tuple
+                g.remove_edge(*edge)
         return g
 
     def _find_cycles(g):
@@ -101,21 +99,28 @@ def find_kernel(graph, eliminate_cycles_method):
             empty_rows = []
             nodes_to_remove = []
             for node, succ in a.iteritems():
-                if len(succ) == 0:              # if there are no successors...
-                    empty_rows.append(node)     # mark this node for removal...
-                    for i, j in a.iteritems():  # and traverse remaining lists of successors...
-                        if node in j:           # looking for previously marked node...
+                # if there are no successors
+                if len(succ) == 0:
+                    # mark this node for removal
+                    empty_rows.append(node)
+                    # and traverse remaining lists of successors
+                    for i, j in a.iteritems():
+                        # looking for previously marked node
+                        if node in j: 
                             nodes_to_remove.append((i, node))
-            # actual nodes' removal (maybe dict's viewitems would simplify this?)
-            for l in nodes_to_remove:  # 'l' == (row, index to remove)
+            # actual nodes removal (maybe dict's viewitems would here?)
+            # 'l' == (row, index to remove)
+            for l in nodes_to_remove:
                 a[l[0]].remove(l[1])
             for l in empty_rows:
                 a.pop(l)
-            if len(a) == len_old:  # if we run out of nodes to remove, then stop
+            # if we run out of nodes to remove, then stop
+            if len(a) == len_old:
                 break
             else:
                 len_old = len(a)
-        if len(a) > 0:  # which means that there are cycles
+        # if there are cycles
+        if len(a) > 0:
             # check if sequence of removed indices creates a cycle
             cycles = filter(lambda x: len(x) > 1, [set(c) for c in simple_cycles(g)])
             # pick arbitrary row/element for removal (e.g. first one)
@@ -134,12 +139,15 @@ def find_kernel(graph, eliminate_cycles_method):
                     break
                 empty_rows = []
                 nodes_to_remove = []
-                if len(a) == len_old:             # if we've just started or there are no changes...
+                # if we've just started or there are no changes
+                if len(a) == len_old:
                     if len(a) == 1:
                         # this shouldn't happen
                         return []
-                    a.items()[0][1].pop()         # take the first element and remove it
-                for node, succ in a.iteritems():  # check for empty rows and remove them
+                    # take the first element and remove it
+                    a.items()[0][1].pop()
+                # check for empty rows and remove them
+                for node, succ in a.iteritems():
                     if len(succ) == 0:
                         empty_rows.append(node)
                         for i, j in a.iteritems():
@@ -158,7 +166,8 @@ def find_kernel(graph, eliminate_cycles_method):
         for e in g.edges(data=True):
             if e[0] in cycle and e[1] in cycle:
                 candidates.append(e)
-        candidates.sort(key=lambda c: c[2].get('weight'), reverse=True)  # sorting by weights
+        # sorting by weights
+        candidates.sort(key=lambda c: c[2].get('weight'), reverse=True)
         e = candidates.pop()
         g.remove_edge(e[0], e[1])
         return g
@@ -191,7 +200,8 @@ def find_kernel(graph, eliminate_cycles_method):
             # since 'weights' can be either on all edges or on none of them,
             # we are checking just the first one
             if not g.edges(data=True)[0][2].get('weight'):
-                raise RuntimeError("Can't use 'cut_weakest' method because input graph has no weights.")
+                raise RuntimeError("Can't use 'cut_weakest' method because "
+                                   "input graph has no weights.")
             eliminate_fun = _cut_weakest
         else:  # 'aggregate' method
             eliminate_fun = _aggregate_nodes
@@ -205,8 +215,9 @@ def find_kernel(graph, eliminate_cycles_method):
     graph = _remove_selfloops(graph)
     graph = _eliminate_cycles(graph, eliminate_cycles_method)
     kernel = []
-    # XXX yes, I don't like those names with underscore postfixes either
-    predecessors_per_node = {node: graph.predecessors(node) for node in graph.nodes()}
+    # XXX I don't like those names with underscore postfixes either
+    predecessors_per_node = {node: graph.predecessors(node)
+                             for node in graph.nodes()}
     while len(predecessors_per_node) > 0:
         for node, predecessors in predecessors_per_node.iteritems():
             if len(predecessors) == 0:
@@ -219,15 +230,17 @@ def find_kernel(graph, eliminate_cycles_method):
                         for predecessors__ in predecessors_per_node.itervalues():
                             if node_ in predecessors__:
                                 predecessors__.remove(node_)
-                for node_to_remove in nodes_to_remove:  # remove nodes added to the kernel
+                # remove nodes added to the kernel
+                for node_to_remove in nodes_to_remove:
                     predecessors_per_node.pop(node_to_remove)
                 break
     return kernel, graph
 
 
 def get_kernel_as_labels(kernel, g):
-    # convert aggregated nodes to un-aggregated (i.e. list of alternatives'
-    # labels) in order to export them to XMCDA format
+    """Convert aggregated nodes to un-aggregated (i.e. list of alternatives'
+    labels) in order to export them to XMCDA format.
+    """
     nodes_numbers = []
     for node in kernel:
         nodes_numbers.append(node)
@@ -269,9 +282,11 @@ def main():
         d = get_input_data(input_dir, filenames, params)
 
         graph = build_graph(d.alternatives, d.outranking, d.credibility)
-        # because of the 'eliminate_cycles' routine used by 'find_kernel, a graph
-        # is returned with the kernel which allows for further examination
-        kernel, graph_without_cycles = find_kernel(graph, d.eliminate_cycles_method)
+        # because of the 'eliminate_cycles' routine used by 'find_kernel,
+        # a graph is returned with the kernel which allows for further
+        # examination / debugging
+        kernel, graph_without_cycles = find_kernel(graph,
+                                                   d.eliminate_cycles_method)
         kernel_as_labels = get_kernel_as_labels(kernel, graph_without_cycles)
         xmcda = kernel_to_xmcda(kernel_as_labels)
         write_xmcda(xmcda, os.path.join(output_dir, 'kernel.xml'))

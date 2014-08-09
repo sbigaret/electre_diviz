@@ -37,21 +37,14 @@ import traceback
 
 from docopt import docopt
 
-from common import (
-    comparisons_to_xmcda,
-    create_messages_file,
-    get_dirs,
-    get_error_message,
-    get_input_data,
-    write_xmcda,
-    Vividict,
-)
+from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
+    get_error_message, get_input_data, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
 
-def get_outranking_relation(comparables_a, comparables_b, credibility, cut_threshold):
-    # two_way_comparison is not needed here
+def get_outranking_relation(comparables_a, comparables_b, credibility,
+                            cut_threshold):
     outranking = Vividict()
     for a in comparables_a:
         for b in comparables_b:
@@ -107,12 +100,8 @@ def main():
         else:
             comparables_b = d.alternatives
 
-        outranking = get_outranking_relation(
-            comparables_a,
-            comparables_b,
-            d.credibility,
-            d.cut_threshold,
-        )
+        outranking = get_outranking_relation(comparables_a, comparables_b,
+                                             d.credibility, d.cut_threshold)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
@@ -120,7 +109,8 @@ def main():
         else:
             mcda_concept = None
         comparables = (comparables_a, comparables_b)
-        xmcda = comparisons_to_xmcda(outranking, comparables, mcda_concept=mcda_concept)
+        xmcda = comparisons_to_xmcda(outranking, comparables,
+                                     mcda_concept=mcda_concept)
         write_xmcda(xmcda, os.path.join(output_dir, 'outranking.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)
         return 0

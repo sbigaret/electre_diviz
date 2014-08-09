@@ -44,29 +44,20 @@ import traceback
 
 from docopt import docopt
 
-from common import (
-    comparisons_to_xmcda,
-    create_messages_file,
-    get_dirs,
-    get_error_message,
-    get_input_data,
-    write_xmcda,
-    Vividict,
-)
+from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
+    get_error_message, get_input_data, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
 
-def get_credibility(comparables_a, comparables_perf_a, comparables_b, comparables_perf_b,
-                    criteria, pref_directions, thresholds):
-    """
-    np, nq, ni, no - number of criteria where:
+def get_credibility(comparables_a, comparables_perf_a, comparables_b,
+                    comparables_perf_b, criteria, pref_directions, thresholds):
+    """np, nq, ni, no - number of criteria where:
     n_p(a, b) - 'a' is strictly preferred over 'b'
     n_q(a, b) - 'a' is weakly preferred over 'b'
     n_i(a, b) - 'a' is indifferent than 'b', but 'a' has better performance
     n_o(a, b) - 'a' is indifferent than 'b' and both have the same performances
     """
-
     def _check_diff(diff, criterion):
         if ((pref_directions[criterion] == 'max' and diff > 0) or
                 (pref_directions[criterion] == 'min' and diff < 0)):
@@ -103,8 +94,8 @@ def get_credibility(comparables_a, comparables_perf_a, comparables_b, comparable
                 no += 1
         return {'np': np, 'nq': nq, 'ni': ni, 'no': no}
 
-    def _get_credibility_values(comparables_x, comparables_y, comparables_perf_x,
-                                comparables_perf_y, credibility):
+    def _get_cred_values(comparables_x, comparables_y, comparables_perf_x,
+                         comparables_perf_y, credibility):
         for x in comparables_x:
             for y in comparables_y:
                 if x == y:
@@ -118,8 +109,9 @@ def get_credibility(comparables_a, comparables_perf_a, comparables_b, comparable
                     credibility[x][y] = 1.0
                     continue
                 elif cc_yx['np'] == 0:
-                    if (cc_yx['nq'] <= cc_xy['np'] and
-                            cc_yx['nq'] + cc_yx['ni'] < cc_xy['np'] + cc_xy['nq'] + cc_xy['ni']):
+                    sum_cc_yx = cc_yx['nq'] + cc_yx['ni']
+                    sum_cc_xy = cc_xy['np'] + cc_xy['nq'] + cc_xy['ni']
+                    if cc_yx['nq'] <= cc_xy['np'] and sum_cc_yx < sum_cc_xy:
                         credibility[x][y] = 0.8
                         continue
                     elif cc_yx['nq'] <= cc_xy['np'] + cc_xy['nq']:
@@ -127,8 +119,9 @@ def get_credibility(comparables_a, comparables_perf_a, comparables_b, comparable
                         continue
                     else:
                         credibility[x][y] = 0.4
-                elif cc_yx['np'] <= 1 and cc_xy['np'] >= len(criteria) // 2:  # "at least half"
-                    veto = _check_for_veto(comparables_perf_y[y], comparables_perf_x[x])
+                elif cc_yx['np'] <= 1 and cc_xy['np'] >= len(criteria) // 2:
+                    veto = _check_for_veto(comparables_perf_y[y],
+                                           comparables_perf_x[x])
                     if not veto:
                         credibility[x][y] = 0.2
                         continue
@@ -144,19 +137,21 @@ def get_credibility(comparables_a, comparables_perf_a, comparables_b, comparable
     criteria_counts = Vividict()
     for a in comparables_a:
         for b in comparables_b:
-            criteria_counts[a][b] = _get_criteria_counts(a, b, comparables_perf_a[a],
-                                                         comparables_perf_b[b])
+            cc = _get_criteria_counts(a, b, comparables_perf_a[a],
+                                      comparables_perf_b[b])
+            criteria_counts[a][b] = cc
             if two_way_comparison:
-                criteria_counts[b][a] = _get_criteria_counts(b, a, comparables_perf_b[b],
-                                                             comparables_perf_a[a])
+                cc = _get_criteria_counts(b, a, comparables_perf_b[b],
+                                          comparables_perf_a[a])
+                criteria_counts[b][a] = cc
     credibility = Vividict()
-    credibility = _get_credibility_values(comparables_a, comparables_b,
-                                          comparables_perf_a, comparables_perf_b,
-                                          credibility)
+    credibility = _get_cred_values(comparables_a, comparables_b,
+                                   comparables_perf_a, comparables_perf_b,
+                                   credibility)
     if two_way_comparison:
-        credibility = _get_credibility_values(comparables_b, comparables_a,
-                                              comparables_perf_b, comparables_perf_a,
-                                              credibility)
+        credibility = _get_cred_values(comparables_b, comparables_a,
+                                       comparables_perf_b, comparables_perf_a,
+                                       credibility)
     return credibility
 
 
@@ -196,15 +191,10 @@ def main():
             comparables_b = d.alternatives
             comparables_perf_b = d.performances
 
-        credibility = get_credibility(
-            comparables_a,
-            comparables_perf_a,
-            comparables_b,
-            comparables_perf_b,
-            d.criteria,
-            d.pref_directions,
-            d.thresholds,
-        )
+        credibility = get_credibility(comparables_a, comparables_perf_a,
+                                      comparables_b, comparables_perf_b,
+                                      d.criteria, d.pref_directions,
+                                      d.thresholds)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
@@ -212,7 +202,8 @@ def main():
         else:
             mcda_concept = None
         comparables = (comparables_a, comparables_b)
-        xmcda = comparisons_to_xmcda(credibility, comparables, mcda_concept=mcda_concept)
+        xmcda = comparisons_to_xmcda(credibility, comparables,
+                                     mcda_concept=mcda_concept)
         write_xmcda(xmcda, os.path.join(output_dir, 'credibility.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)
         return 0

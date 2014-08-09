@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-ElectreCredibility - computes credibility matrix using procedure which is common
-to the most methods from the Electre family.
+ElectreCredibility - computes credibility matrix using procedure which is
+common to the most methods from the Electre family.
 
 The key feature of this module is its flexibility in terms of the types of
 elements accepted as input, i.e. concordance or discordance may be a product of
@@ -37,20 +37,13 @@ import traceback
 
 from docopt import docopt
 
-from common import (
-    comparisons_to_xmcda,
-    create_messages_file,
-    get_dirs,
-    get_error_message,
-    get_input_data,
-    write_xmcda,
-    Vividict,
-)
+from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
+    get_error_message, get_input_data, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
-def get_credibility(comparables_a, comparables_b, concordance, discordance, use_1_minus_C,
-                    use_partials):
+def get_credibility(comparables_a, comparables_b, concordance, discordance,
+                    use_1_minus_C, use_partials):
 
     def _get_credibility_index(x, y, use_1_minus_C, use_partials):
         if use_partials:
@@ -61,7 +54,8 @@ def get_credibility(comparables_a, comparables_b, concordance, discordance, use_
             c_idx = concordance[x][y]
         elif 1 in discordance_values:            # at least one '1'
             if not concordance[x][y] < 1:
-                raise RuntimeError("When discordance == 1, concordance must be < 1.")
+                raise RuntimeError("When discordance == 1, "
+                                   "concordance must be < 1.")
             c_idx = 0.0
         else:
             factors = []
@@ -79,9 +73,11 @@ def get_credibility(comparables_a, comparables_b, concordance, discordance, use_
     credibility = Vividict()
     for a in comparables_a:
         for b in comparables_b:
-            credibility[a][b] = _get_credibility_index(a, b, use_1_minus_C, use_partials)
+            credibility[a][b] = _get_credibility_index(a, b, use_1_minus_C,
+                                                       use_partials)
             if two_way_comparison:
-                credibility[b][a] = _get_credibility_index(b, a, use_1_minus_C, use_partials)
+                credibility[b][a] = _get_credibility_index(b, a, use_1_minus_C,
+                                                           use_partials)
     return credibility
 
 
@@ -112,18 +108,14 @@ def main():
         # getting the elements to compare
         comparables_a = d.alternatives
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
-            comparables_b = [i for i in d.categories_profiles]  # because of central_profiles being a dict
+            # central_profiles is a dict, so we need to get the keys
+            comparables_b = [i for i in d.categories_profiles]
         else:
             comparables_b = d.alternatives
 
-        credibility = get_credibility(
-            comparables_a,
-            comparables_b,
-            d.concordance,
-            d.discordance,
-            d.use_1_minus_C,  # XXX or maybe 'use_denominator'..?
-            d.use_partials,
-        )
+        credibility = get_credibility(comparables_a, comparables_b,
+                                      d.concordance, d.discordance,
+                                      d.use_1_minus_C, d.use_partials)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
@@ -131,7 +123,8 @@ def main():
         else:
             mcda_concept = None
         comparables = (comparables_a, comparables_b)
-        xmcda = comparisons_to_xmcda(credibility, comparables, mcda_concept=mcda_concept)
+        xmcda = comparisons_to_xmcda(credibility, comparables,
+                                     mcda_concept=mcda_concept)
         write_xmcda(xmcda, os.path.join(output_dir, 'credibility.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)
         return 0

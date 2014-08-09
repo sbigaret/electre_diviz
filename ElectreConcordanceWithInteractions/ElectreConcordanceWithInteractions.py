@@ -34,48 +34,47 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from itertools import chain
 import os
 import sys
 import traceback
+from itertools import chain
 
 from docopt import docopt
 
-from common import (
-    comparisons_to_xmcda,
-    create_messages_file,
-    get_dirs,
-    get_error_message,
-    get_input_data,
-    write_xmcda,
-    Vividict,
-)
+from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
+    get_error_message, get_input_data, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
 
-def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparables_perf_b,
-                    criteria, thresholds, pref_directions, weights,
-                    interactions, z_function):
+def get_concordance(comparables_a, comparables_perf_a, comparables_b,
+                    comparables_perf_b, criteria, thresholds, pref_directions,
+                    weights, interactions, z_function):
 
     def _check_net_balance(interactions, weights):
-        criteria_affected = set([i[0] for i in chain(interactions.get('weakening', []), interactions.get('antagonistic', []))])
+        int_weak = interactions.get('weakening', [])
+        int_antag = interactions.get('antagonistic', [])
+        int_chained = chain(int_weak, int_antag)
+        criteria_affected = set([i[0] for i in int_chained])
         for criterion in criteria_affected:
-            weakening_sum = sum([abs(i[2]) for i in interactions.get('weakening', []) if i[0] == criterion])
-            antagonistic_sum = sum([i[2] for i in interactions.get('antagonistic', []) if i[0] == criterion])
-            net_balance = weights[criterion] - (weakening_sum + antagonistic_sum)
+            weak_sum = sum([abs(i[2]) for i in int_weak if i[0] == criterion])
+            antag_sum = sum([i[2] for i in int_antag if i[0] == criterion])
+            net_balance = weights[criterion] - weak_sum + antag_sum
             if net_balance <= 0:
-                raise RuntimeError("Positive net balance condition not fulfilled for criterion '{}'.".format(criterion))
-        return
+                raise RuntimeError("Positive net balance condition is not "
+                                   "fulfilled for criterion '{}'."
+                                   .format(criterion))
 
-    def _omega(x, y):  # XXX exactly the same as in ElectreConcordance
+    # XXX exactly the same as in ElectreConcordance
+    def _omega(x, y):
         # 'x' and 'y' to keep it as general as possible
         if pref_directions[criterion] == 'max':
             return x - y
         if pref_directions[criterion] == 'min':
             return y - x
 
-    def _get_partial_concordance(x, y, criterion):  # XXX exactly the same as in ElectreConcordance
+    # XXX exactly the same as in ElectreConcordance
+    def _get_partial_concordance(x, y, criterion):
         p = thresholds[criterion].get('preference')
         q = thresholds[criterion].get('indifference')
         if _omega(x, y) < -p:
@@ -85,12 +84,14 @@ def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparable
         else:
             return (_omega(x, y) + p) / (p - q)
 
-    def _get_aggregated_concordance(x, y):  # ...with interactions
-        # XXX I don't like those cryptic variable names here
+    # I don't like those cryptic variables' names here (ch, ci, cj, _cki,
+    # _ckj, _kij, _kih) - they all come from math equations
+    def _get_aggregated_concordance(x, y):
         if x == y:
-            C = 1.0
+            aggregated_concordance = 1.0
         else:
-            sum_cki = sum([partial_concordances[x][y][c] * weights[c] for c in criteria])
+            sum_cki = sum([partial_concordances[x][y][c] * weights[c]
+                           for c in criteria])
             sum_kij = float(0)
             for interaction_name in ('strengthening', 'weakening'):
                 for interaction in interactions.get(interaction_name, []):
@@ -102,10 +103,10 @@ def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparable
                 ci = partial_concordances[x][y][interaction[0]]
                 ch = partial_concordances[y][x][interaction[1]]
                 sum_kih += Z(ci, ch) * interaction[2]
-            sum_ki = sum(weights.values())  # this is only for K
+            sum_ki = sum(weights.values())
             K = sum_ki + sum_kij - sum_kih
-            C = (sum_cki + sum_kij - sum_kih) / K
-        return C
+            aggregated_concordance = (sum_cki + sum_kij - sum_kih) / K
+        return aggregated_concordance
 
     # some initial checks
     _check_net_balance(interactions, weights)
@@ -123,17 +124,17 @@ def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparable
     for a in comparables_a:
         for b in comparables_b:
             for criterion in criteria:
-                partial_concordances[a][b][criterion] = _get_partial_concordance(
+                pc = _get_partial_concordance(
                     comparables_perf_a[a][criterion],
                     comparables_perf_b[b][criterion],
-                    criterion,
-                )
+                    criterion)
+                partial_concordances[a][b][criterion] = pc
                 if two_way_comparison:
-                    partial_concordances[b][a][criterion] = _get_partial_concordance(
+                    pc = _get_partial_concordance(
                         comparables_perf_b[b][criterion],
                         comparables_perf_a[a][criterion],
-                        criterion,
-                    )
+                        criterion)
+                    partial_concordances[b][a][criterion] = pc
     # aggregate partial concordances
     aggregated_concordances = Vividict()
     for a in comparables_a:
@@ -183,18 +184,11 @@ def main():
             comparables_b = d.alternatives
             comparables_perf_b = d.performances
 
-        concordance = get_concordance(
-            comparables_a,
-            comparables_perf_a,
-            comparables_b,
-            comparables_perf_b,
-            d.criteria,
-            d.thresholds,
-            d.pref_directions,
-            d.weights,
-            d.interactions,
-            d.z_function,
-        )
+        concordance = get_concordance(comparables_a, comparables_perf_a,
+                                      comparables_b, comparables_perf_b,
+                                      d.criteria, d.thresholds,
+                                      d.pref_directions, d.weights,
+                                      d.interactions, d.z_function)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
@@ -202,7 +196,8 @@ def main():
         else:
             mcda_concept = None
         comparables = (comparables_a, comparables_b)
-        xmcda = comparisons_to_xmcda(concordance, comparables, mcda_concept=mcda_concept)
+        xmcda = comparisons_to_xmcda(concordance, comparables,
+                                     mcda_concept=mcda_concept)
         write_xmcda(xmcda, os.path.join(output_dir, 'concordance.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)
         return 0

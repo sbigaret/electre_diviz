@@ -38,24 +38,18 @@ import traceback
 
 from docopt import docopt
 
-from common import (
-    comparisons_to_xmcda,
-    create_messages_file,
-    get_dirs,
-    get_error_message,
-    get_input_data,
-    write_xmcda,
-    Vividict,
-)
+from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
+    get_error_message, get_input_data, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
 
-def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparables_perf_b,
-                    criteria, thresholds, pref_directions, weights):
+def get_concordance(comparables_a, comparables_perf_a, comparables_b,
+                    comparables_perf_b, criteria, thresholds, pref_directions,
+                    weights):
 
+    # 'x' and 'y' to keep it as general as possible
     def _omega(x, y):
-        # 'x' and 'y' to keep it as general as possible
         if pref_directions[criterion] == 'max':
             return x - y
         if pref_directions[criterion] == 'min':
@@ -73,8 +67,9 @@ def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparable
 
     def _get_aggregated_concordance(x, y):
         sum_of_weights = sum([weights[criterion] for criterion in criteria])
-        concordance = sum([weights[criterion] * partial_concordances[x][y][criterion]
-                           for criterion in criteria]) / sum_of_weights
+        s = sum([weights[criterion] * partial_concordances[x][y][criterion]
+                 for criterion in criteria])
+        concordance = s / sum_of_weights
         return concordance
 
     two_way_comparison = True if comparables_a != comparables_b else False
@@ -83,17 +78,15 @@ def get_concordance(comparables_a, comparables_perf_a, comparables_b, comparable
     for a in comparables_a:
         for b in comparables_b:
             for criterion in criteria:
-                partial_concordances[a][b][criterion] = _get_partial_concordance(
-                    comparables_perf_a[a][criterion],
-                    comparables_perf_b[b][criterion],
-                    criterion,
-                )
+                pc = _get_partial_concordance(comparables_perf_a[a][criterion],
+                                              comparables_perf_b[b][criterion],
+                                              criterion)
+                partial_concordances[a][b][criterion] = pc
                 if two_way_comparison:
-                    partial_concordances[b][a][criterion] = _get_partial_concordance(
-                        comparables_perf_b[b][criterion],
-                        comparables_perf_a[a][criterion],
-                        criterion,
-                    )
+                    pc = _get_partial_concordance(comparables_perf_b[b][criterion],
+                                                  comparables_perf_a[a][criterion],
+                                                  criterion,)
+                    partial_concordances[b][a][criterion] = pc
     # aggregate partial concordances
     aggregated_concordances = Vividict()
     for a in comparables_a:
@@ -136,22 +129,17 @@ def main():
         comparables_a = d.alternatives
         comparables_perf_a = d.performances
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
-            comparables_b = [i for i in d.categories_profiles]  # because of central_profiles being a dict
+            # central_profiles is a dict, so we need to get the keys
+            comparables_b = [i for i in d.categories_profiles]
             comparables_perf_b = d.profiles_performance_table
         else:
             comparables_b = d.alternatives
             comparables_perf_b = d.performances
 
-        concordance = get_concordance(
-            comparables_a,
-            comparables_perf_a,
-            comparables_b,
-            comparables_perf_b,
-            d.criteria,
-            d.thresholds,
-            d.pref_directions,
-            d.weights,
-        )
+        concordance = get_concordance(comparables_a, comparables_perf_a,
+                                      comparables_b, comparables_perf_b,
+                                      d.criteria, d.thresholds,
+                                      d.pref_directions, d.weights)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
@@ -159,7 +147,8 @@ def main():
         else:
             mcda_concept = None
         comparables = (comparables_a, comparables_b)
-        xmcda = comparisons_to_xmcda(concordance, comparables, mcda_concept=mcda_concept)
+        xmcda = comparisons_to_xmcda(concordance, comparables,
+                                     mcda_concept=mcda_concept)
         write_xmcda(xmcda, os.path.join(output_dir, 'concordance.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)
         return 0

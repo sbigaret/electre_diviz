@@ -38,21 +38,14 @@ import traceback
 
 from docopt import docopt
 
-from common import (
-    comparisons_to_xmcda,
-    create_messages_file,
-    get_dirs,
-    get_error_message,
-    get_input_data,
-    write_xmcda,
-    Vividict,
-)
+from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
+    get_error_message, get_input_data, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
 
-def get_discordance(comparables_a, comparables_perf_a, comparables_b, comparables_perf_b,
-                    criteria, thresholds, pref_directions):
+def get_discordance(comparables_a, comparables_perf_a, comparables_b,
+                    comparables_perf_b, criteria, thresholds, pref_directions):
 
     def _get_partial_discordances(x, y, criterion):
         v = thresholds[criterion].get('veto')
@@ -81,17 +74,15 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b, comparable
     for a in comparables_a:
         for b in comparables_b:
             for criterion in criteria:
-                partial_discordances[a][b][criterion] = _get_partial_discordances(
-                    comparables_perf_a[a][criterion],
-                    comparables_perf_b[b][criterion],
-                    criterion,
-                )
+                pc = _get_partial_discordances(comparables_perf_a[a][criterion],
+                                               comparables_perf_b[b][criterion],
+                                               criterion)
+                partial_discordances[a][b][criterion] = pc
                 if two_way_comparison:
-                    partial_discordances[b][a][criterion] = _get_partial_discordances(
-                        comparables_perf_b[b][criterion],
-                        comparables_perf_a[a][criterion],
-                        criterion,
-                    )
+                    pc = _get_partial_discordances(comparables_perf_b[b][criterion],
+                                                   comparables_perf_a[a][criterion],
+                                                   criterion)
+                    partial_discordances[b][a][criterion] = pc
     discordance = Vividict()
     for a in comparables_a:
         for b in comparables_b:
@@ -137,15 +128,10 @@ def main():
             comparables_b = d.alternatives
             comparables_perf_b = d.performances
 
-        discordance = get_discordance(
-            comparables_a,
-            comparables_perf_a,
-            comparables_b,
-            comparables_perf_b,
-            d.criteria,
-            d.thresholds,
-            d.pref_directions,
-        )
+        discordance = get_discordance(comparables_a, comparables_perf_a,
+                                      comparables_b, comparables_perf_b,
+                                      d.criteria, d.thresholds,
+                                      d.pref_directions)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
@@ -153,7 +139,8 @@ def main():
         else:
             mcda_concept = None
         comparables = (comparables_a, comparables_b)
-        xmcda = comparisons_to_xmcda(discordance, comparables, mcda_concept=mcda_concept)
+        xmcda = comparisons_to_xmcda(discordance, comparables,
+                                     mcda_concept=mcda_concept)
         write_xmcda(xmcda, os.path.join(output_dir, 'discordance.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)
         return 0
