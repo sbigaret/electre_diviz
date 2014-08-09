@@ -14,7 +14,7 @@ Usage:
 Options:
     -i DIR     Specify input directory. It should contain the following files:
                    alternatives.xml
-                   categories_profiles.xml (optional)
+                   classes_profiles.xml (optional)
                    criteria.xml
                    method_parameters.xml
                    performance_table.xml
@@ -105,7 +105,7 @@ def main():
         filenames = [
             # every tuple below == (filename, is_optional)
             ('alternatives.xml', False),
-            ('categories_profiles.xml', True),
+            ('classes_profiles.xml', True),
             ('criteria.xml', False),
             ('method_parameters.xml', False),
             ('performance_table.xml', False),

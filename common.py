@@ -63,7 +63,13 @@ def _get_trees(input_dir, filenames):
         if tree is None:
             raise RuntimeError("Validation error with the file: '{}'."
                                 .format(f))
-        trees.update({os.path.splitext(f)[0]: tree})
+        tree_name = os.path.splitext(f)[0]
+        # although we use 'classes' and 'classes_profiles' in the names of
+        # the input files and in the documentation, we want to use them as
+        # 'categories' (and 'categories_profiles') internally
+        if 'classes' in tree_name:
+            tree_name = tree_name.replace('classes', 'categories')
+        trees.update({tree_name: tree})
     return trees
 
 
@@ -156,7 +162,7 @@ def _get_alternatives_comparisons(xmltree, alternatives,
 def _get_categories_profiles(tree, comparison_with):
 
     def _get_profiles_ordering(last_found, profiles):
-        """Gets the ordering of categories profiles."""
+        """Gets the ordering of categories (classes) profiles."""
         for i in categories_profiles_full.values():
             if i.get('lower') == last_found:
                 if i.get('upper') is None:
@@ -169,7 +175,7 @@ def _get_categories_profiles(tree, comparison_with):
     if tree is None and comparison_with in ('boundary_profiles',
                                             'central_profiles'):
         raise RuntimeError("Missing definitions of profiles (did you "
-                            "forget about 'categories_profiles.xml'?).")
+                            "forget about 'classes_profiles.xml'?).")
     if comparison_with == 'alternatives':
         categories_profiles = None
     elif comparison_with == 'boundary_profiles':

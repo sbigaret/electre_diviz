@@ -17,9 +17,9 @@ The possible relations are 'preference', 'indifference' and 'incomparability'.  
       <xmcda tag="alternatives" />
     </input>
 
-    <input id="input2" name="categories_profiles" displayName="categories_profiles" isoptional="1">
+    <input id="input2" name="classes_profiles" displayName="classes_profiles" isoptional="1">
       <documentation>
-        <description>Definitions of profiles (boundary or central) which should be used for categories (classes) representation.</description>
+        <description>Definitions of profiles (boundary or central) which should be used for classes (categories) representation.</description>
       </documentation>
       <xmcda tag="categoriesProfiles" />
     </input>
@@ -54,7 +54,7 @@ The possible relations are 'preference', 'indifference' and 'incomparability'.  
       <gui status="preferGUI">
         <entry id="%1" type="enum" displayName="comparison_with">
           <documentation>
-            <description>Method for cycle elimination. Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'categoriesProfiles' and 'profilesPerformanceTable' as well (which are optional by default).</description>
+            <description>Method for cycle elimination. Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'classes_profiles' and 'profiles_performance_table' as well (which are optional by default).</description>
           </documentation>
           <items>
             <item id="item0">
