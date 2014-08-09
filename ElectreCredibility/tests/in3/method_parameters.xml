@@ -9,7 +9,7 @@
       <label>alternatives</label>
     </value>
   </parameter>
-  <parameter name="use_1_minus_C">
+  <parameter name="with_denominator">
     <value>
       <boolean>true</boolean>
     </value>

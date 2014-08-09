@@ -33,7 +33,7 @@ The key feature of this module is its flexibility in terms of the types of eleme
 
     <input id="input4" name="discordance" displayName="discordance" isoptional="0">
       <documentation>
-        <description>Discordance indices provided in non-aggregated ('partial') or aggregated form. In the former case, 'use_1_minus_C' parameter (see below) should be set to 'true'.</description>
+        <description>Discordance indices provided in non-aggregated ('partial') or aggregated form. In the former case, 'with_denominator' parameter (see below) should be set to 'true'.</description>
       </documentation>
       <xmcda tag="alternativesComparisons" />
     </input>
@@ -50,7 +50,7 @@ The key feature of this module is its flexibility in terms of the types of eleme
               <label>%1</label>
             </value>
           </parameter>
-          <parameter name="use_1_minus_C">
+          <parameter name="with_denominator">
             <value>
               <boolean>%2</boolean>
             </value>
@@ -86,9 +86,9 @@ Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'cl
           </items>
           <defaultValue>item0</defaultValue>
         </entry>
-        <entry id="%2" type="boolean" displayName="use_1_minus_C">
+        <entry id="%2" type="boolean" displayName="with_denominator">
           <documentation>
-            <description>This parameter specifies whether the '(1 - C)' expression should be used in the products' denominators.</description>
+            <description>This parameter specifies if you want to take into account only sufficiently great discordance (by using '1 - d_i / 1 - C(a, b)' instead of '1 - d_i' in credibility's equation).</description>
           </documentation>
           <defaultValue>true</defaultValue>
         </entry>

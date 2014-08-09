@@ -389,9 +389,9 @@ def get_input_data(input_dir, filenames, params, **kwargs):
         elif p == 'z_function':
             d.z_function = px.getParameterByName(trees['method_parameters'], 'z_function')
 
-        elif p == 'use_1_minus_C':
-            parameter = px.getParameterByName(trees['method_parameters'], 'use_1_minus_C')
-            d.use_1_minus_C = True if parameter == 'true' else False
+        elif p == 'with_denominator':
+            parameter = px.getParameterByName(trees['method_parameters'], 'with_denominator')
+            d.with_denominator = True if parameter == 'true' else False
 
         elif p == 'use_partials':
             parameter = px.getParameterByName(trees['method_parameters'], 'use_partials')

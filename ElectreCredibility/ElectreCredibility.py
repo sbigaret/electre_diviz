@@ -43,9 +43,9 @@ from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
 __version__ = '0.2.0'
 
 def get_credibility(comparables_a, comparables_b, concordance, discordance,
-                    use_1_minus_C, use_partials):
+                    with_denominator, use_partials):
 
-    def _get_credibility_index(x, y, use_1_minus_C, use_partials):
+    def _get_credibility_index(x, y, with_denominator, use_partials):
         if use_partials:
             discordance_values = discordance[x][y].values()
         else:
@@ -61,7 +61,7 @@ def get_credibility(comparables_a, comparables_b, concordance, discordance,
             factors = []
             for d in discordance_values:
                 if d > concordance[x][y]:  # d_i(a, b) > C(a, b)
-                    if use_1_minus_C:
+                    if with_denominator:
                         factor = (1 - d) / (1 - concordance[x][y])
                     else:
                         factor = (1 - d)
@@ -73,10 +73,10 @@ def get_credibility(comparables_a, comparables_b, concordance, discordance,
     credibility = Vividict()
     for a in comparables_a:
         for b in comparables_b:
-            credibility[a][b] = _get_credibility_index(a, b, use_1_minus_C,
+            credibility[a][b] = _get_credibility_index(a, b, with_denominator,
                                                        use_partials)
             if two_way_comparison:
-                credibility[b][a] = _get_credibility_index(b, a, use_1_minus_C,
+                credibility[b][a] = _get_credibility_index(b, a, with_denominator,
                                                            use_partials)
     return credibility
 
@@ -100,7 +100,7 @@ def main():
             'comparison_with',
             'concordance',
             'discordance',
-            'use_1_minus_C',
+            'with_denominator',
             'use_partials',
         ]
         d = get_input_data(input_dir, filenames, params)
@@ -115,7 +115,7 @@ def main():
 
         credibility = get_credibility(comparables_a, comparables_b,
                                       d.concordance, d.discordance,
-                                      d.use_1_minus_C, d.use_partials)
+                                      d.with_denominator, d.use_partials)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
