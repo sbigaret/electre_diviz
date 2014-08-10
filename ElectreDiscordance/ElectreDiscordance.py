@@ -52,7 +52,7 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b,
             return y - x
 
     def _get_partial_discordance(x, y, criterion):
-        p = thresholds[criterion].get('preference')
+        p = thresholds[criterion].get('preference', 0)
         v = thresholds[criterion].get('veto')
         if not v:
             return 0.0

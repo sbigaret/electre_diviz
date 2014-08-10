@@ -2,7 +2,12 @@
 
 """
 ElectreTri-rCClassAssignments - computes class assignments according to the
-Electre TRI-C method.
+Electre TRI-rC method.
+
+All the inputs and options are the same as in ElectreTri-CClassAssign - the
+only difference is in its assignment procedures (conditions are slightly
+simplified). For more on this, see the 'Reference' section in module's
+documentation.
 
 This method uses central reference actions (profiles) instead of boundary
 actions known from Electre TRI.

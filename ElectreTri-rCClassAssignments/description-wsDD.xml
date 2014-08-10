@@ -5,9 +5,10 @@
   <documentation>
     <description>Computes class assignments according to the Electre TRI-rC method.
 
-All the inputs and options are the same as in ElectreTri-CClassAssign - the only difference is in its assignment procedures (conditions are slightly simplified).
+All the inputs and options are the same as in ElectreTri-CClassAssign - the only difference is in its assignment procedures (conditions are slightly simplified) For more on this, see the article cited as a reference.
 
 This method uses central reference actions (profiles) instead of boundary actions known from Electre TRI.</description>
+    <reference>Kadziński M, et al. Robust multi-criteria sorting with the outranking preference model and characteristic profiles. Omega (2014), <url>http://dx.doi.org/10.1016/j.omega.2014.06.004i</url></reference>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>

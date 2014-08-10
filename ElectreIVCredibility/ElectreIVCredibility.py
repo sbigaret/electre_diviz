@@ -81,11 +81,11 @@ def get_credibility(comparables_a, comparables_perf_a, comparables_b,
         for c in criteria:
             diff = _check_diff(performances_x[c] - performances_y[c], c)
             if diff:
-                if diff >= thresholds[c]['preference']:     # diff >= p
+                if diff >= thresholds[c].get('preference', 0):     # diff >= p
                     np += 1
-                elif diff > thresholds[c]['indifference']:  # q > diff < p
+                elif diff > thresholds[c].get('indifference', 0):  # q > diff < p
                     nq += 1
-                else:                                       # diff <= q
+                else:                                              # diff <= q
                     ni += 1
             elif diff == 0:
                 no += 1
