@@ -8,6 +8,10 @@ The key feature of this module is its flexibility in terms of the types of
 elements allowed to compare, i.e. alternatives vs alternatives, alternatives vs
 boundary profiles and alternatives vs central (characteristic) profiles.
 
+It also brings a concept of the 'pre-veto threshold' which is basically another
+threshold such as: v >= pv >= p (where 'v' is 'normal' veto threshold, 'pv' is
+the pre-veto threshold and 'p' is preference threshold).
+
 Usage:
     ElectreDiscordance.py -i DIR -o DIR
 
@@ -41,7 +45,8 @@ __version__ = '0.2.0'
 
 
 def get_discordance(comparables_a, comparables_perf_a, comparables_b,
-                    comparables_perf_b, criteria, thresholds, pref_directions):
+                    comparables_perf_b, criteria, thresholds, pref_directions,
+                    use_pre_veto):
 
     # XXX exactly the same as in ElectreConcordance
     # 'x' and 'y' to keep it as general as possible
@@ -51,17 +56,27 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b,
         if pref_directions[criterion] == 'min':
             return y - x
 
-    def _get_partial_discordance(x, y, criterion):
+    def _get_partial_discordance(x, y, criterion, use_pre_veto):
         p = thresholds[criterion].get('preference', 0)
         v = thresholds[criterion].get('veto')
         if not v:
             return 0.0
-        if _omega(x, y) >= -p:
-            return 0.0
-        elif _omega(x, y) < -v:
-            return 1.0
+        if use_pre_veto:
+            # originally (i.e. w/o pre_veto) pv == p
+            pv = thresholds[criterion].get('pre_veto', p)
+            if _omega(x, y) > -pv:
+                return 0.0
+            if _omega(x, y) <= -v:
+                return 1.0
+            else:
+                return (_omega(y, x) - pv) / (v - pv)
         else:
-            return (_omega(x, y) + p) / (p - v)
+            if _omega(x, y) >= -p:
+                return 0.0
+            elif _omega(x, y) < -v:
+                return 1.0
+            else:
+                return (_omega(x, y) + p) / (p - v)
 
     two_way_comparison = True if comparables_a != comparables_b else False
     partial_discordance = Vividict()
@@ -70,12 +85,12 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b,
             for criterion in criteria:
                 pc = _get_partial_discordance(comparables_perf_a[a][criterion],
                                               comparables_perf_b[b][criterion],
-                                              criterion)
+                                              criterion, use_pre_veto)
                 partial_discordance[a][b][criterion] = pc
                 if two_way_comparison:
                     pc = _get_partial_discordance(comparables_perf_b[b][criterion],
                                                   comparables_perf_a[a][criterion],
-                                                  criterion)
+                                                  criterion, use_pre_veto)
                     partial_discordance[b][a][criterion] = pc
     return partial_discordance
 
@@ -103,6 +118,7 @@ def main():
             'pref_directions',
             'profiles_performance_table',
             'thresholds',
+            'use_pre_veto',
         ]
         d = get_input_data(input_dir, filenames, params)
 
@@ -120,7 +136,7 @@ def main():
         discordance = get_discordance(comparables_a, comparables_perf_a,
                                       comparables_b, comparables_perf_b,
                                       d.criteria, d.thresholds,
-                                      d.pref_directions)
+                                      d.pref_directions, d.use_pre_veto)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):

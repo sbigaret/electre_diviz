@@ -435,6 +435,10 @@ def get_input_data(input_dir, filenames, params, **kwargs):
             parameter = px.getParameterByName(trees['method_parameters'], 'use_partials')
             d.use_partials = True if parameter == 'true' else False
 
+        elif p == 'use_pre_veto':
+            parameter = px.getParameterByName(trees['method_parameters'], 'use_pre_veto')
+            d.use_pre_veto = True if parameter == 'true' else False
+
         else:
             raise RuntimeError("Unknown parameter '{}' specified.".format(p))
 

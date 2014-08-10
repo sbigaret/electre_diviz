@@ -9,6 +9,11 @@
       <label>boundary_profiles</label>
     </value>
   </parameter>
+  <parameter name="use_pre_veto">
+    <value>
+      <boolean>false</boolean>
+    </value>
+  </parameter>
 </methodParameters>
 
 </xmcda:XMCDA>

@@ -6,6 +6,8 @@
     <description>ElectreDiscordance - computes partial (i.e. per-criterion) discordance matrix using procedure which is common to the most methods from the Electre family.
 
 The key feature of this module is its flexibility in terms of the types of elements allowed to compare, i.e. alternatives vs alternatives, alternatives vs boundary profiles and alternatives vs central (characteristic) profiles.
+
+It also brings a concept of the 'pre-veto threshold' which is basically another threshold such as: <![CDATA[v >= pv >= p]]> (where 'v' is 'normal' veto threshold, 'pv' is the pre-veto threshold and 'p' is preference threshold).
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>
@@ -26,7 +28,7 @@ The key feature of this module is its flexibility in terms of the types of eleme
 
     <input id="input3" name="criteria" displayName="criteria" isoptional="0">
       <documentation>
-        <description>Criteria to consider, possibly with preference, indifference and veto thresholds. Each criterion must have a preference direction specified (min or max).</description>
+        <description>Criteria to consider, possibly with preference, indifference veto and pre-veto thresholds. Each criterion must have a preference direction specified (min or max).</description>
       </documentation>
       <xmcda tag="criteria" />
     </input>
@@ -47,9 +49,7 @@ The key feature of this module is its flexibility in terms of the types of eleme
 
     <input id="input6" name="method_parameters" displayName="method_parameters" isoptional="0">
       <documentation>
-        <description>This parameter specifies the type of elements provided for comparison.
-
-Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'classes_profiles' and 'profiles_performance_table' as well (which are optional by default).</description>
+        <description>A set of parameters provided to tune up the module's operation.</description>
       </documentation>
       <xmcda tag="methodParameters">
         <![CDATA[
@@ -59,11 +59,21 @@ Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'cl
               <label>%1</label>
             </value>
           </parameter>
+          <parameter name="use_pre_veto">
+            <value>
+              <boolean>%2</boolean>
+            </value>
+          </parameter>
         </methodParameters>
         ]]>
       </xmcda>
       <gui status="preferGUI">
         <entry id="%1" type="enum" displayName="comparison_with">
+          <documentation>
+            <description>This parameter specifies the type of elements provided for comparison.
+
+Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'classes_profiles' and 'profiles_performance_table' as well (which are optional by default).</description>
+        </documentation>
           <items>
             <item id="item0">
               <description>alternatives vs alternatives</description>
@@ -79,6 +89,12 @@ Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'cl
             </item>
           </items>
           <defaultValue>item0</defaultValue>
+        </entry>
+        <entry id="%2" type="boolean" displayName="use_pre_veto">
+          <documentation>
+            <description>This parameter specifies if you want to take into account another (optional) threshold called 'pre-veto threshold', such as: <![CDATA[v >= pv >= p]]> (where 'v' is 'normal' veto threshold, 'pv' is the pre-veto threshold and 'p' is preference threshold).</description>
+          </documentation>
+          <defaultValue>false</defaultValue>
         </entry>
       </gui>
     </input>
