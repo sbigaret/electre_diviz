@@ -28,7 +28,7 @@ It also brings a concept of the 'pre-veto threshold' which is basically another 
 
     <input id="input3" name="criteria" displayName="criteria" isoptional="0">
       <documentation>
-        <description>Criteria to consider, possibly with preference, indifference veto and pre-veto thresholds. Each criterion must have a preference direction specified (min or max).</description>
+        <description>Criteria to consider, possibly with preference, veto and pre-veto thresholds. Each criterion must have a preference direction specified (min or max). It is worth mentioning that this module allows to define thresholds as constants as well as linear functions.</description>
       </documentation>
       <xmcda tag="criteria" />
     </input>

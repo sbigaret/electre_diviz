@@ -32,11 +32,12 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import os
 import sys
 import traceback
+from functools import partial
 
 from docopt import docopt
 
 from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
-    get_error_message, get_input_data, write_xmcda, Vividict
+    get_error_message, get_input_data, get_linear, omega, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
@@ -45,16 +46,12 @@ def get_concordance(comparables_a, comparables_perf_a, comparables_b,
                     comparables_perf_b, criteria, thresholds, pref_directions,
                     weights):
 
-    # 'x' and 'y' to keep it as general as possible
-    def _omega(x, y):
-        if pref_directions[criterion] == 'max':
-            return x - y
-        if pref_directions[criterion] == 'min':
-            return y - x
-
+    # 'partial' in this function's name has nothing to do w/ functools.partial
     def _get_partial_concordance(x, y, criterion):
-        p = thresholds[criterion].get('preference', 0)
-        q = thresholds[criterion].get('indifference', 0)
+        _omega = partial(omega, pref_directions, criterion)
+        _get_linear = partial(get_linear, pref_directions, criterion, x, y)
+        p = _get_linear(thresholds[criterion].get('preference', 0))
+        q = _get_linear(thresholds[criterion].get('indifference', 0))
         if _omega(x, y) < -p:
             return 0.0
         elif _omega(x, y) >= -q:

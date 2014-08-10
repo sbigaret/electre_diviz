@@ -56,6 +56,35 @@ def get_relation_type(x, y, outranking):
     return relation
 
 
+def get_linear(pref_directions, criterion, x, y, threshold):
+    """Check if the given threshold is defined as linear and if yes, then
+    calculate its value - otherwise (i.e. when the threshold is a constant)
+    just return it w/o any processing.
+    In most cases it may be a good idea to wrap this function using
+    functools.partial and pass here only the 'threshold' argument.
+    """
+    if type(threshold) is not dict:  # true when threshold is constant
+        value = threshold
+    else:
+        # we calculate the thresold value from the alternative (or profile)
+        # which performs weaker on the given criterion
+        if pref_directions[criterion] == 'max':
+            perf = y if x > y else x
+        if pref_directions[criterion] == 'min':
+            perf = x if x > y else y
+        slope = threshold.get('slope', 0)
+        intercept = threshold.get('intercept', 0)
+        value = slope * perf + intercept
+    return value
+
+
+def omega(pref_directions, criterion, x, y):
+    if pref_directions[criterion] == 'max':
+        return x - y
+    if pref_directions[criterion] == 'min':
+        return y - x
+
+
 ###############################################################################
 # Getting the input data and related stuff.                                   #
 # Functions prefixed with the underscore are meant for the internal use only. #
@@ -94,6 +123,53 @@ def _get_trees(input_dir, filenames):
             tree_name = tree_name.replace('classes', 'categories')
         trees.update({tree_name: tree})
     return trees
+
+
+def _get_thresholds(xmltree):
+    """This is basically the same as px.getConstantThresholds, but with the
+    added ability to get linear thresholds as well.
+    """
+    thresholds = {}
+    for criterion in xmltree.findall('.//criterion') :
+        criterion_id = criterion.get('id')
+        xml_thresholds = criterion.find('thresholds')
+        if xml_thresholds is not None :
+            crit_thresholds = {}
+            for xml_threshold in xml_thresholds.findall('threshold') :
+                xml_constant = xml_threshold.find('constant')
+                if xml_constant is not None:
+                    xml_val = xml_constant.find('real')
+                    if xml_val is None :
+                        xml_val = xml_constant.find('integer')
+                    if xml_val is not None :
+                        mcda_concept = xml_threshold.get('mcdaConcept')
+                        if mcda_concept is not None:
+                            crit_thresholds[mcda_concept] = float(xml_val.text)
+                xml_linear = xml_threshold.find('linear')
+                if xml_linear is not None:
+                    xml_slope = xml_linear.find('slope/real')
+                    if xml_slope is None:
+                        xml_slope = xml_linear.find('slope/integer')
+                    xml_intercept = xml_linear.find('intercept/real')
+                    if xml_intercept is None:
+                        xml_intercept = xml_linear.find('intercept/integer')
+                    if xml_slope is not None or xml_intercept is not None:
+                        mcda_concept = xml_threshold.get('mcdaConcept')
+                        if mcda_concept is not None:
+                            if xml_slope is not None:
+                                slope = float(xml_slope.text)
+                            else:
+                                slope = 0.0
+                            if xml_intercept is not None:
+                                intercept = float(xml_intercept.text)
+                            else:
+                                intercept = 0.0
+                            threshold = {'slope': slope, 'intercept': intercept}
+                            crit_thresholds[mcda_concept] = threshold
+            thresholds[criterion_id] = crit_thresholds
+        else:
+            thresholds[criterion_id] = {}
+    return thresholds
 
 
 def _get_intersection_distillation(xmltree, altId):
@@ -418,7 +494,7 @@ def get_input_data(input_dir, filenames, params, **kwargs):
 
         elif p == 'thresholds':
             criteria = px.getCriteriaID(trees['criteria'])
-            d.thresholds = px.getConstantThresholds(trees['criteria'], criteria)
+            d.thresholds = _get_thresholds(trees['criteria'])
 
         elif p == 'weights':
             criteria = px.getCriteriaID(trees['criteria'])

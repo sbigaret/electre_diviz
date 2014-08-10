@@ -36,7 +36,7 @@ import traceback
 from docopt import docopt
 
 from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
-    get_error_message, get_input_data, write_xmcda, Vividict
+    get_error_message, get_input_data, get_linear, write_xmcda, Vividict
 
 __version__ = '0.2.0'
 
@@ -45,17 +45,12 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b,
                     comparables_perf_b, criteria, thresholds, pref_directions):
 
     def _get_partial_discordances(x, y, criterion):
-        v = thresholds[criterion].get('veto', 0)
+        v = get_linear(pref_directions, criterion, x, y,
+                       thresholds[criterion].get('veto', 0))
         if pref_directions[criterion] == 'max':
-            if (y < x + v):
-                d = 0
-            else:
-                d = 1
+            d = 0 if (y < x + v) else 1
         else:
-            if (y > x - v):
-                d = 0
-            else:
-                d = 1
+            d = 0 if (y > x - v) else 1
         return d
 
     def _get_aggregated_discordance(x, y):

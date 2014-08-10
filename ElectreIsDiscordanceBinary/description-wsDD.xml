@@ -26,7 +26,7 @@ The key feature of this module is its flexibility in terms of the types of eleme
 
     <input id="input3" name="criteria" displayName="criteria" isoptional="0">
       <documentation>
-        <description>Criteria to consider, possibly with preference, indifference and veto thresholds. Each criterion must have a preference direction specified (min or max).</description>
+        <description>Criteria to consider, possibly with the veto thresholds. Each criterion must have a preference direction specified (min or max). It is worth mentioning that this module allows to define veto threshold as a constant as well as a linear function.</description>
       </documentation>
       <xmcda tag="criteria" />
     </input>
