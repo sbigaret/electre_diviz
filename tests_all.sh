@@ -48,6 +48,14 @@ e2=$?
 if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
 rm tests/concordance.xml && rm tests/messages.xml
 
+./ElectreConcordance.py -i tests/in3 -o tests
+diff -s tests/concordance.xml tests/out3/concordance.xml > /dev/null
+e1=$?
+diff -s tests/messages.xml tests/out3/messages.xml > /dev/null
+e2=$?
+if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
+rm tests/concordance.xml && rm tests/messages.xml
+
 ###
 echo "testing ElectreConcordanceWithInteractions..."
 cd ../ElectreConcordanceWithInteractions
@@ -88,6 +96,14 @@ e2=$?
 if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
 rm tests/credibility.xml && rm tests/messages.xml
 
+./ElectreCredibility.py -i tests/in4 -o tests
+diff -s tests/credibility.xml tests/out4/credibility.xml > /dev/null
+e1=$?
+diff -s tests/messages.xml tests/out4/messages.xml > /dev/null
+e2=$?
+if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
+rm tests/credibility.xml && rm tests/messages.xml
+
 ###
 echo "testing ElectreDiscordance..."
 cd ../ElectreDiscordance
@@ -104,6 +120,14 @@ rm tests/discordance.xml && rm tests/messages.xml
 diff -s tests/discordance.xml tests/out2/discordance.xml > /dev/null
 e1=$?
 diff -s tests/messages.xml tests/out2/messages.xml > /dev/null
+e2=$?
+if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
+rm tests/discordance.xml && rm tests/messages.xml
+
+./ElectreDiscordance.py -i tests/in3 -o tests
+diff -s tests/discordance.xml tests/out3/discordance.xml > /dev/null
+e1=$?
+diff -s tests/messages.xml tests/out3/messages.xml > /dev/null
 e2=$?
 if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
 rm tests/discordance.xml && rm tests/messages.xml
