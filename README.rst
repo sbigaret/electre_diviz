@@ -6,11 +6,12 @@ This is a collection of modules written for MCDA framework/suite `Diviz
 <http://diviz.org>`_. They implement following concepts taken from the Electre
 family of methods:
 
-* concordance, concordance with interactions between criteria
+* concordance ('classic', with interactions between criteria, with reinforced
+  preference)
 
-* discordance, binary discordance (Electre Is)
+* discordance (with pre-veto, counter-veto), binary discordance (Electre Is)
 
-* credibility (Electre TRI, Electre IV)
+* credibility (Electre TRI, Electre IV, with counter-veto)
 
 * finding the kernel of a graph (Electre Is)
 
