@@ -57,6 +57,18 @@ if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
 rm tests/concordance.xml && rm tests/messages.xml
 
 ###
+echo "testing ElectreConcordanceReinforcedPreference..."
+cd ../ElectreConcordanceReinforcedPreference
+
+./ElectreConcordanceReinforcedPreference.py -i tests/in -o tests
+diff -s tests/concordance.xml tests/out/concordance.xml > /dev/null
+e1=$?
+diff -s tests/messages.xml tests/out/messages.xml > /dev/null
+e2=$?
+if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
+rm tests/concordance.xml && rm tests/messages.xml
+
+###
 echo "testing ElectreConcordanceWithInteractions..."
 cd ../ElectreConcordanceWithInteractions
 
@@ -105,6 +117,18 @@ if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
 rm tests/credibility.xml && rm tests/messages.xml
 
 ###
+echo "testing ElectreCredibilityWithCounterVeto..."
+cd ../ElectreCredibilityWithCounterVeto
+
+./ElectreCredibilityWithCounterVeto.py -i tests/in -o tests
+diff -s tests/credibility.xml tests/out/credibility.xml > /dev/null
+e1=$?
+diff -s tests/messages.xml tests/out/messages.xml > /dev/null
+e2=$?
+if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
+rm tests/credibility.xml && rm tests/messages.xml
+
+###
 echo "testing ElectreDiscordance..."
 cd ../ElectreDiscordance
 
@@ -113,24 +137,40 @@ diff -s tests/discordance.xml tests/out1/discordance.xml > /dev/null
 e1=$?
 diff -s tests/messages.xml tests/out1/messages.xml > /dev/null
 e2=$?
-if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
-rm tests/discordance.xml && rm tests/messages.xml
+diff -s tests/counter_veto_crossed.xml tests/out1/counter_veto_crossed.xml > /dev/null
+e3=$?
+if [[ $e1 != 0 || $e2 != 0 || $e3 != 0 ]]; then echo "error!"; else echo "ok"; fi
+rm tests/discordance.xml && rm tests/messages.xml && rm tests/counter_veto_crossed.xml
 
 ./ElectreDiscordance.py -i tests/in2 -o tests
 diff -s tests/discordance.xml tests/out2/discordance.xml > /dev/null
 e1=$?
 diff -s tests/messages.xml tests/out2/messages.xml > /dev/null
 e2=$?
-if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
-rm tests/discordance.xml && rm tests/messages.xml
+diff -s tests/counter_veto_crossed.xml tests/out2/counter_veto_crossed.xml > /dev/null
+e3=$?
+if [[ $e1 != 0 || $e2 != 0 || $e3 != 0 ]]; then echo "error!"; else echo "ok"; fi
+rm tests/discordance.xml && rm tests/messages.xml && rm tests/counter_veto_crossed.xml
 
 ./ElectreDiscordance.py -i tests/in3 -o tests
 diff -s tests/discordance.xml tests/out3/discordance.xml > /dev/null
 e1=$?
 diff -s tests/messages.xml tests/out3/messages.xml > /dev/null
 e2=$?
-if [[ $e1 != 0 || $e2 != 0 ]]; then echo "error!"; else echo "ok"; fi
-rm tests/discordance.xml && rm tests/messages.xml
+diff -s tests/counter_veto_crossed.xml tests/out3/counter_veto_crossed.xml > /dev/null
+e3=$?
+if [[ $e1 != 0 || $e2 != 0 || $e3 != 0 ]]; then echo "error!"; else echo "ok"; fi
+rm tests/discordance.xml && rm tests/messages.xml && rm tests/counter_veto_crossed.xml
+
+./ElectreDiscordance.py -i tests/in4 -o tests
+diff -s tests/discordance.xml tests/out4/discordance.xml > /dev/null
+e1=$?
+diff -s tests/messages.xml tests/out4/messages.xml > /dev/null
+e2=$?
+diff -s tests/counter_veto_crossed.xml tests/out4/counter_veto_crossed.xml > /dev/null
+e3=$?
+if [[ $e1 != 0 || $e2 != 0 || $e3 != 0 ]]; then echo "error!"; else echo "ok"; fi
+rm tests/discordance.xml && rm tests/messages.xml && rm tests/counter_veto_crossed.xml
 
 ###
 echo "testing ElectreIsDiscordanceBinary..."

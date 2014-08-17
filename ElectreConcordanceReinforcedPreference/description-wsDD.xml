@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
+  <program provider="PUT" name="ElectreConcordanceReinforcedPreference" displayName="ElectreConcordanceReinforcedPreference" version="0.1.0" />
+  <documentation>
+    <description>Computes concordance matrix using procedure which is common to the most methods from the Electre family.
+
+This module is an extended version of 'ElectreConcordance' - it brings the concept of 'reinforced_preference', which boils down to the new threshold of the same name and a new input file where the 'reinforcement factors' are defined (one for each criterion where 'reinforced_preference' threshold is present).</description>
+    <reference>Bernard Roy and Roman Słowiński; Handling effects of reinforced preference and counter-veto in credibility of outranking; European Journal of Operational Research 188(1):185–190; 2008; doi:10.1016/j.ejor.2007.04.005</reference>
+    <url>http://github.com/xor-xor/electre_diviz</url>
+  </documentation>
+  <parameters>
+
+    <input id="input1" name="alternatives" displayName="alternatives" isoptional="0">
+      <documentation>
+        <description>Alternatives to consider.</description>
+      </documentation>
+      <xmcda tag="alternatives" />
+    </input>
+
+    <input id="input2" name="classes_profiles" displayName="classes_profiles" isoptional="1">
+      <documentation>
+        <description>Definitions of profiles (boundary or central) which should be used for classes (categories) representation.</description>
+      </documentation>
+      <xmcda tag="categoriesProfiles" />
+    </input>
+
+    <input id="input3" name="criteria" displayName="criteria" isoptional="0">
+      <documentation>
+        <description>Criteria to consider, possibly with 'preference', 'indifference' and 'reinforced preference' thresholds (see also 'reinforcement_factors' input below). Each criterion must have a preference direction specified (min or max). It is worth mentioning that this module allows to define thresholds as constants as well as linear functions.</description>
+      </documentation>
+      <xmcda tag="criteria" />
+    </input>
+
+    <input id="input4" name="performance_table" displayName="performance_table" isoptional="0">
+      <documentation>
+        <description>The performance of alternatives.</description>
+      </documentation>
+      <xmcda tag="performanceTable" />
+    </input>
+
+    <input id="input5" name="profiles_performance_table" displayName="profiles_performance_table" isoptional="1">
+      <documentation>
+        <description>The performance of profiles (boundary or central).</description>
+      </documentation>
+      <xmcda tag="performanceTable" />
+    </input>
+
+    <input id="input6" name="weights" displayName="weights" isoptional="0">
+      <documentation>
+        <description>Weights of criteria to consider.</description>
+      </documentation>
+      <xmcda tag="criteriaValues" />
+    </input>
+
+    <input id="input7" name="reinforcement_factors" displayName="reinforcement_factors" isoptional="1">
+      <documentation>
+        <description>Definitions of so-called 'reinforcement factors', one per each criterion for which 'reinforcement threshold' has been defined. For more regarding these concepts see the paper from 'Reference' section.
+
+Technically, this input is optional, but it doesn't make much sense to use 'ElectreConcordanceReinforcedPreference' without it, since in such scenario it will fall back to 'ElectreConcordance'.</description>
+      </documentation>
+      <xmcda tag="criteriaValues" />
+    </input>
+
+    <input id="input8" name="method_parameters" displayName="method_parameters" isoptional="0">
+      <documentation>
+        <description>This parameter specifies the type of elements provided for comparison.
+
+Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'classes_profiles' and 'profiles_performance_table' as well (which are optional by default).</description>
+      </documentation>
+      <xmcda tag="methodParameters">
+        <![CDATA[
+        <methodParameters>
+          <parameter name="comparison_with">
+            <value>
+              <label>%1</label>
+            </value>
+          </parameter>
+        </methodParameters>
+        ]]>
+      </xmcda>
+      <gui status="preferGUI">
+        <entry id="%1" type="enum" displayName="comparison_with">
+          <items>
+            <item id="item0">
+              <description>alternatives vs alternatives</description>
+              <value>alternatives</value>
+            </item>
+            <item id="item1">
+              <description>alternatives vs boundary profiles</description>
+              <value>boundary_profiles</value>
+            </item>
+            <item id="item2">
+              <description>alternatives vs central (characteristic) profiles</description>
+              <value>central_profiles</value>
+            </item>
+          </items>
+          <defaultValue>item0</defaultValue>
+        </entry>
+      </gui>
+    </input>
+
+    <output id="output1" name="concordance" displayName="concordance">
+      <documentation>
+        <description>Concordance matrix computed from the given data. This matrix aggregates partial concordances from all criteria into single concordance index per pair of alternatives or alternatives/profiles.</description>
+      </documentation>
+      <xmcda tag="alternativesComparisons" />
+    </output>
+
+    <output id="output2" name="messages" displayName="messages">
+      <documentation>
+        <description>Messages or errors generated by this module.</description>
+      </documentation>
+      <xmcda tag="methodMessages" />
+    </output>
+
+  </parameters>
+</program_description>

@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
-  <program provider="PUT" name="ElectreDiscordance" displayName="ElectreDiscordance" version="0.2.0" />
+  <program provider="PUT" name="ElectreCredibilityWithCounterVeto" displayName="ElectreCredibilityWithCounterVeto" version="0.1.0" />
   <documentation>
-    <description>ElectreDiscordance - computes partial (i.e. per-criterion) discordance matrix using procedure which is common to the most methods from the Electre family.
+    <description>ElectreCredibilityWithCounterVeto - computes credibility matrix using procedure which is common to the most methods from the Electre family.
 
-The key feature of this module is its flexibility in terms of the types of elements allowed to compare, i.e. alternatives vs alternatives, alternatives vs boundary profiles and alternatives vs central (characteristic) profiles.
+This module is an extended version of 'ElectreCredibility' in that it is designed to work with the 'counter-veto' concept - i.e. it requires an additional input file ('counter_veto_crossed.xml') produced by 'ElectreDiscordance' module, which contains the information for which pairs and on which criteria the 'counter-veto' threshold has been crossed.
 
-It also brings two new concepts: a 'counter-veto' threshold (cv) and 'pre-veto' threshold (pv) such as: <![CDATA[cv >= v >= pv >= p]]> (where 'v' is 'veto' threshold, and 'p' is 'preference' threshold).
+Please note that unlike 'ElectreCredibility', this module can accept discordance indices only in non-aggregated form (i.e. one index per criterion).</description>
+    <reference>Bernard Roy and Roman Słowiński; Handling effects of reinforced preference and counter-veto in credibility of outranking; European Journal of Operational Research 188(1):185–190; 2008; doi:10.1016/j.ejor.2007.04.005</reference>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>
@@ -26,25 +27,25 @@ It also brings two new concepts: a 'counter-veto' threshold (cv) and 'pre-veto' 
       <xmcda tag="categoriesProfiles" />
     </input>
 
-    <input id="input3" name="criteria" displayName="criteria" isoptional="0">
+    <input id="input3" name="concordance" displayName="concordance" isoptional="0">
       <documentation>
-        <description>Criteria to consider, possibly with preference, veto, pre-veto and counter-veto thresholds. Each criterion must have a preference direction specified (min or max). It is worth mentioning that this module allows to define thresholds as constants as well as linear functions.</description>
+        <description>Concordance matrix with aggregated concordance indices (i.e. one index per pair of alternatives or alternatives/profiles).</description>
       </documentation>
-      <xmcda tag="criteria" />
+      <xmcda tag="alternativesComparisons" />
     </input>
 
-    <input id="input4" name="performance_table" displayName="performance_table" isoptional="0">
+    <input id="input4" name="counter_veto_crossed" displayName="counter_veto_crossed" isoptional="0">
       <documentation>
-        <description>The performance of alternatives.</description>
+        <description>This input contains the information (boolean values) for which pairs of variants and on which criteria the 'counter-veto' threshold has been crossed.</description>
       </documentation>
-      <xmcda tag="performanceTable" />
+      <xmcda tag="alternativesComparisons" />
     </input>
 
-    <input id="input5" name="profiles_performance_table" displayName="profiles_performance_table" isoptional="1">
+    <input id="input5" name="discordance" displayName="discordance" isoptional="0">
       <documentation>
-        <description>The performance of profiles (boundary or central).</description>
+        <description>Discordance indices provided in non-aggregated ('partial' or 'per-criterion') form.</description>
       </documentation>
-      <xmcda tag="performanceTable" />
+      <xmcda tag="alternativesComparisons" />
     </input>
 
     <input id="input6" name="method_parameters" displayName="method_parameters" isoptional="0">
@@ -59,7 +60,7 @@ It also brings two new concepts: a 'counter-veto' threshold (cv) and 'pre-veto' 
               <label>%1</label>
             </value>
           </parameter>
-          <parameter name="use_pre_veto">
+          <parameter name="with_denominator">
             <value>
               <boolean>%2</boolean>
             </value>
@@ -73,7 +74,7 @@ It also brings two new concepts: a 'counter-veto' threshold (cv) and 'pre-veto' 
             <description>This parameter specifies the type of elements provided for comparison.
 
 Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'classes_profiles' and 'profiles_performance_table' as well (which are optional by default).</description>
-        </documentation>
+          </documentation>
           <items>
             <item id="item0">
               <description>alternatives vs alternatives</description>
@@ -90,30 +91,23 @@ Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'cl
           </items>
           <defaultValue>item0</defaultValue>
         </entry>
-        <entry id="%2" type="boolean" displayName="use_pre_veto">
+        <entry id="%2" type="boolean" displayName="with_denominator">
           <documentation>
-            <description>This parameter specifies if you want to take into account another (optional) threshold called 'pre-veto threshold', such as: <![CDATA[v >= pv >= p]]> (where 'v' is 'normal' veto threshold, 'pv' is the pre-veto threshold and 'p' is preference threshold).</description>
+            <description>This parameter specifies if you want to take into account only sufficiently great discordance (by using '1 - d_i / 1 - C(a, b)' instead of '1 - d_i' in credibility's equation).</description>
           </documentation>
-          <defaultValue>false</defaultValue>
+          <defaultValue>true</defaultValue>
         </entry>
       </gui>
     </input>
 
-    <output id="output1" name="discordance" displayName="discordance">
+    <output id="output1" name="credibility" displayName="credibility">
       <documentation>
-        <description>Partial (i.e. per-criterion) discordance indices computed from the given data.</description>
+        <description>Credibility matrix computed from the given data.</description>
       </documentation>
       <xmcda tag="alternativesComparisons" />
     </output>
 
-    <output id="output2" name="counter_veto_crossed" displayName="counter_veto_crossed">
-      <documentation>
-        <description>This input contains information regarding the number of criteria per pair of the alternatives/profiles on which the 'counter-veto' threshold has been crossed. Please note that this output will be created even if 'counter-veto' threshold has not been defined - in such case, all the values will be set to 'false'.</description>
-      </documentation>
-      <xmcda tag="alternativesComparisons" />
-    </output>
-
-    <output id="output3" name="messages" displayName="messages">
+    <output id="output2" name="messages" displayName="messages">
       <documentation>
         <description>Messages or errors generated by this module.</description>
       </documentation>

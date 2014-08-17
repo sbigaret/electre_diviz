@@ -229,6 +229,14 @@ def _get_alternatives_comparisons(xmltree, alternatives,
             value = float(value_node.find('real').text)
         elif value_node.find('label') is not None:
             value = value_node.find('label').text
+        elif value_node.find('boolean') is not None:
+            value = value_node.find('boolean').text
+            if value == 'true':
+                value = True
+            elif value == 'false':
+                value = False
+            else:
+                value = None
         else:
             value = None
         return value
@@ -443,11 +451,29 @@ def get_input_data(input_dir, filenames, params, **kwargs):
                 )
             d.cut_threshold = cut_threshold
 
+        # 'cv_crossed' == 'counter-veto crossed'
+        elif p == 'cv_crossed':
+            alternatives = px.getAlternativesID(trees['alternatives'])
+            comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
+            if comparison_with in ('boundary_profiles', 'central_profiles'):
+                categories_profiles = _get_categories_profiles(trees['categories_profiles'],
+                                                               comparison_with)
+            else:
+                categories_profiles = None
+            d.cv_crossed = _get_alternatives_comparisons(trees['counter_veto_crossed'],
+                                                         alternatives,
+                                                         categories_profiles=categories_profiles,
+                                                         use_partials=True,
+                                                         mcda_concept='counterVetoCrossed')
+
         elif p == 'discordance':
             alternatives = px.getAlternativesID(trees['alternatives'])
             comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            parameter = px.getParameterByName(trees['method_parameters'], 'use_partials')
-            use_partials = True if parameter == 'true' else False
+            if kwargs.get('use_partials') is not None:
+                use_partials = kwargs.get('use_partials')
+            else:
+                parameter = px.getParameterByName(trees['method_parameters'], 'use_partials')
+                use_partials = True if parameter == 'true' else False
             if comparison_with in ('boundary_profiles', 'central_profiles'):
                 categories_profiles = _get_categories_profiles(trees['categories_profiles'],
                                                                comparison_with)
@@ -491,6 +517,21 @@ def get_input_data(input_dir, filenames, params, **kwargs):
                 d.profiles_performance_table = px.getPerformanceTable(tree, None, None)
             else:
                 d.profiles_performance_table = None
+
+        elif p == 'reinforcement_factors':
+            criteria = px.getCriteriaID(trees['criteria'])
+            factors = {}
+            for c in criteria:
+                rf = px.getCriterionValue(trees['reinforcement_factors'], c,
+                                          'reinforcement_factors')
+                if len(rf) == 0:
+                    continue
+                if rf.get(c) <= 1:
+                    msg = ("Reinforcement factor for criterion '{}' should be "
+                           "higher than 1.0 (ideally between 1.2 and 1.5).")
+                    raise RuntimeError(msg)
+                factors.update(rf)
+            d.reinforcement_factors = factors
 
         elif p == 'thresholds':
             criteria = px.getCriteriaID(trees['criteria'])
@@ -540,6 +581,8 @@ def comparisons_to_xmcda(comparisons, comparables, use_partials=False,
             value_type = 'integer'
         elif type(value) in (str, unicode):
             value_type = 'label'
+        elif type(value) == bool:
+            value_type = 'boolean'
         else:
             raise RuntimeError("Unknown type '{}'.".format(type(value)))
         return value_type
@@ -576,7 +619,10 @@ def comparisons_to_xmcda(comparisons, comparables, use_partials=False,
             value_type = _get_value_type(comparisons[alt1][alt2])
             value_node = etree.SubElement(pair, 'value')
             v = etree.SubElement(value_node, value_type)
-            v.text = str(comparisons[alt1][alt2])
+            if value_type == 'boolean':
+                v.text = 'true' if comparisons[alt1][alt2] is True else 'false'
+            else:
+                v.text = str(comparisons[alt1][alt2])
         else:
             values = etree.SubElement(pair, 'values')
             items = comparisons[alt1][alt2].items()
@@ -585,7 +631,10 @@ def comparisons_to_xmcda(comparisons, comparables, use_partials=False,
                 value_type = _get_value_type(i[1])
                 value_node = etree.SubElement(values, 'value', id=i[0])
                 v = etree.SubElement(value_node, value_type)
-                v.text = str(i[1])
+                if value_type == 'boolean':
+                    v.text = 'true' if i[1] is True else 'false'
+                else:
+                    v.text = str(i[1])
     return xmcda
 
 

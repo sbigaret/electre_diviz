@@ -1,0 +1,609 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xmcda:XMCDA xmlns:xmcda='http://www.decision-deck.org/2012/XMCDA-2.2.0'
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xsi:schemaLocation='http://www.decision-deck.org/2012/XMCDA-2.2.0 http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.0.xsd'>
+<alternativesComparisons mcdaConcept="counterVetoCrossed">
+  <pairs>
+    <pair>
+      <initial>
+        <alternativeID>a01</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a01</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a02</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a02</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a03</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a03</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a04</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a04</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a05</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a05</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a06</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pBM</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>a06</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>pMG</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pBM</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a01</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pBM</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a02</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pBM</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a03</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pBM</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a04</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pBM</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a05</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pBM</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a06</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a01</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a02</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a03</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a04</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a05</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>pMG</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>a06</alternativeID>
+      </terminal>
+      <values>
+        <value id="c01">
+          <boolean>false</boolean>
+        </value>
+        <value id="c02">
+          <boolean>false</boolean>
+        </value>
+        <value id="c03">
+          <boolean>false</boolean>
+        </value>
+        <value id="c04">
+          <boolean>false</boolean>
+        </value>
+        <value id="c05">
+          <boolean>false</boolean>
+        </value>
+      </values>
+    </pair>
+  </pairs>
+</alternativesComparisons>
+</xmcda:XMCDA>
