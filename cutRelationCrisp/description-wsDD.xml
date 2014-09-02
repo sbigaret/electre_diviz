@@ -3,9 +3,8 @@
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
   <program provider="PUT" name="cutRelationCrisp" displayName="cutRelationCrisp" version="0.1.0" />
   <documentation>
-    <description>cutRelationCrisp - this module applies a cut threshold and determines the type of the outranking relation between given pairs of alternatives or alternatives/profiles (boundary or central).
-
-The possible relations are 'preference', 'indifference' and 'incomparability'.  The output is produced for all pairs provided as input - therefore, in case of getting a 'preference' relation, which is unidirectional, the other direction's relation (or rather, lack of thereof) will be denoted as 'none'.</description>
+    <description>cutRelationCrisp - this module applies cut threshold to the credibility matrix provided as input, which may result from comparison between pairs of alternatives or alternatives and profiles (boundary or central). The resulting outranking relations will be produced only for the pairs of alternatives (or alternatives/profiles) for which cut threshold is equal or exceeded (hence 'crisp' in its name), but without assigning any explicit values (e.g. '1.0') to them.</description>
+</description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>
@@ -54,7 +53,9 @@ The possible relations are 'preference', 'indifference' and 'incomparability'.  
       <gui status="preferGUI">
         <entry id="%1" type="enum" displayName="comparison_with">
           <documentation>
-            <description>Method for cycle elimination. Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'classes_profiles' and 'profiles_performance_table' as well (which are optional by default).</description>
+            <description>This parameter specifies the type of elements provided for comparison.
+
+Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'classes_profiles' and 'profiles_performance_table' as well (which are optional by default).</description>
           </documentation>
           <items>
             <item id="item0">
@@ -91,7 +92,7 @@ The possible relations are 'preference', 'indifference' and 'incomparability'.  
 
     <output id="output1" name="outranking" displayName="outranking">
       <documentation>
-        <description>Outranking relations calculated from the given data. Please note that the output is given as strings, i.e. 'preference', indifference', 'incomparability' or 'none'.</description>
+        <description>Resulting 'crisp' outranking relations.</description>
       </documentation>
       <xmcda tag="alternativesComparisons" />
     </output>

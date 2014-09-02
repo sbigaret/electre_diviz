@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 
 """
-cutRelationCrisp - this module applies a cut threshold and determines the type
-of the outranking relation between given pairs of alternatives or
-alternatives/profiles (boundary or central).
-
-The possible relations are 'preference', 'indifference' and 'incomparability'.
-The output is produced for all pairs provided as input - therefore, in case of
-getting a 'preference' relation, which is unidirectional, the other direction's
-relation (or rather, lack of thereof) will be denoted as 'none'.
+cutRelationCrisp - this module applies cut threshold to the credibility matrix
+provided as input, which may result from comparison between pairs of
+alternatives or alternatives and profiles (boundary or central). The resulting
+outranking relations will be produced only for the pairs of alternatives (or
+alternatives/profiles) for which cut threshold is equal or exceeded (hence
+'crisp' in its name), but without assigning any explicit values (e.g. '1.0') to
+them.
 
 Usage:
     cutRelationCrisp.py -i DIR -o DIR

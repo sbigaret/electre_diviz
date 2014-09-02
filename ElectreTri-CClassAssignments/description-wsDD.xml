@@ -40,9 +40,7 @@ This method uses central reference actions (profiles) instead of boundary action
 
     <input id="input5" name="outranking" displayName="outranking" isoptional="0">
       <documentation>
-        <description>Outranking matrix (alternatives vs central profiles) which should be used in exploitation procedure.
-
-Please note that instead of numeric values for each pair of alternatives/profiles, this matrix should contain the actual types of outranking relations given as strings, i.e. 'preference', 'indifference', 'incomparability' or 'none'. For more on this see documentation for the 'cutRelationCrisp' module, which produces such output.</description>
+        <description>Outranking relations for pairs of alternatives and central profiles, which should be used in exploitation procedure. They should be provided in a 'crisp' form, i.e. only pairs where outranking occurs, but without assigning any explicit value (e.g. '1.0') to them.</description>
       </documentation>
       <xmcda tag="alternativesComparisons"/>
     </input>
