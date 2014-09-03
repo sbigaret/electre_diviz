@@ -196,7 +196,7 @@ def _get_intersection_distillation(xmltree, altId):
         return datas
 
 
-def _get_outranking(xmltree, mcda_concept=None):
+def _get_outranking_crisp(xmltree, mcda_concept=None):
     if xmltree is None:
         return None
     if mcda_concept == None :
@@ -492,13 +492,7 @@ def get_input_data(input_dir, filenames, params, **kwargs):
             d.interactions = _get_criteria_interactions(trees['interactions'], criteria)
 
         elif p == 'outranking':
-            alternatives = px.getAlternativesID(trees['alternatives'])
-            outranking = _get_intersection_distillation(trees['outranking'], alternatives)
-            if outranking == None:
-                outranking = px.getAlternativesComparisons(trees['outranking'], alternatives)
-            if outranking == {}:
-                outranking = _get_outranking(trees['outranking'])
-            d.outranking = outranking
+            d.outranking = _get_outranking_crisp(trees['outranking'])
 
         elif p == 'performances':
             d.performances = px.getPerformanceTable(trees['performance_table'], None, None)

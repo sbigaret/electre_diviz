@@ -8,64 +8,6 @@
         <terminal>
           <alternativeID>APS</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>APS</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>AWF</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>APS</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>PW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>APS</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>PWT</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>APS</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGGW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>APS</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGH</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -74,42 +16,6 @@
         <terminal>
           <alternativeID>SGSP</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>APS</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UKSW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>APS</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>APS</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>WAT</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -118,9 +24,6 @@
         <terminal>
           <alternativeID>APS</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -129,20 +32,6 @@
         <terminal>
           <alternativeID>AWF</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>AWF</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>PW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -151,31 +40,6 @@
         <terminal>
           <alternativeID>PWT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>AWF</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGGW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>AWF</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGH</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -184,31 +48,6 @@
         <terminal>
           <alternativeID>SGSP</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>AWF</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UKSW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>AWF</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -217,9 +56,6 @@
         <terminal>
           <alternativeID>WAT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -228,9 +64,6 @@
         <terminal>
           <alternativeID>APS</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -239,9 +72,6 @@
         <terminal>
           <alternativeID>AWF</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -250,9 +80,6 @@
         <terminal>
           <alternativeID>PW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -261,9 +88,6 @@
         <terminal>
           <alternativeID>PWT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -272,9 +96,6 @@
         <terminal>
           <alternativeID>SGGW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -283,9 +104,6 @@
         <terminal>
           <alternativeID>SGH</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -294,9 +112,6 @@
         <terminal>
           <alternativeID>SGSP</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -305,20 +120,6 @@
         <terminal>
           <alternativeID>UKSW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>PW</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -327,9 +128,6 @@
         <terminal>
           <alternativeID>WAT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -338,31 +136,6 @@
         <terminal>
           <alternativeID>APS</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>PWT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>AWF</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>PWT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>PW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -371,31 +144,6 @@
         <terminal>
           <alternativeID>PWT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>PWT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGGW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>PWT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGH</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -404,42 +152,6 @@
         <terminal>
           <alternativeID>SGSP</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>PWT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UKSW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>PWT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>PWT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>WAT</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -448,9 +160,6 @@
         <terminal>
           <alternativeID>APS</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -459,20 +168,6 @@
         <terminal>
           <alternativeID>AWF</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGGW</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>PW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -481,9 +176,6 @@
         <terminal>
           <alternativeID>PWT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -492,20 +184,6 @@
         <terminal>
           <alternativeID>SGGW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGGW</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGH</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -514,9 +192,6 @@
         <terminal>
           <alternativeID>SGSP</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -525,20 +200,6 @@
         <terminal>
           <alternativeID>UKSW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGGW</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -547,9 +208,6 @@
         <terminal>
           <alternativeID>WAT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -558,9 +216,6 @@
         <terminal>
           <alternativeID>APS</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -569,20 +224,6 @@
         <terminal>
           <alternativeID>AWF</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGH</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>PW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -591,9 +232,6 @@
         <terminal>
           <alternativeID>PWT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -602,9 +240,6 @@
         <terminal>
           <alternativeID>SGGW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -613,9 +248,6 @@
         <terminal>
           <alternativeID>SGH</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -624,9 +256,6 @@
         <terminal>
           <alternativeID>SGSP</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -635,20 +264,6 @@
         <terminal>
           <alternativeID>UKSW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGH</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -657,9 +272,6 @@
         <terminal>
           <alternativeID>WAT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -668,31 +280,6 @@
         <terminal>
           <alternativeID>APS</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGSP</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>AWF</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGSP</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>PW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -701,31 +288,6 @@
         <terminal>
           <alternativeID>PWT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGSP</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGGW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGSP</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGH</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -734,42 +296,6 @@
         <terminal>
           <alternativeID>SGSP</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGSP</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UKSW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGSP</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>SGSP</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>WAT</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -778,9 +304,6 @@
         <terminal>
           <alternativeID>APS</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -789,20 +312,6 @@
         <terminal>
           <alternativeID>AWF</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>UKSW</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>PW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -811,31 +320,6 @@
         <terminal>
           <alternativeID>PWT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>UKSW</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGGW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>UKSW</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGH</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -844,9 +328,6 @@
         <terminal>
           <alternativeID>SGSP</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -855,20 +336,6 @@
         <terminal>
           <alternativeID>UKSW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>UKSW</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -877,9 +344,6 @@
         <terminal>
           <alternativeID>WAT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -888,9 +352,6 @@
         <terminal>
           <alternativeID>APS</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -899,9 +360,6 @@
         <terminal>
           <alternativeID>AWF</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -910,9 +368,6 @@
         <terminal>
           <alternativeID>PW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -921,9 +376,6 @@
         <terminal>
           <alternativeID>PWT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -932,9 +384,6 @@
         <terminal>
           <alternativeID>SGGW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -943,9 +392,6 @@
         <terminal>
           <alternativeID>SGH</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -954,9 +400,6 @@
         <terminal>
           <alternativeID>SGSP</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -965,9 +408,6 @@
         <terminal>
           <alternativeID>UKSW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -976,9 +416,6 @@
         <terminal>
           <alternativeID>UW</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -987,9 +424,6 @@
         <terminal>
           <alternativeID>WAT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -998,9 +432,6 @@
         <terminal>
           <alternativeID>APS</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -1009,20 +440,6 @@
         <terminal>
           <alternativeID>AWF</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>WAT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>PW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -1031,31 +448,6 @@
         <terminal>
           <alternativeID>PWT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>WAT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGGW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>WAT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>SGH</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -1064,31 +456,6 @@
         <terminal>
           <alternativeID>SGSP</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>WAT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UKSW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
-      </pair>
-      <pair>
-        <initial>
-          <alternativeID>WAT</alternativeID>
-        </initial>
-        <terminal>
-          <alternativeID>UW</alternativeID>
-        </terminal>
-        <value>
-          <real>0.0</real>
-        </value>
       </pair>
       <pair>
         <initial>
@@ -1097,9 +464,6 @@
         <terminal>
           <alternativeID>WAT</alternativeID>
         </terminal>
-        <value>
-          <real>1.0</real>
-        </value>
       </pair>
     </pairs>
   </alternativesComparisons>
