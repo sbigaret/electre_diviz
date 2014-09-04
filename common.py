@@ -542,6 +542,10 @@ def get_input_data(input_dir, filenames, params, **kwargs):
             parameter = px.getParameterByName(trees['method_parameters'], 'with_denominator')
             d.with_denominator = True if parameter == 'true' else False
 
+        elif p == 'only_max_discordance':
+            parameter = px.getParameterByName(trees['method_parameters'], 'only_max_discordance')
+            d.only_max_discordance = True if parameter == 'true' else False
+
         elif p == 'use_partials':
             parameter = px.getParameterByName(trees['method_parameters'], 'use_partials')
             d.use_partials = True if parameter == 'true' else False

@@ -55,9 +55,14 @@ The key feature of this module is its flexibility in terms of the types of eleme
               <boolean>%2</boolean>
             </value>
           </parameter>
-          <parameter name="use_partials">
+          <parameter name="only_max_discordance">
             <value>
               <boolean>%3</boolean>
+            </value>
+          </parameter>
+          <parameter name="use_partials">
+            <value>
+              <boolean>%4</boolean>
             </value>
           </parameter>
         </methodParameters>
@@ -88,11 +93,19 @@ Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'cl
         </entry>
         <entry id="%2" type="boolean" displayName="with_denominator">
           <documentation>
-            <description>This parameter specifies if you want to take into account only sufficiently great discordance (by using '1 - d_i / 1 - C(a, b)' instead of '1 - d_i' in credibility's equation).</description>
+            <description>This parameter specifies if you want to take into account only sufficiently great discordance (by using '1 - d_j(a, b) / 1 - C(a, b)' instead of '1 - d_j(a, b)' in credibility's equation).
+
+In case of selecting this option, only discordance indices for which <![CDATA[d_j(a, b) > C(a, b)]]> holds are taken into account.</description>
           </documentation>
           <defaultValue>true</defaultValue>
         </entry>
-        <entry id="%3" type="boolean" displayName="use_partials">
+        <entry id="%3" type="boolean" displayName="only_max_discordance">
+          <documentation>
+            <description>Use only maximum discordance index in discordance aggregation part of credibility's equation (i.e. '1 - max(d_j(a, b))'). When 'with_denominator' is set to 'true', this parameter is ignored.</description>
+          </documentation>
+          <defaultValue>false</defaultValue>
+        </entry>
+        <entry id="%4" type="boolean" displayName="use_partials">
           <documentation>
             <description>This parameter specifies whether the discordance indices are provided in non-aggregated form.</description>
           </documentation>

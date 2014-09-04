@@ -39,10 +39,12 @@ from common import comparisons_to_xmcda, create_messages_file, get_dirs, \
 
 __version__ = '0.2.0'
 
-def get_credibility(comparables_a, comparables_b, concordance, discordance,
-                    with_denominator, use_partials):
 
-    def _get_credibility_index(x, y, with_denominator, use_partials):
+def get_credibility(comparables_a, comparables_b, concordance, discordance,
+                    with_denominator, only_max_discordance, use_partials):
+
+    def _get_credibility_index(x, y, with_denominator, only_max_discordance,
+                               use_partials):
         if use_partials:
             discordance_values = discordance[x][y].values()
         else:
@@ -54,16 +56,22 @@ def get_credibility(comparables_a, comparables_b, concordance, discordance,
                 raise RuntimeError("When discordance == 1, "
                                    "concordance must be < 1.")
             c_idx = 0.0
+        elif only_max_discordance and not with_denominator:
+            c_idx = concordance[x][y] * (1 - max(discordance_values))
         else:
             factors = []
             for d in discordance_values:
-                if d > concordance[x][y]:  # d_i(a, b) > C(a, b)
-                    if with_denominator:
+                if with_denominator:
+                    if d > concordance[x][y]:
                         factor = (1 - d) / (1 - concordance[x][y])
-                    else:
-                        factor = (1 - d)
-                    factors.append(factor)
-            c_idx = concordance[x][y] * reduce(lambda f1, f2: f1 * f2, factors)
+                else:
+                    factor = (1 - d)
+                factors.append(factor)
+            if factors == []:
+                c_idx = 0.0
+            else:
+                c_idx = concordance[x][y] * reduce(lambda f1, f2: f1 * f2,
+                                                   factors)
         return c_idx
 
     two_way_comparison = True if comparables_a != comparables_b else False
@@ -71,9 +79,11 @@ def get_credibility(comparables_a, comparables_b, concordance, discordance,
     for a in comparables_a:
         for b in comparables_b:
             credibility[a][b] = _get_credibility_index(a, b, with_denominator,
+                                                       only_max_discordance,
                                                        use_partials)
             if two_way_comparison:
                 credibility[b][a] = _get_credibility_index(b, a, with_denominator,
+                                                           only_max_discordance,
                                                            use_partials)
     return credibility
 
@@ -97,6 +107,7 @@ def main():
             'comparison_with',
             'concordance',
             'discordance',
+            'only_max_discordance',
             'with_denominator',
             'use_partials',
         ]
@@ -112,7 +123,9 @@ def main():
 
         credibility = get_credibility(comparables_a, comparables_b,
                                       d.concordance, d.discordance,
-                                      d.with_denominator, d.use_partials)
+                                      d.with_denominator,
+                                      d.only_max_discordance,
+                                      d.use_partials)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):

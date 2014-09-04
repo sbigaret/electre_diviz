@@ -14,6 +14,11 @@
       <boolean>true</boolean>
     </value>
   </parameter>
+  <parameter name="only_max_discordance">
+    <value>
+      <boolean>false</boolean>
+    </value>
+  </parameter>
   <parameter name="use_partials">
     <value>
       <boolean>true</boolean>
