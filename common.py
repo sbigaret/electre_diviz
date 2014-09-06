@@ -317,9 +317,11 @@ def _get_categories_profiles(tree, comparison_with):
         # {'Bad': {'upper': 'pBM'}, 'Medium': {'upper': 'pMG', 'lower': 'pBM'},
         #  'Good': {'lower': 'pMG'}}
         # categories_profiles_full = px.getCategoriesProfiles(tree, categories_names)
-        categories_names = list(set(tree.xpath('//categoriesProfiles//limits//categoryID/text()')))
-        categories_profiles_full = px.getCategoriesProfiles(tree, categories_names)
-        _get_profiles_ordering(None, categories_profiles)
+        if len(tree.findall('.//limits')) > 0:
+            xpath = '//categoriesProfiles//limits//categoryID/text()'
+            categories_names = list(set(tree.xpath(xpath)))
+            categories_profiles_full = px.getCategoriesProfiles(tree, categories_names)
+            _get_profiles_ordering(None, categories_profiles)
     elif comparison_with == 'central_profiles':
         categories_profiles = {}
         for xmlprofile in tree.findall(".//categoryProfile"):
@@ -557,6 +559,11 @@ def get_input_data(input_dir, filenames, params, **kwargs):
         else:
             raise RuntimeError("Unknown parameter '{}' specified.".format(p))
 
+    for param in params:
+        data = getattr(d, param)
+        if type(data) in (type(list), type(dict)) and len(data) == 0:
+            raise RuntimeError("No content for '{}' parameter provided."
+                               .format(param))
     return d
 
 
