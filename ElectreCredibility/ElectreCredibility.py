@@ -61,14 +61,16 @@ def get_credibility(comparables_a, comparables_b, concordance, discordance,
         else:
             factors = []
             for d in discordance_values:
+                factor = None
                 if with_denominator:
                     if d > concordance[x][y]:
                         factor = (1 - d) / (1 - concordance[x][y])
                 else:
                     factor = (1 - d)
-                factors.append(factor)
+                if factor:
+                    factors.append(factor)
             if factors == []:
-                c_idx = 0.0
+                c_idx = concordance[x][y]
             else:
                 c_idx = concordance[x][y] * reduce(lambda f1, f2: f1 * f2,
                                                    factors)

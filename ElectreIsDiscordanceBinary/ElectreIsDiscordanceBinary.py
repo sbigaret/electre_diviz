@@ -46,8 +46,10 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b,
 
     def _get_partial_discordances(x, y, criterion):
         v = get_linear(pref_directions, criterion, x, y,
-                       thresholds[criterion].get('veto', 0))
-        if pref_directions[criterion] == 'max':
+                       thresholds[criterion].get('veto'))
+        if v is None:
+            d = 0
+        elif pref_directions[criterion] == 'max':
             d = 0 if (y < x + v) else 1
         else:
             d = 0 if (y > x - v) else 1
