@@ -46,9 +46,9 @@ __version__ = '0.1.0'
 
 
 def get_credibility(comparables_a, comparables_b, concordance, discordance,
-                    with_denominator, cv_crossed):
+                    with_denominator, only_max_discordance, cv_crossed):
 
-    def _get_credibility_idx(x, y, num_crossed):
+    def _get_credibility_idx(x, y, num_crossed, only_max_discordance):
         discordance_values = discordance[x][y].values()
         if set(discordance_values) == set([0]):  # only zeros
             c_idx = concordance[x][y]
@@ -57,18 +57,24 @@ def get_credibility(comparables_a, comparables_b, concordance, discordance,
                 raise RuntimeError("When discordance == 1, "
                                    "concordance must be < 1.")
             c_idx = 0.0
+        elif only_max_discordance and not with_denominator:
+            c_idx = concordance[x][y] * (1 - max(discordance_values))
         else:
             factors = []
             for d in discordance_values:
-                if d > concordance[x][y]:
-                    if with_denominator:
+                if with_denominator:
+                    if d > concordance[x][y]:
                         factor = (1 - d) / (1 - concordance[x][y])
-                    else:
-                        factor = (1 - d)
+                else:
+                    factor = (1 - d)
+                if factor:
                     factors.append(factor)
-            discordance_aggr = reduce(lambda f1, f2: f1 * f2, factors)
-            c_idx = (concordance[x][y] *
-                     discordance_aggr ** (1 - num_crossed / num_total))
+            if factors == []:
+                c_idx = concordance[x][y]
+            else:
+                discordance_aggr = reduce(lambda f1, f2: f1 * f2, factors)
+                c_idx = (concordance[x][y] *
+                         discordance_aggr ** (1 - num_crossed / num_total))
         return c_idx
 
     two_way_comparison = True if comparables_a != comparables_b else False
@@ -80,9 +86,11 @@ def get_credibility(comparables_a, comparables_b, concordance, discordance,
     for a in comparables_a:
         for b in comparables_b:
             num_crossed = len(cv_crossed[a][b])
-            credibility[a][b] = _get_credibility_idx(a, b, num_crossed)
+            credibility[a][b] = _get_credibility_idx(a, b, num_crossed,
+                                                     only_max_discordance)
             if two_way_comparison:
-                credibility[b][a] = _get_credibility_idx(b, a, num_crossed)
+                credibility[b][a] = _get_credibility_idx(b, a, num_crossed,
+                                                         only_max_discordance)
     return credibility
 
 
@@ -107,6 +115,7 @@ def main():
             'concordance',
             'cv_crossed',
             'discordance',
+            'only_max_discordance',
             'with_denominator',
         ]
         d = get_input_data(input_dir, filenames, params, use_partials=True)
@@ -121,7 +130,8 @@ def main():
 
         credibility = get_credibility(comparables_a, comparables_b,
                                       d.concordance, d.discordance,
-                                      d.with_denominator, d.cv_crossed)
+                                      d.with_denominator,
+                                      d.only_max_discordance, d.cv_crossed)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
