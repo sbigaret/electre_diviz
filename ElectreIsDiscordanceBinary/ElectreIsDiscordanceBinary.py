@@ -21,7 +21,8 @@ Options:
                    performance_table.xml
                    profiles_performance_table.xml (optional)
     -o DIR     Specify output directory. Files generated as output:
-                   discordance.xml
+                   discordance_aggregated.xml
+                   discordance_partials.xml
                    messages.xml
     --version  Show version.
     -h --help  Show this screen.
@@ -83,7 +84,7 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b,
             discordance[a][b] = _get_aggregated_discordance(a, b)
             if two_way_comparison:
                 discordance[b][a] = _get_aggregated_discordance(b, a)
-    return discordance
+    return discordance, partial_discordances
 
 
 def main():
@@ -122,10 +123,10 @@ def main():
             comparables_b = d.alternatives
             comparables_perf_b = d.performances
 
-        discordance = get_discordance(comparables_a, comparables_perf_a,
-                                      comparables_b, comparables_perf_b,
-                                      d.criteria, d.thresholds,
-                                      d.pref_directions)
+        d_aggr, d_part = get_discordance(comparables_a, comparables_perf_a,
+                                         comparables_b, comparables_perf_b,
+                                         d.criteria, d.thresholds,
+                                         d.pref_directions)
 
         # serialization etc.
         if d.comparison_with in ('boundary_profiles', 'central_profiles'):
@@ -133,9 +134,13 @@ def main():
         else:
             mcda_concept = None
         comparables = (comparables_a, comparables_b)
-        xmcda = comparisons_to_xmcda(discordance, comparables,
+        xmcda = comparisons_to_xmcda(d_aggr, comparables,
                                      mcda_concept=mcda_concept)
-        write_xmcda(xmcda, os.path.join(output_dir, 'discordance.xml'))
+        write_xmcda(xmcda, os.path.join(output_dir, 'discordance_aggregated.xml'))
+        xmcda = comparisons_to_xmcda(d_part, comparables,
+                                     use_partials=True,
+                                     mcda_concept=mcda_concept)
+        write_xmcda(xmcda, os.path.join(output_dir, 'discordance_partials.xml'))
         create_messages_file(None, ('Everything OK.',), output_dir)
         return 0
     except Exception, err:
@@ -144,7 +149,5 @@ def main():
         print(log_msg.strip())
         create_messages_file((err_msg, ), (log_msg, ), output_dir)
         return 1
-
-
 if __name__ == '__main__':
     sys.exit(main())

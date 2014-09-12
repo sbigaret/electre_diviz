@@ -140,9 +140,10 @@ echo "testing ElectreIsDiscordanceBinary..."
 cd ../ElectreIsDiscordanceBinary
 
 ./ElectreIsDiscordanceBinary.py -i tests/in -o tests
-diff -s tests/discordance.xml tests/out/discordance.xml > /dev/null
+diff -s tests/discordance_aggregated.xml tests/out/discordance_aggregated.xml > /dev/null
+diff -s tests/discordance_partials.xml tests/out/discordance_partials.xml > /dev/null
 diff -s tests/messages.xml tests/out/messages.xml > /dev/null
-rm tests/discordance.xml && rm tests/messages.xml
+rm tests/discordance_aggregated.xml && rm tests/discordance_partials.xml && rm tests/messages.xml
 echo "ok"
 
 ###

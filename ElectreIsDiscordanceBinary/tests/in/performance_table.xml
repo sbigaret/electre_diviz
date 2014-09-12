@@ -4,19 +4,19 @@
   <alternativePerformances>
     <alternativeID>ita</alternativeID>
       <performance>
-        <criterionID>moc</criterionID>
+        <criterionID>power</criterionID>
         <value>
           <real>90.0</real>
         </value>
       </performance>
       <performance>
-        <criterionID>bezp</criterionID>
+        <criterionID>safety</criterionID>
         <value>
           <real>4.0</real>
         </value>
       </performance>
       <performance>
-        <criterionID>koszt</criterionID>
+        <criterionID>cost</criterionID>
         <value>
           <real>600.0</real>
         </value>
@@ -25,19 +25,19 @@
   <alternativePerformances>
     <alternativeID>bel</alternativeID>
       <performance>
-        <criterionID>moc</criterionID>
+        <criterionID>power</criterionID>
         <value>
           <real>58.0</real>
         </value>
       </performance>
       <performance>
-        <criterionID>bezp</criterionID>
+        <criterionID>safety</criterionID>
         <value>
           <real>0.0</real>
         </value>
       </performance>
       <performance>
-        <criterionID>koszt</criterionID>
+        <criterionID>cost</criterionID>
         <value>
           <real>200.0</real>
         </value>
@@ -46,19 +46,19 @@
   <alternativePerformances>
     <alternativeID>ger</alternativeID>
       <performance>
-        <criterionID>moc</criterionID>
+        <criterionID>power</criterionID>
         <value>
           <real>66.0</real>
         </value>
       </performance>
       <performance>
-        <criterionID>bezp</criterionID>
+        <criterionID>safety</criterionID>
         <value>
           <real>7.0</real>
         </value>
       </performance>
       <performance>
-        <criterionID>koszt</criterionID>
+        <criterionID>cost</criterionID>
         <value>
           <real>400.0</real>
         </value>
@@ -67,19 +67,19 @@
   <alternativePerformances>
     <alternativeID>aut</alternativeID>
       <performance>
-        <criterionID>moc</criterionID>
+        <criterionID>power</criterionID>
         <value>
           <real>74.0</real>
         </value>
       </performance>
       <performance>
-        <criterionID>bezp</criterionID>
+        <criterionID>safety</criterionID>
         <value>
           <real>8.0</real>
         </value>
       </performance>
       <performance>
-        <criterionID>koszt</criterionID>
+        <criterionID>cost</criterionID>
         <value>
           <real>800.0</real>
         </value>
@@ -88,19 +88,19 @@
   <alternativePerformances>
     <alternativeID>fra</alternativeID>
       <performance>
-        <criterionID>moc</criterionID>
+        <criterionID>power</criterionID>
         <value>
           <real>98.0</real>
         </value>
       </performance>
       <performance>
-        <criterionID>bezp</criterionID>
+        <criterionID>safety</criterionID>
         <value>
           <real>6.0</real>
         </value>
       </performance>
       <performance>
-        <criterionID>koszt</criterionID>
+        <criterionID>cost</criterionID>
         <value>
           <real>800.0</real>
         </value>
