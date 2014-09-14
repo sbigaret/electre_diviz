@@ -64,10 +64,10 @@ def get_discordance(comparables_a, comparables_perf_a, comparables_b,
             crossed = True
         if use_pre_veto:
             # originally (i.e. w/o pre_veto) pv == p
-            pv = thresholds[criterion].get('pre_veto', p)
+            pv = _get_linear(thresholds[criterion].get('pre_veto', p))
             if _omega(x, y) > -pv:
                 pd = 0.0
-            if _omega(x, y) <= -v:
+            elif _omega(x, y) <= -v:
                 pd = 1.0
             else:
                 pd = (_omega(y, x) - pv) / (v - pv)
