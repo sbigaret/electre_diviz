@@ -27,7 +27,7 @@
       <documentation>
         <description>Credibility matrix, which may be a result of comparison between alternatives or alternatives/profiles (boundary or central).</description>
       </documentation>
-      <xmcda tag="criteria" />
+      <xmcda tag="alternativesComparisons" />
     </input>
 
     <input id="input4" name="method_parameters" displayName="method_parameters" isoptional="0">
