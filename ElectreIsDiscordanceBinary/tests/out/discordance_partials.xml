@@ -12,13 +12,13 @@
         <alternativeID>ita</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -31,13 +31,13 @@
         <alternativeID>bel</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -50,13 +50,13 @@
         <alternativeID>ger</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -69,13 +69,13 @@
         <alternativeID>aut</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -88,13 +88,13 @@
         <alternativeID>fra</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -107,13 +107,70 @@
         <alternativeID>ita</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>1</integer>
+        </value>
+        <value id="safety">
+          <integer>0</integer>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>bel</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>bel</alternativeID>
+      </terminal>
+      <values>
+        <value id="cost">
+          <integer>0</integer>
+        </value>
+        <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
+          <integer>0</integer>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>bel</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>ger</alternativeID>
+      </terminal>
+      <values>
+        <value id="cost">
+          <integer>0</integer>
+        </value>
+        <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
+          <integer>0</integer>
+        </value>
+      </values>
+    </pair>
+    <pair>
+      <initial>
+        <alternativeID>bel</alternativeID>
+      </initial>
+      <terminal>
+        <alternativeID>aut</alternativeID>
+      </terminal>
+      <values>
+        <value id="cost">
+          <integer>0</integer>
+        </value>
+        <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>1</integer>
         </value>
       </values>
@@ -123,74 +180,17 @@
         <alternativeID>bel</alternativeID>
       </initial>
       <terminal>
-        <alternativeID>bel</alternativeID>
-      </terminal>
-      <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
-        <value id="cost">
-          <integer>0</integer>
-        </value>
-        <value id="power">
-          <integer>0</integer>
-        </value>
-      </values>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>bel</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>ger</alternativeID>
-      </terminal>
-      <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
-        <value id="cost">
-          <integer>0</integer>
-        </value>
-        <value id="power">
-          <integer>0</integer>
-        </value>
-      </values>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>bel</alternativeID>
-      </initial>
-      <terminal>
-        <alternativeID>aut</alternativeID>
-      </terminal>
-      <values>
-        <value id="safety">
-          <integer>1</integer>
-        </value>
-        <value id="cost">
-          <integer>0</integer>
-        </value>
-        <value id="power">
-          <integer>0</integer>
-        </value>
-      </values>
-    </pair>
-    <pair>
-      <initial>
-        <alternativeID>bel</alternativeID>
-      </initial>
-      <terminal>
         <alternativeID>fra</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
           <integer>1</integer>
+        </value>
+        <value id="safety">
+          <integer>0</integer>
         </value>
       </values>
     </pair>
@@ -202,13 +202,13 @@
         <alternativeID>ita</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -221,13 +221,13 @@
         <alternativeID>bel</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -240,13 +240,13 @@
         <alternativeID>ger</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -259,13 +259,13 @@
         <alternativeID>aut</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -278,14 +278,14 @@
         <alternativeID>fra</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
           <integer>1</integer>
+        </value>
+        <value id="safety">
+          <integer>0</integer>
         </value>
       </values>
     </pair>
@@ -297,13 +297,13 @@
         <alternativeID>ita</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -316,13 +316,13 @@
         <alternativeID>bel</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>1</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -335,13 +335,13 @@
         <alternativeID>ger</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -354,13 +354,13 @@
         <alternativeID>aut</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -373,13 +373,13 @@
         <alternativeID>fra</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -392,13 +392,13 @@
         <alternativeID>ita</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -411,13 +411,13 @@
         <alternativeID>bel</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>1</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -430,13 +430,13 @@
         <alternativeID>ger</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -449,13 +449,13 @@
         <alternativeID>aut</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
@@ -468,13 +468,13 @@
         <alternativeID>fra</alternativeID>
       </terminal>
       <values>
-        <value id="safety">
-          <integer>0</integer>
-        </value>
         <value id="cost">
           <integer>0</integer>
         </value>
         <value id="power">
+          <integer>0</integer>
+        </value>
+        <value id="safety">
           <integer>0</integer>
         </value>
       </values>
