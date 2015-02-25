@@ -2,7 +2,7 @@
 
 import os
 import re
-from collections import OrderedDict
+from functools import partial
 
 import PyXMCDA as px
 from lxml import etree
@@ -13,6 +13,15 @@ HEADER = ("<?xml version='1.0' encoding='UTF-8'?>\n"
           "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n"
           "  xsi:schemaLocation='http://www.decision-deck.org/2012/XMCDA-2.2.0 http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.0.xsd'>\n")
 FOOTER = "</xmcda:XMCDA>"
+
+INPUT_DATA_ERROR_MSG = ("There's a problem with some of your input files, "
+                        "namely:")
+INPUT_DATA_ERROR_HINT = ("Please check if the contents of this file matches "
+                         "the method parameters that you've specified.")
+
+
+class InputDataError(Exception):
+    pass
 
 
 ###############################################################################
@@ -95,8 +104,8 @@ def get_dirs(args):
     output_dir = args.get('-o')
     for d in (input_dir, output_dir):
         if not os.path.isdir(d):
-            raise RuntimeError("Directory '{}' doesn't exist. Aborting."
-                               .format(d))
+            raise InputDataError("Directory '{}' doesn't exist. Aborting."
+                                 .format(d))
     return input_dir, output_dir
 
 
@@ -108,13 +117,13 @@ def _get_trees(input_dir, filenames):
             if is_optional:
                 continue
             else:
-                raise RuntimeError("Problem with the input file: '{}'."
-                                    .format(f))
+                raise InputDataError("Problem with the input file: '{}'."
+                                     .format(f))
         tree = None
         tree = px.parseValidate(file_name)
         if tree is None:
-            raise RuntimeError("Validation error with the file: '{}'."
-                                .format(f))
+            raise InputDataError("Validation error with the file: '{}'."
+                                 .format(f))
         tree_name = os.path.splitext(f)[0]
         # although we use 'classes' and 'classes_profiles' in the names of
         # the input files and in the documentation, we want to use them as
@@ -130,18 +139,18 @@ def _get_thresholds(xmltree):
     added ability to get linear thresholds as well.
     """
     thresholds = {}
-    for criterion in xmltree.findall('.//criterion') :
+    for criterion in xmltree.findall('.//criterion'):
         criterion_id = criterion.get('id')
         xml_thresholds = criterion.find('thresholds')
-        if xml_thresholds is not None :
+        if xml_thresholds is not None:
             crit_thresholds = {}
-            for xml_threshold in xml_thresholds.findall('threshold') :
+            for xml_threshold in xml_thresholds.findall('threshold'):
                 xml_constant = xml_threshold.find('constant')
                 if xml_constant is not None:
                     xml_val = xml_constant.find('real')
-                    if xml_val is None :
+                    if xml_val is None:
                         xml_val = xml_constant.find('integer')
-                    if xml_val is not None :
+                    if xml_val is not None:
                         mcda_concept = xml_threshold.get('mcdaConcept')
                         if mcda_concept is not None:
                             crit_thresholds[mcda_concept] = float(xml_val.text)
@@ -182,15 +191,15 @@ def _get_intersection_distillation(xmltree, altId):
     comparisons = xmltree.xpath(strSearch)
     if comparisons == []:
         return
-    else :
+    else:
         comparisons = comparisons[0]
         datas = {}
-        for pair in comparisons.findall ("pairs/pair") :
+        for pair in comparisons.findall("pairs/pair"):
             init = pair.find("initial/alternativeID").text
             term = pair.find("terminal/alternativeID").text
-            if altId.count(init) > 0 :
-                if altId.count(term) > 0 :
-                    if not(datas.has_key(init)) :
+            if altId.count(init) > 0:
+                if altId.count(term) > 0:
+                    if init not in datas:
                         datas[init] = {}
                     datas[init][term] = 1.0
         return datas
@@ -199,13 +208,13 @@ def _get_intersection_distillation(xmltree, altId):
 def _get_outranking_crisp(xmltree, mcda_concept=None):
     if xmltree is None:
         return None
-    if mcda_concept == None :
+    if mcda_concept is None:
         str_search = ".//alternativesComparisons"
-    else :
+    else:
         str_search = (".//alternativesComparisons"
                       "[@mcdaConcept=\'" + mcda_concept + "\']")
     comparisons = xmltree.xpath(str_search)[0]
-    if comparisons == None:
+    if comparisons is None:
         return {}
     else:
         ret = Vividict()
@@ -217,8 +226,8 @@ def _get_outranking_crisp(xmltree, mcda_concept=None):
 
 
 def _get_alternatives_comparisons(xmltree, alternatives,
-                                 categories_profiles=None, use_partials=False,
-                                 mcda_concept=None) :
+                                  categories_profiles=None, use_partials=False,
+                                  mcda_concept=None):
     """Parameter 'use_partials' designates whether the input contains 'partial'
     (i.e. per-criterion) comparisons.
     """
@@ -243,13 +252,13 @@ def _get_alternatives_comparisons(xmltree, alternatives,
 
     if xmltree is None:
         return None
-    if mcda_concept == None :
+    if mcda_concept is None:
         str_search = ".//alternativesComparisons"
-    else :
+    else:
         str_search = (".//alternativesComparisons"
                       "[@mcdaConcept=\'" + mcda_concept + "\']")
     comparisons = xmltree.xpath(str_search)[0]
-    if comparisons == None:
+    if comparisons is None:
         return {}
     else:
         ret = Vividict()
@@ -260,17 +269,17 @@ def _get_alternatives_comparisons(xmltree, alternatives,
                 value_node = pair.find("value")
                 if value_node is None:
                     f = os.path.split(xmltree.base)[-1]
-                    raise RuntimeError("Corrupted '{}' file or wrong value of "
-                                       "the 'use_partials' parameter."
-                                       .format(f))
+                    msg = ("Corrupted '{}' file or wrong value of the "
+                           "'use_partials' parameter.".format(f))
+                    raise InputDataError(msg)
                 value = _get_value(value_node)
             else:
                 value_nodes = pair.find("values")
                 if value_nodes is None:
                     f = os.path.split(xmltree.base)[-1]
-                    raise RuntimeError("Corrupted '{}' file or wrong value of "
-                                       "the 'use_partials' parameter."
-                                       .format(f))
+                    msg = ("Corrupted '{}' file or wrong value of the "
+                           "'use_partials' parameter.".format(f))
+                    raise InputDataError(msg)
                 values = Vividict()
                 for value_node in value_nodes:
                     value_node_id = value_node.get("id")
@@ -301,8 +310,8 @@ def _get_categories_profiles(tree, comparison_with):
 
     if tree is None and comparison_with in ('boundary_profiles',
                                             'central_profiles'):
-        raise RuntimeError("Missing definitions of profiles (did you "
-                            "forget about 'classes_profiles.xml'?).")
+        raise InputDataError("Missing definitions of profiles (did you "
+                             "forget about 'classes_profiles.xml'?).")
     if comparison_with == 'alternatives':
         categories_profiles = None
     elif comparison_with == 'boundary_profiles':
@@ -333,8 +342,8 @@ def _get_categories_profiles(tree, comparison_with):
                 categories_profiles = {}
                 break
     else:
-        raise RuntimeError("Wrong comparison type ('{}') specified."
-                            .format(comparison_with))
+        raise InputDataError("Wrong comparison type ('{}') specified."
+                             .format(comparison_with))
     return categories_profiles
 
 
@@ -348,37 +357,37 @@ def _get_criteria_interactions(xmltree, criteria_allowed):
     interactions = {}
     cvs = xmltree.xpath(path)
     if not cvs:
-        raise RuntimeError("Wrong or missing definitions for criteria "
-                           "interactions.")
+        raise InputDataError("Wrong or missing definitions for criteria "
+                             "interactions.")
     for cv in cvs:
         interaction_type = cv.attrib.get('mcdaConcept')
         if interaction_type not in interaction_types_allowed:
-            raise RuntimeError("Wrong interaction type '{}'."
-                               .format(interaction_type))
+            raise InputDataError("Wrong interaction type '{}'."
+                                 .format(interaction_type))
         criteria_involved = cv.xpath('.//criterionID/text()')
         if len(criteria_involved) != 2:
-            raise RuntimeError("Wrong number of criteria for '{}' interaction."
-                               .format(interaction_type))
+            raise InputDataError("Wrong number of criteria for '{}' interaction."
+                                 .format(interaction_type))
         for criterion in criteria_involved:
             if criterion not in criteria_allowed:
-                raise RuntimeError("Unknown criterion '{}' for '{}' interaction."
-                                   .format(criterion, interaction_type))
+                raise InputDataError("Unknown criterion '{}' for '{}' interaction."
+                                     .format(criterion, interaction_type))
         interaction_value = float(cv.find('./value//').text)
         if ((interaction_value > 0 and interaction_type == 'weakening') or
-                (interaction_value < 0 and interaction_type in ('strengthening','antagonistic')) or
+                (interaction_value < 0 and interaction_type in ('strengthening', 'antagonistic')) or
                 (interaction_value == 0)):
-            raise RuntimeError("Wrong value for '{}' interaction."
-                               .format(interaction_type))
+            raise InputDataError("Wrong value for '{}' interaction."
+                                 .format(interaction_type))
         if interaction_type == 'strengthening' and 'weakening' in interactions.keys():
             for i in interactions['weakening']:
                 if set(i[:2]) == set(criteria_involved):
-                    raise RuntimeError("'strengthening' and 'weakening' "
-                                       "interactions are mutually exclusive.")
+                    raise InputDataError("'strengthening' and 'weakening' "
+                                         "interactions are mutually exclusive.")
         elif interaction_type == 'weakening' and 'strengthening' in interactions.keys():
             for i in interactions['strengthening']:
                 if set(i[:2]) == set(criteria_involved):
-                    raise RuntimeError("'strengthening' and 'weakening' "
-                                       "interactions are mutually exclusive.")
+                    raise InputDataError("'strengthening' and 'weakening' "
+                                         "interactions are mutually exclusive.")
         c1, c2 = criteria_involved
         try:
             interactions[interaction_type].append((c1, c2, interaction_value))
@@ -387,183 +396,301 @@ def _get_criteria_interactions(xmltree, criteria_allowed):
     return interactions
 
 
-# XXX this function is big and ugly *as hell*, but at least it's a bit easier
-# to maintain than it used to be, since everything now is in one place instead
-# of being scattered amongst many different modules.
 def get_input_data(input_dir, filenames, params, **kwargs):
+    """Looks for files specified by 'filenames' in directory specified by
+    'input_dir'. Gets the data from these files according to what is specified
+    in 'params'. Every such param is handled (i.e., loaded and to some extent
+    verified) by a function associated with it in '_functions_dict'.
+    """
+    def get_alternatives(*args, **kwargs):
+        alternatives = px.getAlternativesID(trees['alternatives'])
+        return alternatives  # list
+
+    # TODO merge _get_categories_profiles with this function
+    def get_categories_profiles(*args, **kwargs):
+        comparison_with = kwargs.get('comparison_with')
+        if comparison_with is None:
+            comparison_with = px.getParameterByName(
+                trees['method_parameters'],
+                'comparison_with',
+            )
+        categories_profiles = _get_categories_profiles(
+            trees.get('categories_profiles'),
+            comparison_with,
+        )
+        return categories_profiles  # NoneType, dict, list
+
+    def get_categories_rank(*args, **kwargs):
+        categories = px.getCategoriesID(trees['categories'])
+        categories_rank = px.getCategoriesRank(trees['categories'], categories)
+        return categories_rank  # dict
+
+    def get_concordance(*args, **kwargs):
+        alternatives = px.getAlternativesID(trees['alternatives'])
+        comparison_with = px.getParameterByName(
+            trees['method_parameters'],
+            'comparison_with',
+        )
+        if comparison_with in ('boundary_profiles', 'central_profiles'):
+            categories_profiles = _get_categories_profiles(
+                trees['categories_profiles'],
+                comparison_with,
+            )
+            concordance = _get_alternatives_comparisons(
+                trees['concordance'],
+                alternatives,
+                categories_profiles,
+            )
+        else:
+            concordance = px.getAlternativesComparisons(
+                trees['concordance'],
+                alternatives,
+            )
+        return concordance  # Vividict, dict
+
+    def get_credibility(*args, **kwargs):
+        alternatives = px.getAlternativesID(trees['alternatives'])
+        comparison_with = kwargs.get('comparison_with')
+        if not comparison_with:
+            comparison_with = px.getParameterByName(
+                trees['method_parameters'],
+                'comparison_with',
+            )
+        if comparison_with in ('boundary_profiles', 'central_profiles'):
+            categories_profiles = _get_categories_profiles(
+                trees['categories_profiles'],
+                comparison_with,
+            )
+        else:
+            categories_profiles = None
+        eliminate_cycles_method = px.getParameterByName(
+            trees.get('method_parameters'),
+            'eliminate_cycles_method',
+        )
+        tree = trees.get('credibility')
+        if eliminate_cycles_method == 'cut_weakest' and tree is None:
+            raise InputDataError(
+                "'cut_weakest' option requires credibility as an additional "
+                "input (apart from outranking)."
+            )
+        credibility = _get_alternatives_comparisons(
+            tree,
+            alternatives,
+            categories_profiles=categories_profiles,
+        )
+        return credibility  # NoneType, Vividict
+
+    def get_criteria(*args, **kwargs):
+        criteria = px.getCriteriaID(trees['criteria'])
+        return criteria  # list
+
+    def get_cut_threshold(*args, **kwargs):
+        cut_threshold = px.getParameterByName(
+            trees['method_parameters'],
+            'cut_threshold',
+        )
+        if cut_threshold is None or not (0 <= float(cut_threshold) <= 1):
+            raise InputDataError(
+                "'cut_threshold' should be in range [0, 1] "
+                "(most commonly used values are 0.6 or 0.7)."
+            )
+        return cut_threshold  # float
+
+    def get_cv_crossed(*args, **kwargs):
+        # 'cv_crossed' stands for 'counter-veto crossed'
+        alternatives = px.getAlternativesID(trees['alternatives'])
+        comparison_with = px.getParameterByName(
+            trees['method_parameters'],
+            'comparison_with',
+        )
+        if comparison_with in ('boundary_profiles', 'central_profiles'):
+            categories_profiles = _get_categories_profiles(
+                trees['categories_profiles'],
+                comparison_with,
+            )
+        else:
+            categories_profiles = None
+        cv_crossed = _get_alternatives_comparisons(
+            trees['counter_veto_crossed'],
+            alternatives,
+            categories_profiles=categories_profiles,
+            use_partials=True,
+            mcda_concept='counterVetoCrossed',
+        )
+        return cv_crossed  # Vividict
+
+    def get_discordance(*args, **kwargs):
+        alternatives = px.getAlternativesID(trees['alternatives'])
+        comparison_with = px.getParameterByName(
+            trees['method_parameters'],
+            'comparison_with',
+        )
+        if kwargs.get('use_partials') is not None:
+            use_partials = kwargs.get('use_partials')
+        else:
+            parameter = px.getParameterByName(
+                trees['method_parameters'],
+                'use_partials',
+            )
+            use_partials = True if parameter == 'true' else False
+        if comparison_with in ('boundary_profiles', 'central_profiles'):
+            categories_profiles = _get_categories_profiles(
+                trees['categories_profiles'],
+                comparison_with,
+            )
+        else:
+            categories_profiles = None
+        discordance = _get_alternatives_comparisons(
+            trees['discordance'],
+            alternatives,
+            categories_profiles=categories_profiles,
+            use_partials=use_partials,
+        )
+        return discordance  # Vividict
+
+    def get_interactions(*args, **kwargs):
+        criteria = px.getCriteriaID(trees['criteria'])
+        interactions = _get_criteria_interactions(
+            trees['interactions'],
+            criteria,
+        )
+        return interactions  # dict
+
+    def get_outranking(*args, **kwargs):
+        outranking = _get_outranking_crisp(trees['outranking'])
+        return outranking  # Vividict
+
+    def get_performances(*args, **kwargs):
+        performances = px.getPerformanceTable(trees['performance_table'], None, None)
+        return performances  # dict
+
+    def get_pref_directions(*args, **kwargs):
+        criteria = px.getCriteriaID(trees['criteria'])
+        pref_directions = px.getCriteriaPreferenceDirections(
+            trees['criteria'],
+            criteria,
+        )
+        return pref_directions  # dict
+
+    def get_profiles_performance_table(*args, **kwargs):
+        comparison_with = px.getParameterByName(
+            trees['method_parameters'],
+            'comparison_with',
+        )
+        if comparison_with in ('boundary_profiles', 'central_profiles'):
+            tree = trees.get('profiles_performance_table')
+            if tree is None:
+                msg = (
+                    "Missing profiles performance table (did you forget "
+                    "to provide 'profiles_performance_table.xml' file?)."
+                )
+                raise InputDataError(msg)
+            profiles_performance_table = px.getPerformanceTable(tree, None, None)
+        else:
+            profiles_performance_table = None
+        return profiles_performance_table  # NoneType, dict
+
+    def get_reinforcement_factors(*args, **kwargs):
+        criteria = px.getCriteriaID(trees['criteria'])
+        factors = {}
+        for c in criteria:
+            rf = px.getCriterionValue(
+                trees['reinforcement_factors'],
+                c,
+                'reinforcement_factors'
+            )
+            if len(rf) == 0:
+                continue
+            if rf.get(c) <= 1:
+                msg = (
+                    "Reinforcement factor for criterion '{}' should be "
+                    "higher than 1.0 (ideally between 1.2 and 1.5)."
+                )
+                raise InputDataError(msg)
+            factors.update(rf)
+        return factors  # dict
+
+    # TODO merge _get_thresholds with this function
+    def get_thresholds(*args, **kwargs):
+        thresholds = _get_thresholds(trees['criteria'])
+        return thresholds  # dict
+
+    def get_weights(*args, **kwargs):
+        criteria = px.getCriteriaID(trees['criteria'])
+        if len(criteria) == 0:
+            msg = (
+                "File 'criteria.xml' doesn't contain valid data for this "
+                "method."
+            )
+            raise InputDataError(msg)
+        weights = px.getCriterionValue(trees['weights'], criteria)
+        return weights  # dict
+
+    def get_param_boolean(param_name, *args, **kwargs):
+        parameter = px.getParameterByName(
+            trees['method_parameters'],
+            param_name,
+        )
+        return True if parameter == 'true' else False
+
+    def get_param_string(param_name, *args, **kwargs):
+        param = px.getParameterByName(trees['method_parameters'], param_name)
+        return param
+
+    _functions_dict = {
+        'alternatives': get_alternatives,
+        'categories_profiles': get_categories_profiles,
+        'categories_rank': get_categories_rank,
+        'concordance': get_concordance,
+        'comparison_with': partial(get_param_string, 'comparison_with'),
+        'credibility': get_credibility,
+        'criteria': get_criteria,
+        'cut_threshold': get_cut_threshold,
+        'cv_crossed': get_cv_crossed,
+        'discordance': get_discordance,
+        'eliminate_cycles_method': partial(get_param_string, 'eliminate_cycles_method'),
+        'interactions': get_interactions,
+        'only_max_discordance': partial(get_param_boolean, 'only_max_discordance'),
+        'outranking': get_outranking,
+        'performances': get_performances,
+        'pref_directions': get_pref_directions,
+        'profiles_performance_table': get_profiles_performance_table,
+        'reinforcement_factors': get_reinforcement_factors,
+        'thresholds': get_thresholds,
+        'weights': get_weights,
+        'with_denominator': partial(get_param_boolean, 'with_denominator'),
+        'use_partials': partial(get_param_boolean, 'use_partials'),
+        'use_pre_veto': partial(get_param_boolean, 'use_pre_veto'),
+        'z_function': partial(get_param_string, 'z_function'),
+    }
+
+    args = (input_dir, filenames, params)
     trees = _get_trees(input_dir, filenames)
     d = _create_data_object(params)
     for p in params:
-        if p == 'alternatives':
-            d.alternatives = px.getAlternativesID(trees['alternatives'])
-
-        elif p == 'categories_profiles':
-            comparison_with = kwargs.get('comparison_with')
-            if comparison_with is None:
-                comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            d.categories_profiles = _get_categories_profiles(trees.get('categories_profiles'),
-                                                             comparison_with)
-
-        elif p == 'categories_rank':
-            categories = px.getCategoriesID(trees['categories'])
-            d.categories_rank = px.getCategoriesRank(trees['categories'], categories)
-
-        elif p == 'comparison_with':
-            d.comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-
-        elif p == 'concordance':
-            alternatives = px.getAlternativesID(trees['alternatives'])
-            comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            if comparison_with in ('boundary_profiles', 'central_profiles'):
-                categories_profiles = _get_categories_profiles(trees['categories_profiles'],
-                                                               comparison_with)
-                d.concordance = _get_alternatives_comparisons(trees['concordance'], alternatives,
-                                                              categories_profiles)
+        try:
+            f = _functions_dict[p]
+        except AttributeError:
+            raise InputDataError("Unknown parameter '{}' specified.".format(p))
+        try:
+            v = f(*args, **kwargs)
+            setattr(d, p, v)
+        except Exception as e:
+            if type(e) is InputDataError:
+                raise
             else:
-                d.concordance = px.getAlternativesComparisons(trees['concordance'], alternatives)
-
-        elif p == 'credibility':
-            alternatives = px.getAlternativesID(trees['alternatives'])
-            comparison_with = kwargs.get('comparison_with')
-            if not comparison_with:
-                comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            if comparison_with in ('boundary_profiles', 'central_profiles'):
-                categories_profiles = _get_categories_profiles(trees['categories_profiles'],
-                                                               comparison_with)
-            else:
-                categories_profiles = None
-            eliminate_cycles_method = px.getParameterByName(trees.get('method_parameters'),
-                                                            'eliminate_cycles_method')
-            tree = trees.get('credibility')
-            if eliminate_cycles_method == 'cut_weakest' and tree is None:
-                raise RuntimeError("'cut_weakest' option requires credibility as "
-                                   "an additional input (apart from outranking).")
-            d.credibility = _get_alternatives_comparisons(tree, alternatives,
-                                                          categories_profiles=categories_profiles)
-
-        elif p == 'criteria':
-            d.criteria = px.getCriteriaID(trees['criteria'])
-
-        elif p == 'cut_threshold':
-            cut_threshold = px.getParameterByName(trees['method_parameters'], 'cut_threshold')
-            if cut_threshold is None or not (0 <= float(cut_threshold) <= 1):
-                raise RuntimeError(
-                    "'cut_threshold' should be in range [0, 1] "
-                    "(most commonly used values are 0.6 or 0.7)."
+                msg = (
+                    "{} '{}.xml'. {}"
+                    .format(INPUT_DATA_ERROR_MSG, p, INPUT_DATA_ERROR_HINT)
                 )
-            d.cut_threshold = cut_threshold
-
-        # 'cv_crossed' == 'counter-veto crossed'
-        elif p == 'cv_crossed':
-            alternatives = px.getAlternativesID(trees['alternatives'])
-            comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            if comparison_with in ('boundary_profiles', 'central_profiles'):
-                categories_profiles = _get_categories_profiles(trees['categories_profiles'],
-                                                               comparison_with)
-            else:
-                categories_profiles = None
-            d.cv_crossed = _get_alternatives_comparisons(trees['counter_veto_crossed'],
-                                                         alternatives,
-                                                         categories_profiles=categories_profiles,
-                                                         use_partials=True,
-                                                         mcda_concept='counterVetoCrossed')
-
-        elif p == 'discordance':
-            alternatives = px.getAlternativesID(trees['alternatives'])
-            comparison_with = px.getParameterByName(trees['method_parameters'], 'comparison_with')
-            if kwargs.get('use_partials') is not None:
-                use_partials = kwargs.get('use_partials')
-            else:
-                parameter = px.getParameterByName(trees['method_parameters'], 'use_partials')
-                use_partials = True if parameter == 'true' else False
-            if comparison_with in ('boundary_profiles', 'central_profiles'):
-                categories_profiles = _get_categories_profiles(trees['categories_profiles'],
-                                                               comparison_with)
-            else:
-                categories_profiles = None
-            d.discordance = _get_alternatives_comparisons(trees['discordance'], alternatives,
-                                                          categories_profiles=categories_profiles,
-                                                          use_partials=use_partials)
-
-        elif p == 'eliminate_cycles_method':
-            d.eliminate_cycles_method = px.getParameterByName(trees['method_parameters'],
-                                                              'eliminate_cycles_method')
-
-        elif p == 'interactions':
-            criteria = px.getCriteriaID(trees['criteria'])
-            d.interactions = _get_criteria_interactions(trees['interactions'], criteria)
-
-        elif p == 'outranking':
-            d.outranking = _get_outranking_crisp(trees['outranking'])
-
-        elif p == 'performances':
-            d.performances = px.getPerformanceTable(trees['performance_table'], None, None)
-
-        elif p == 'pref_directions':
-            criteria = px.getCriteriaID(trees['criteria'])
-            d.pref_directions = px.getCriteriaPreferenceDirections(trees['criteria'], criteria)
-
-        elif p == 'profiles_performance_table':
-            if comparison_with in ('boundary_profiles', 'central_profiles'):
-                tree = trees.get('profiles_performance_table')
-                if tree is None:
-                    msg = ("Missing profiles performance table (did you forget "
-                           "to provide 'profiles_performance_table.xml' file?).")
-                    raise RuntimeError(msg)
-                d.profiles_performance_table = px.getPerformanceTable(tree, None, None)
-            else:
-                d.profiles_performance_table = None
-
-        elif p == 'reinforcement_factors':
-            criteria = px.getCriteriaID(trees['criteria'])
-            factors = {}
-            for c in criteria:
-                rf = px.getCriterionValue(trees['reinforcement_factors'], c,
-                                          'reinforcement_factors')
-                if len(rf) == 0:
-                    continue
-                if rf.get(c) <= 1:
-                    msg = ("Reinforcement factor for criterion '{}' should be "
-                           "higher than 1.0 (ideally between 1.2 and 1.5).")
-                    raise RuntimeError(msg)
-                factors.update(rf)
-            d.reinforcement_factors = factors
-
-        elif p == 'thresholds':
-            criteria = px.getCriteriaID(trees['criteria'])
-            d.thresholds = _get_thresholds(trees['criteria'])
-
-        elif p == 'weights':
-            criteria = px.getCriteriaID(trees['criteria'])
-            d.weights = px.getCriterionValue(trees['weights'], criteria)
-
-        elif p == 'z_function':
-            d.z_function = px.getParameterByName(trees['method_parameters'], 'z_function')
-
-        elif p == 'with_denominator':
-            parameter = px.getParameterByName(trees['method_parameters'], 'with_denominator')
-            d.with_denominator = True if parameter == 'true' else False
-
-        elif p == 'only_max_discordance':
-            parameter = px.getParameterByName(trees['method_parameters'], 'only_max_discordance')
-            d.only_max_discordance = True if parameter == 'true' else False
-
-        elif p == 'use_partials':
-            parameter = px.getParameterByName(trees['method_parameters'], 'use_partials')
-            d.use_partials = True if parameter == 'true' else False
-
-        elif p == 'use_pre_veto':
-            parameter = px.getParameterByName(trees['method_parameters'], 'use_pre_veto')
-            d.use_pre_veto = True if parameter == 'true' else False
-
-        else:
-            raise RuntimeError("Unknown parameter '{}' specified.".format(p))
-
-    for param in params:
-        data = getattr(d, param)
-        if type(data) in (type(list), type(dict)) and len(data) == 0:
-            raise RuntimeError("No content for '{}' parameter provided."
-                               .format(param))
+                raise InputDataError(msg)
+        # this check below may be a bit unnecessary, but it won't hurt either
+        if type(v) in (list, dict, Vividict) and len(v) == 0:
+            msg = (
+                "File '{}.xml' doesn't contain valid data for this method."
+                .format(p)
+            )
+            raise InputDataError(msg)
     return d
 
 
@@ -595,7 +722,7 @@ def comparisons_to_xmcda(comparisons, comparables, use_partials=False,
     if len(comparables) != 2:
         raise RuntimeError("You have to specify exactly 2 comparables for "
                            "this serialization function (instead of {})."
-                           .format(len(ordering)))
+                           .format(len(comparables)))
     elif comparables[0] == comparables[1]:  # alternatives vs alternatives
         ordering = [(a, b) for a in comparables[0] for b in comparables[0]]
     else:  # alternatives vs profiles
@@ -680,7 +807,7 @@ def outranking_to_xmcda(outranking, mcda_concept=None):
 def assignments_to_xmcda(assignments):
     xmcda = etree.Element('alternativesAffectations')
     for assignment in sorted(assignments.items(), key=lambda x: x[0]):
-        alt_assignment = etree.SubElement(xmcda,'alternativeAffectation')
+        alt_assignment = etree.SubElement(xmcda, 'alternativeAffectation')
         alt_id = etree.SubElement(alt_assignment, 'alternativeID')
         alt_id.text = assignment[0]
         category_id = etree.SubElement(alt_assignment, 'categoryID')
