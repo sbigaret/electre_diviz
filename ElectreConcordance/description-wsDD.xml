@@ -6,6 +6,7 @@
     <description>Computes concordance matrix using procedure which is common to the most methods from the Electre family.
 
 The key feature of this module is its flexibility in terms of the types of elements allowed to compare, i.e. alternatives vs alternatives, alternatives vs boundary profiles and alternatives vs central (characteristic) profiles.
+    </description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>

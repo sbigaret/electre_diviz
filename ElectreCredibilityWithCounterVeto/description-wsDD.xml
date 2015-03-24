@@ -102,7 +102,6 @@ Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'cl
 
 In case of selecting this option, only discordance indices for which <![CDATA[d_j(a, b) > C(a, b)]]> holds are taken into account.</description>
           </documentation>
-          </documentation>
           <defaultValue>true</defaultValue>
         </entry>
         <entry id="%3" type="boolean" displayName="only_max_discordance">

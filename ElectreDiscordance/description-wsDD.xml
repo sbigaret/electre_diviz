@@ -8,6 +8,7 @@
 The key feature of this module is its flexibility in terms of the types of elements allowed to compare, i.e. alternatives vs alternatives, alternatives vs boundary profiles and alternatives vs central (characteristic) profiles.
 
 It also brings two new concepts: a 'counter-veto' threshold (cv) and 'pre-veto' threshold (pv) such as: <![CDATA[cv >= v >= pv >= p]]> (where 'v' is 'veto' threshold, and 'p' is 'preference' threshold).
+    </description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>
