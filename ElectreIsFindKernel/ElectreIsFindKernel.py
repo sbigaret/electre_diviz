@@ -250,9 +250,10 @@ def get_kernel_as_labels(kernel, g):
 
 
 def kernel_to_xmcda(kernel):
-    xmcda = etree.Element('alternativesSet', mcdaConcept="kernel")
+    xmcda = etree.Element('alternativesSets')
+    alternativesSet = etree.SubElement(xmcda, 'alternativesSet', mcdaConcept="kernel")
     for alternative in kernel:
-        element = etree.SubElement(xmcda, 'element')
+        element = etree.SubElement(alternativesSet, 'element')
         alt_id = etree.SubElement(element, 'alternativeID')
         alt_id.text = alternative
     return xmcda

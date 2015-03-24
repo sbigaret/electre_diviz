@@ -89,14 +89,16 @@ This module provides two methods of cycle elimination: by cutting weakest edge (
       <documentation>
         <description>Resulting kernel (i.e. subset of best alternatives).</description>
       </documentation>
-      <xmcda tag="alternativesSet">
+      <xmcda tag="alternativesSets">
         <![CDATA[
+      <alternativesSets>
         <alternativesSet mcdaConcept="kernel">
           <element>
             <alternativeID>[...]</alternativeID>
           </element>
           [...]
         </alternativesSet>
+      </alternativesSets>
         ]]>
       </xmcda>
     </output>
