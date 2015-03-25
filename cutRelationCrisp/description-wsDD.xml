@@ -4,7 +4,6 @@
   <program provider="PUT" name="cutRelationCrisp" displayName="cutRelationCrisp" version="0.1.0" />
   <documentation>
     <description>cutRelationCrisp - this module applies cut threshold to the credibility matrix provided as input, which may result from comparison between pairs of alternatives or alternatives and profiles (boundary or central). The resulting outranking relations will be produced only for the pairs of alternatives (or alternatives/profiles) for which cut threshold is equal or exceeded (hence 'crisp' in its name), but without assigning any explicit values (e.g. '1.0') to them.</description>
-</description>
     <url>http://github.com/xor-xor/electre_diviz</url>
   </documentation>
   <parameters>
