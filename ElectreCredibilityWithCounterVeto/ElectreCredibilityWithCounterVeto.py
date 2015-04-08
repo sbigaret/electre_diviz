@@ -65,6 +65,8 @@ def get_credibility(comparables_a, comparables_b, concordance, discordance,
                 if with_denominator:
                     if d > concordance[x][y]:
                         factor = (1 - d) / (1 - concordance[x][y])
+                    else:
+                        factor = None
                 else:
                     factor = (1 - d)
                 if factor:
