@@ -19,6 +19,11 @@ INPUT_DATA_ERROR_MSG = ("There's a problem with some of your input files, "
 INPUT_DATA_ERROR_HINT = ("Please check if the contents of this file matches "
                          "the method parameters that you've specified.")
 
+THRESHOLDS = ['indifference', 'preference', 'veto', 'reinforced_preference',
+              'counter_veto']
+
+THRESHOLDS_OLD_TO_NEW = {'ind': 'indifference', 'pref': 'preference'}
+
 
 class InputDataError(Exception):
     pass
@@ -137,6 +142,8 @@ def _get_trees(input_dir, filenames):
 def _get_thresholds(xmltree):
     """This is basically the same as px.getConstantThresholds, but with the
     added ability to get linear thresholds as well.
+    It also checks for valid threshold names (raises an error when an unknown
+    name is found), and corrects some old/known ones too (e.g., 'ind', 'pref').
     """
     thresholds = {}
     for criterion in xmltree.findall('.//criterion'):
@@ -152,6 +159,16 @@ def _get_thresholds(xmltree):
                         xml_val = xml_constant.find('integer')
                     if xml_val is not None:
                         mcda_concept = xml_threshold.get('mcdaConcept')
+                        # XXX for backwards compatibility only!
+                        mcda_concept = THRESHOLDS_OLD_TO_NEW.get(mcda_concept,
+                                                                 mcda_concept)
+                        if mcda_concept not in THRESHOLDS:
+                            ts = ", ".join(["'" + t + "'" for t in THRESHOLDS])
+                            msg = ("Unrecognized threshold name '{}'. Depending "
+                                   "on your context, you may be interested in "
+                                   "one of these: {}."
+                                   .format(mcda_concept, ts))
+                            raise InputDataError(msg)
                         if mcda_concept is not None:
                             crit_thresholds[mcda_concept] = float(xml_val.text)
                 xml_linear = xml_threshold.find('linear')
