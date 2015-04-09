@@ -20,7 +20,7 @@ INPUT_DATA_ERROR_HINT = ("Please check if the contents of this file matches "
                          "the method parameters that you've specified.")
 
 THRESHOLDS = ['indifference', 'preference', 'veto', 'reinforced_preference',
-              'counter_veto']
+              'counter_veto', 'pre_veto']
 
 THRESHOLDS_OLD_TO_NEW = {'ind': 'indifference', 'pref': 'preference'}
 
