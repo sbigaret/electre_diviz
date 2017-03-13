@@ -80,7 +80,7 @@ Choosing 'boundary_profiles' or 'central_profiles' requires providing inputs 'cl
             <description>The value should be in range <![CDATA[<0, 1>]]>.</description>
             <code>
               <![CDATA[
-                0.0 <= %1 && %1 <= 1.0
+                0.0 <= %2 && %2 <= 1.0
               ]]>
             </code>
           </constraint>
