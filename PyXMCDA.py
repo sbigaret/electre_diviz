@@ -41,11 +41,18 @@
 XMCDA_2_0 = "http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.0.0.xsd"
 XMCDA_2_1 = "http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.1.0.xsd"
 XMCDA_2_2 = "http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.0.xsd"
+XMCDA_2_2_0 = XMCDA_2_2
+XMCDA_2_2_1 = "http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.1.xsd"
+XMCDA_2_2_2 = "http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.2.xsd"
+XMCDA_2_2_3 = "http://www.decision-deck.org/xmcda/_downloads/XMCDA-2.2.3.xsd"
+
+XMCDA_SCHEMAS = ( XMCDA_2_0, XMCDA_2_1, XMCDA_2_2,
+                  XMCDA_2_2_1, XMCDA_2_2_2, XMCDA_2_2_3 )
 
 from lxml import etree
 import sys, traceback
 
-__version__="20111208-001"
+__version__="20200723-001"
 
 ##########################################################################
 #                                                                        #
@@ -71,23 +78,13 @@ def parseValidate (xmlfile) :
 
 def validateXMCDA (xmltree):
 	"Checks if xmltree is a valid XMCDA file."
-	ret = False
+	for schema in XMCDA_SCHEMAS:
+		try:   xml_validates = validate(xmltree, schema)
+		except Exception as e: traceback.print_exc(sys.stderr)
+		if xml_validates:
+			return True
 
-	try:    ret = validate(xmltree, XMCDA_2_0)
-	except Exception as e: traceback.print_exc(sys.stderr)
-	if ret:
-		return True
-
-	try:    ret = validate(xmltree, XMCDA_2_1)
-	except Exception as e: traceback.print_exc(sys.stderr)
-	if ret:
-		return True
-
-	try:    ret = validate(xmltree, XMCDA_2_2)
-	except Exception as e: traceback.print_exc(sys.stderr)
-
-	return ret
-
+	return False
 
 def validate (xmltree, xsdURL):
 	"Checks if xmltree is valid wrt the supplied xml schema"
