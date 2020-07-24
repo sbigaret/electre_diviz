@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
-  <program provider="PUT" name="ElectreIsFindKernel" displayName="ElectreIsFindKernel" version="0.2.0" />
+  <program provider="PUT" name="ElectreIsFindKernel" displayName="ElectreIsFindKernel" version="0.3" />
   <documentation>
     <description>ElectreIsFindKernel - finds kernel of a graph (i.e. subset of best alternatives) according to the procedure used by the Electre Is method. The graph is generated from the outranking matrix provided as one of the input files.
 

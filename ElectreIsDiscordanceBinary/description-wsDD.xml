@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
-  <program provider="PUT" name="ElectreIsDiscordanceBinary" displayName="ElectreIsDiscordanceBinary" version="0.1.0" />
+  <program provider="PUT" name="ElectreIsDiscordanceBinary" displayName="ElectreIsDiscordanceBinary" version="0.3" />
   <documentation>
     <description>Computes discordance matrix as in Electre Is method. Resulting discordance indices are from range {0, 1}, hence &quot;binary&quot; in module's name.
 

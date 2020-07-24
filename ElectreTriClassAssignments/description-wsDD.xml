@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <program_description xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../docs/w3-ws/specificationData/description.xsd">
-  <program provider="PUT" name="ElectreTriClassAssignments" displayName="ElectreTriClassAssignments" version="0.2.0" />
+  <program provider="PUT" name="ElectreTriClassAssignments" displayName="ElectreTriClassAssignments" version="0.3" />
   <documentation>
     <description>ElectreTriClassAssignments - computes assignments according to the Electre TRI method. It generates separate outputs for the conjuctive ('pessimistic') and disjunctive ('optimistic') assignments.</description>
     <url>http://github.com/xor-xor/electre_diviz</url>
