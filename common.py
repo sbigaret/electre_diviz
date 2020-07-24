@@ -285,6 +285,8 @@ def _get_alternatives_comparisons(xmltree, alternatives,
             if not use_partials:
                 value_node = pair.find("value")
                 if value_node is None:
+                    value_node = pair.find("values/value")                
+                if value_node is None:
                     f = os.path.split(xmltree.base)[-1]
                     msg = ("Corrupted '{}' file or wrong value of the "
                            "'use_partials' parameter.".format(f))
